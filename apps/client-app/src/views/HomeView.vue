@@ -4,6 +4,6 @@ import NxWelcome from '../app/NxWelcome.vue';
 
 <template>
   <main>
-    <NxWelcome title="client-mobile" />
+    <NxWelcome title="client-app" />
   </main>
 </template>
