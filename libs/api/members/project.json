@@ -1,0 +1,9 @@
+{
+  "name": "members",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/api/members/src",
+  "projectType": "library",
+  "tags": [],
+  "// targets": "to see all targets run: nx show project members --web",
+  "targets": {}
+}

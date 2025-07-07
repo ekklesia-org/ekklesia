@@ -14,7 +14,15 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@./auth": ["libs/api/src/index.ts"],
+      "@./database": ["libs/database/src/index.ts"],
+      "@./financial": ["libs/api/financial/src/index.ts"],
+      "@./members": ["libs/api/members/src/index.ts"],
+      "@./shared": ["libs/shared/src/index.ts"],
+      "@./shared-utils": ["libs/shared-utils/src/index.ts"],
+      "@./tenant": ["libs/api/tenant/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

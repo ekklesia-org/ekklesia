@@ -1,0 +1,267 @@
+// Ekklesia - Sistema de Gestão de Igrejas
+// Schema Prisma com arquitetura multi-tenant
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ==========================================
+// TENANT MANAGEMENT TABLES (PUBLIC SCHEMA)
+// ==========================================
+
+// Tabela de igrejas (tenants)
+model Church {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique // Para subdomain
+  email       String   @unique
+  phone       String?
+  address     String?
+  city        String?
+  state       String?
+  zipCode     String?
+  website     String?
+  logoUrl     String?
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  // Configurações específicas da igreja
+  settings    ChurchSettings?
+  
+  // Relacionamentos
+  users       User[]
+  
+  @@map("churches")
+}
+
+// Configurações específicas por igreja
+model ChurchSettings {
+  id              String  @id @default(cuid())
+  churchId        String  @unique
+  timezone        String  @default("America/Sao_Paulo")
+  currency        String  @default("BRL")
+  fiscalYear      String  @default("calendar") // calendar, april, july
+  enabledModules  String[] // financial, members, events, etc
+  
+  // Configurações financeiras
+  enableOCR       Boolean @default(false)
+  ocrApiKey       String?
+  bankName        String?
+  accountNumber   String?
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  church          Church  @relation(fields: [churchId], references: [id], onDelete: Cascade)
+  
+  @@map("church_settings")
+}
+
+// ==========================================
+// USER MANAGEMENT (MULTI-TENANT)
+// ==========================================
+
+enum UserRole {
+  SUPER_ADMIN     // Administrador do sistema
+  CHURCH_ADMIN    // Administrador da igreja
+  PASTOR          // Pastor
+  TREASURER       // Tesoureiro
+  SECRETARY       // Secretária
+  MEMBER          // Membro
+}
+
+model User {
+  id          String    @id @default(cuid())
+  email       String    @unique
+  password    String
+  firstName   String
+  lastName    String
+  phone       String?
+  avatar      String?
+  isActive    Boolean   @default(true)
+  role        UserRole  @default(MEMBER)
+  
+  // Multi-tenant fields
+  churchId    String?
+  
+  // Timestamps
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  lastLogin   DateTime?
+  
+  // Relacionamentos
+  church      Church?   @relation(fields: [churchId], references: [id], onDelete: Cascade)
+  member      Member?
+  auditLogs   AuditLog[]
+  
+  @@map("users")
+}
+
+// ==========================================
+// MEMBER MANAGEMENT (TENANT SPECIFIC)
+// ==========================================
+
+enum MemberStatus {
+  ACTIVE
+  INACTIVE
+  TRANSFERRED
+  DECEASED
+}
+
+enum MaritalStatus {
+  SINGLE
+  MARRIED
+  DIVORCED
+  WIDOWED
+}
+
+model Member {
+  id            String        @id @default(cuid())
+  churchId      String        // Tenant isolation
+  
+  // Informações pessoais
+  firstName     String
+  lastName      String
+  email         String?
+  phone         String?
+  dateOfBirth   DateTime?
+  cpf           String?       @unique
+  rg            String?
+  
+  // Endereço
+  address       String?
+  city          String?
+  state         String?
+  zipCode       String?
+  
+  // Status e informações eclesiásticas
+  status        MemberStatus  @default(ACTIVE)
+  maritalStatus MaritalStatus @default(SINGLE)
+  baptismDate   DateTime?
+  memberSince   DateTime      @default(now())
+  
+  // Relacionamentos familiares
+  spouseId      String?       @unique
+  spouse        Member?       @relation("Spouse", fields: [spouseId], references: [id])
+  spouseOf      Member?       @relation("Spouse")
+  
+  // Informações adicionais
+  profession    String?
+  notes         String?
+  photoUrl      String?
+  
+  // Timestamps
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  
+  // Relacionamento com usuário do sistema
+  userId        String?       @unique
+  user          User?         @relation(fields: [userId], references: [id])
+  
+  // Relacionamentos financeiros
+  transactions  Transaction[]
+  
+  @@map("members")
+}
+
+// ==========================================
+// FINANCIAL MANAGEMENT (TENANT SPECIFIC)
+// ==========================================
+
+enum TransactionType {
+  INCOME    // Receita
+  EXPENSE   // Despesa
+}
+
+enum TransactionCategory {
+  // Receitas
+  TITHE           // Dízimo
+  OFFERING        // Oferta
+  DONATION        // Doação
+  EVENT_INCOME    // Renda de eventos
+  
+  // Despesas
+  UTILITIES       // Utilidades
+  MAINTENANCE     // Manutenção
+  SUPPLIES        // Suprimentos
+  MINISTRY        // Ministério
+  SALARY          // Salário
+  OTHER           // Outros
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model Transaction {
+  id              String              @id @default(cuid())
+  churchId        String              // Tenant isolation
+  
+  // Informações da transação
+  description     String
+  amount          Decimal             @db.Decimal(10, 2)
+  type            TransactionType
+  category        TransactionCategory
+  status          TransactionStatus   @default(PENDING)
+  
+  // Data e referências
+  transactionDate DateTime
+  referenceNumber String?             // Número do cheque, PIX, etc
+  
+  // Informações bancárias
+  bankAccount     String?
+  bankReference   String?             // Referência do extrato
+  
+  // Membro relacionado (se aplicável)
+  memberId        String?
+  member          Member?             @relation(fields: [memberId], references: [id])
+  
+  // Metadados
+  isFromOCR       Boolean             @default(false)
+  ocrData         Json?               // Dados raw do OCR
+  attachments     String[]            // URLs dos anexos
+  
+  // Timestamps
+  createdAt       DateTime            @default(now())
+  updatedAt       DateTime            @updatedAt
+  
+  @@map("transactions")
+}
+
+// ==========================================
+// AUDIT LOG (TENANT SPECIFIC)
+// ==========================================
+
+model AuditLog {
+  id          String   @id @default(cuid())
+  churchId    String   // Tenant isolation
+  userId      String
+  
+  // Informações da ação
+  action      String   // CREATE, UPDATE, DELETE
+  entityType  String   // Transaction, Member, etc
+  entityId    String
+  
+  // Dados da mudança
+  oldValues   Json?
+  newValues   Json?
+  
+  // Metadata
+  ipAddress   String?
+  userAgent   String?
+  
+  createdAt   DateTime @default(now())
+  
+  user        User     @relation(fields: [userId], references: [id])
+  
+  @@map("audit_logs")
+}
