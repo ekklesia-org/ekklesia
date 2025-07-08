@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-
 import { AuthModule } from '@ekklesia/api/lib/auth.module';
+import { DatabaseModule } from '@ekklesia/database/lib/database.module';
 
 @Module({
-  imports: [AuthModule],
+  imports: [DatabaseModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
