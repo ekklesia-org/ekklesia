@@ -18,12 +18,12 @@
             <div class="flex items-center space-x-3">
               <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
                 <span class="text-sm font-medium text-white">
-                  {{ user?.firstName?.charAt(0)?.toUpperCase() }}
+                  {{ userInitials }}
                 </span>
               </div>
               <div class="hidden sm:block">
                 <p class="text-sm font-medium text-gray-900">
-                  {{ user?.firstName }} {{ user?.lastName }}
+                  {{ userFullName }}
                 </p>
                 <p class="text-xs text-gray-500">
                   {{ user?.email }}
@@ -259,35 +259,25 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
+import { ref, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAuth } from '../stores/auth';
 
-interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  churchId?: string;
-}
-
-const router = useRouter();
 const { t } = useI18n();
+const auth = useAuth();
 
-const user = ref<User | null>(null);
+// Dashboard data
 const memberCount = ref(0);
 const eventCount = ref(0);
 const donationAmount = ref(0);
 const announcementCount = ref(0);
 
-onMounted(() => {
-  // Load user data from localStorage
-  const userData = localStorage.getItem('user_data');
-  if (userData) {
-    user.value = JSON.parse(userData);
-  }
+// User data from auth store
+const user = computed(() => auth.user);
+const userFullName = computed(() => auth.userFullName);
+const userInitials = computed(() => auth.userInitials);
 
+onMounted(() => {
   // Load dashboard data (mock data for now)
   loadDashboardData();
 });
@@ -301,8 +291,6 @@ const loadDashboardData = () => {
 };
 
 const logout = () => {
-  localStorage.removeItem('auth_token');
-  localStorage.removeItem('user_data');
-  router.push('/login');
+  auth.logoutAndRedirect();
 };
 </script>

@@ -140,102 +140,80 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
-import { useRouter } from 'vue-router';
+import { reactive, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import axios from 'axios';
-
-interface LoginForm {
-  email: string;
-  password: string;
-}
+import { useAuth, type LoginCredentials } from '../stores/auth';
 
 interface FormErrors {
   email?: string;
   password?: string;
 }
 
-interface LoginResponse {
-  access_token: string;
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-    churchId?: string;
-  };
-}
-
-const router = useRouter();
 const { t } = useI18n();
+const auth = useAuth();
 
-const formData = reactive<LoginForm>({
+const formData = reactive<LoginCredentials>({
   email: '',
   password: ''
 });
 
 const errors = reactive<FormErrors>({});
-const errorMessage = ref('');
-const isLoading = ref(false);
+
+// Computed properties from auth store
+const isLoading = computed(() => auth.isLoading);
+const authError = computed(() => auth.error);
+
+// Watch for auth errors and translate them
+const errorMessage = computed(() => {
+  if (!authError.value) return '';
+  
+  // Try to translate the error if it looks like a translation key
+  if (authError.value.startsWith('errors.') || authError.value.startsWith('validation.')) {
+    return t(authError.value);
+  }
+  
+  // Return the error message as-is if not a translation key
+  return authError.value;
+});
+
+// Clear auth errors when form data changes
+watch([() => formData.email, () => formData.password], () => {
+  auth.clearError();
+});
 
 const validateForm = (): boolean => {
+  // Clear previous errors
   Object.keys(errors).forEach(key => delete errors[key as keyof FormErrors]);
-
+  
+  // Validate email
   if (!formData.email) {
     errors.email = t('validation.required', { field: t('auth.email') });
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
     errors.email = t('validation.email_invalid');
   }
-
+  
+  // Validate password
   if (!formData.password) {
     errors.password = t('validation.required', { field: t('auth.password') });
   } else if (formData.password.length < 6) {
     errors.password = t('validation.min_length', { field: t('auth.password'), min: 6 });
   }
-
+  
   return Object.keys(errors).length === 0;
 };
 
 const handleLogin = async () => {
-  errorMessage.value = '';
-
+  // Validate form first
   if (!validateForm()) {
     return;
   }
-
-  isLoading.value = true;
-
+  
   try {
-    const response = await axios.post<LoginResponse>('/api/auth/login', {
-      email: formData.email,
-      password: formData.password
-    });
-
-    const { access_token, user } = response.data;
-
-    // Store token and user data
-    localStorage.setItem('auth_token', access_token);
-    localStorage.setItem('user_data', JSON.stringify(user));
-
-    // Set default authorization header
-    axios.defaults.headers.common['Authorization'] = `Bearer ${access_token}`;
-
-    // Redirect to dashboard
-    router.push('/dashboard');
-
-  } catch (error: any) {
-    console.error('Login error:', error);
-
-    if (error.response?.data?.translationKey) {
-      errorMessage.value = t(error.response.data.translationKey);
-    } else if (error.response?.data?.message) {
-      errorMessage.value = error.response.data.message;
-    } else {
-      errorMessage.value = t('errors.auth.login_failed');
-    }
-  } finally {
-    isLoading.value = false;
+    // Use auth store to login and redirect
+    await auth.loginAndRedirect(formData);
+  } catch (error) {
+    // Error is handled by the auth store
+    console.error('Login failed:', error);
   }
 };
 </script>

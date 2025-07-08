@@ -6,8 +6,13 @@
     "strict": true,
     "jsx": "preserve",
     "jsxImportSource": "vue",
-    "moduleResolution": "node",
-    "resolveJsonModule": true
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "baseUrl": "../..",
+    "paths": {
+      "@ekklesia/shared": ["libs/shared/src/index.ts"],
+      "@ekklesia/shared/*": ["libs/shared/src/*"]
+    }
   },
   "files": [],
   "include": [],
