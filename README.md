@@ -34,7 +34,7 @@ Before running this project, ensure you have:
 ### Option A: Automated Setup (Recommended)
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:ekklesia-org/ekklesia.git
 cd ekklesia
 ./setup.sh
 ```
@@ -50,7 +50,7 @@ The setup script will:
 ### 1. Clone and Install Dependencies
 
 ```bash
-git clone <repository-url>
+git clone git@github.com:ekklesia-org/ekklesia.git
 cd ekklesia
 npm install --legacy-peer-deps
 ```
