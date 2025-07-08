@@ -1,101 +1,245 @@
-# 
+# Ekklesia - Church Management System
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
-✨ Your new, shiny [Nx workspace](https://nx.dev) is ready ✨.
+A comprehensive church management system built with modern technologies including NestJS, Vue.js, and Prisma, organized as an Nx monorepo.
 
-[Learn more about this workspace setup and its capabilities](https://nx.dev/nx-api/nest?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects) or run `npx nx graph` to visually explore what was created. Now, let's get you up to speed!
+## 🏗️ Architecture
 
-## Run tasks
+This project consists of:
+- **API**: NestJS backend with GraphQL/REST endpoints
+- **Admin Web**: Vue.js administrative interface
+- **Client App**: Vue.js client-facing application
+- **Shared Libraries**: Common utilities, types, and database layer
 
-To run the dev server for your app, use:
+## 📋 Prerequisites
 
-```sh
-npx nx serve api
+Before running this project, ensure you have:
+
+- **Node.js** (v18 or higher)
+- **npm** or **yarn**
+- **PostgreSQL** (v14 or higher)
+- **Git**
+
+### Installing PostgreSQL (macOS)
+
+```bash
+# Using Homebrew
+brew install postgresql@14
+brew services start postgresql@14
+
+# Create a database
+createdb ekklesia_dev
 ```
 
-To create a production bundle:
+### Installing PostgreSQL (Other platforms)
 
-```sh
-npx nx build api
+- **Windows**: Download from [postgresql.org](https://www.postgresql.org/download/windows/)
+- **Linux**: Use your package manager (e.g., `sudo apt install postgresql`)
+- **Docker**: `docker run --name ekklesia-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres`
+
+## 🚀 Quick Start
+
+### 1. Clone and Install Dependencies
+
+```bash
+git clone <repository-url>
+cd ekklesia
+npm install --legacy-peer-deps
 ```
 
-To see all available targets to run for a project, run:
+### 2. Environment Setup
 
-```sh
-npx nx show project api
+Copy and configure the environment variables:
+
+```bash
+# The .env file is already configured for local development
+# Update DATABASE_URL in .env with your PostgreSQL username if different
+# Example: postgresql://your_username@localhost:5432/ekklesia_dev
 ```
 
-These targets are either [inferred automatically](https://nx.dev/concepts/inferred-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) or defined in the `project.json` or `package.json` files.
+Default configuration:
+- **Database**: `postgresql://[username]@localhost:5432/ekklesia_dev`
+- **API Port**: `3000`
+- **JWT Secret**: `ekklesia-super-secret-key-change-in-production`
 
-[More about running tasks in the docs &raquo;](https://nx.dev/features/run-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### 3. Database Setup
 
-## Add new projects
+```bash
+# Run database migrations
+npm run db:migrate
 
-While you could add new projects to your workspace manually, you might want to leverage [Nx plugins](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) and their [code generation](https://nx.dev/features/generate-code?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) feature.
-
-Use the plugin's generator to create new projects.
-
-To generate a new application, use:
-
-```sh
-npx nx g @nx/nest:app demo
+# Optional: Open Prisma Studio to view database
+npm run db:studio
 ```
 
-To generate a new library, use:
+### 4. Start Development Servers
 
-```sh
-npx nx g @nx/node:lib mylib
+#### Option 1: Run All Applications (Recommended)
+```bash
+npm run dev
 ```
 
-You can use `npx nx list` to get a list of installed plugins. Then, run `npx nx list <plugin-name>` to learn about more specific capabilities of a particular plugin. Alternatively, [install Nx Console](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) to browse plugins and generators in your IDE.
+This will start:
+- **API**: `http://localhost:3000/api`
+- **Admin Web**: `http://localhost:4201/`
+- **Client App**: `http://localhost:4200/`
 
-[Learn more about Nx plugins &raquo;](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) | [Browse the plugin registry &raquo;](https://nx.dev/plugin-registry?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+#### Option 2: Run Applications Individually
+```bash
+# Backend API only
+npm run dev:api
 
-## Set up CI!
+# Admin interface only
+npm run dev:admin
 
-### Step 1
-
-To connect to Nx Cloud, run the following command:
-
-```sh
-npx nx connect
+# Client application only
+npm run dev:client
 ```
 
-Connecting to Nx Cloud ensures a [fast and scalable CI](https://nx.dev/ci/intro/why-nx-cloud?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects) pipeline. It includes features such as:
+## 📝 Available Scripts
 
-- [Remote caching](https://nx.dev/ci/features/remote-cache?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task distribution across multiple machines](https://nx.dev/ci/features/distribute-task-execution?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Automated e2e test splitting](https://nx.dev/ci/features/split-e2e-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Task flakiness detection and rerunning](https://nx.dev/ci/features/flaky-tasks?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Development
+- `npm run dev` - Start all applications (API + Admin + Client)
+- `npm run dev:api` - Start API server only
+- `npm run dev:admin` - Start admin web application only
+- `npm run dev:client` - Start client application only
 
-### Step 2
+### Database
+- `npm run db:migrate` - Run Prisma migrations
+- `npm run db:studio` - Open Prisma Studio
+- `npm run db:reset` - Reset database (⚠️ destructive)
 
-Use the following command to configure a CI workflow for your workspace:
+### Build & Production
+- `npm run build:all` - Build all applications for production
+- `npx nx build api` - Build API only
+- `npx nx build admin-web` - Build admin web only
+- `npx nx build client-app` - Build client app only
 
-```sh
-npx nx g ci-workflow
+### Testing
+- `npx nx test api` - Run API unit tests
+- `npx nx test admin-web` - Run admin web tests
+- `npx nx test client-app` - Run client app tests
+- `npx nx e2e api-e2e` - Run API E2E tests
+- `npx nx e2e admin-web-e2e` - Run admin web E2E tests
+- `npx nx e2e client-app-e2e` - Run client app E2E tests
+
+### Code Quality
+- `npx nx lint api` - Lint API code
+- `npx nx lint admin-web` - Lint admin web code
+- `npx nx lint client-app` - Lint client app code
+
+## 📜 Project Structure
+
+```
+ekklesia/
+├── apps/
+│   ├── api/                 # NestJS backend API
+│   ├── api-e2e/             # API end-to-end tests
+│   ├── admin-web/           # Vue.js admin interface
+│   ├── admin-web-e2e/       # Admin web E2E tests
+│   ├── client-app/          # Vue.js client application
+│   └── client-app-e2e/      # Client app E2E tests
+├── libs/
+│   ├── api/                 # Shared API logic
+│   ├── database/            # Database layer & Prisma
+│   ├── shared/              # Common types & interfaces
+│   └── shared-utils/        # Utility functions
+├── prisma/
+│   └── schema.prisma        # Database schema
+├── .env                     # Environment variables
+├── nx.json                  # Nx workspace configuration
+└── package.json             # Dependencies & scripts
 ```
 
-[Learn more about Nx on CI](https://nx.dev/ci/intro/ci-with-nx#ready-get-started-with-your-provider?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+## 💻 Tech Stack
 
-## Install Nx Console
+### Backend
+- **NestJS** - Node.js framework
+- **Prisma** - Database ORM
+- **PostgreSQL** - Database
+- **TypeScript** - Programming language
+- **JWT** - Authentication
 
-Nx Console is an editor extension that enriches your developer experience. It lets you run tasks, generate code, and improves code autocompletion in your IDE. It is available for VSCode and IntelliJ.
+### Frontend
+- **Vue 3** - Frontend framework
+- **Quasar** - UI component library
+- **Vue Router** - Routing
+- **TypeScript** - Programming language
+- **Vite** - Build tool
 
-[Install Nx Console &raquo;](https://nx.dev/getting-started/editor-setup?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+### Development Tools
+- **Nx** - Monorepo management
+- **ESLint** - Code linting
+- **Prettier** - Code formatting
+- **Jest/Vitest** - Testing
+- **Playwright** - E2E testing
 
-## Useful links
+## 🔧 Troubleshooting
 
-Learn more:
+### Database Connection Issues
 
-- [Learn more about this workspace setup](https://nx.dev/nx-api/nest?utm_source=nx_project&amp;utm_medium=readme&amp;utm_campaign=nx_projects)
-- [Learn about Nx on CI](https://nx.dev/ci/intro/ci-with-nx?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [Releasing Packages with Nx release](https://nx.dev/features/manage-releases?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
-- [What are Nx plugins?](https://nx.dev/concepts/nx-plugins?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+1. **PostgreSQL not running**:
+   ```bash
+   brew services start postgresql@14  # macOS
+   sudo service postgresql start      # Linux
+   ```
 
-And join the Nx community:
-- [Discord](https://go.nx.dev/community)
-- [Follow us on X](https://twitter.com/nxdevtools) or [LinkedIn](https://www.linkedin.com/company/nrwl)
-- [Our Youtube channel](https://www.youtube.com/@nxdevtools)
-- [Our blog](https://nx.dev/blog?utm_source=nx_project&utm_medium=readme&utm_campaign=nx_projects)
+2. **Database doesn't exist**:
+   ```bash
+   createdb ekklesia_dev
+   ```
+
+3. **Permission denied**:
+   - Update `DATABASE_URL` in `.env` with your PostgreSQL username
+   - Ensure your user has database creation privileges
+
+### Port Conflicts
+
+If ports are in use:
+- API (3000): Update `API_PORT` in `.env`
+- Frontend apps: Vite will automatically find available ports
+
+### Dependency Issues
+
+```bash
+# Clear node_modules and reinstall
+rm -rf node_modules package-lock.json
+npm install --legacy-peer-deps
+```
+
+## 🕰️ Production Deployment
+
+### Build for Production
+```bash
+npm run build:all
+```
+
+### Environment Variables for Production
+Update `.env` for production:
+- Change `DATABASE_URL` to production database
+- Update `JWT_SECRET` to a secure secret
+- Set `NODE_ENV=production`
+- Configure `VUE_APP_API_URL` to production API URL
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/new-feature`
+3. Make your changes
+4. Run tests: `npx nx test-many -t test -p api admin-web client-app`
+5. Commit your changes: `git commit -am 'Add new feature'`
+6. Push to the branch: `git push origin feature/new-feature`
+7. Submit a pull request
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+## 🚀 Next Steps
+
+After setting up the project:
+1. Explore the admin interface at `http://localhost:4201/`
+2. Check the client application at `http://localhost:4200/`
+3. Review the API endpoints at `http://localhost:3000/api`
+4. Open Prisma Studio to manage database: `npm run db:studio`
