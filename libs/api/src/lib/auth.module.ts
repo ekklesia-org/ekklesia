@@ -6,6 +6,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { DatabaseModule } from '@ekklesia/database/lib/database.module';
+import { SetupModule } from './setup.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { DatabaseModule } from '@ekklesia/database/lib/database.module';
         expiresIn: process.env['JWT_EXPIRES_IN'] || '7d',
       },
     }),
+    SetupModule,
   ],
   controllers: [AuthController],
   providers: [AuthService, JwtStrategy],

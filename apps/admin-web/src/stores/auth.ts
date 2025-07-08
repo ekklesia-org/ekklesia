@@ -123,6 +123,43 @@ export const useAuthStore = defineStore('auth', () => {
     error.value = '';
   };
 
+  // Check if system is initialized
+  const checkSystemStatus = async (): Promise<{ isInitialized: boolean; needsSetup: boolean }> => {
+    try {
+      const response = await axios.get('/api/setup/status');
+      return response.data;
+    } catch (err) {
+      console.error('Failed to check system status:', err);
+      return { isInitialized: false, needsSetup: true };
+    }
+  };
+
+  // Initialize system with first admin user
+  const initializeSystem = async (setupData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+    churchName: string;
+  }): Promise<void> => {
+    isLoading.value = true;
+    error.value = '';
+
+    try {
+      await axios.post('/api/setup/initialize', setupData);
+    } catch (err: unknown) {
+      console.error('Setup error:', err);
+      if (axios.isAxiosError(err) && err.response?.data?.message) {
+        error.value = err.response.data.message;
+      } else {
+        error.value = 'Setup failed. Please try again.';
+      }
+      throw err;
+    } finally {
+      isLoading.value = false;
+    }
+  };
+
   // Helper function to set auth header
   const setAuthHeader = (authToken: string): void => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
@@ -147,7 +184,9 @@ export const useAuthStore = defineStore('auth', () => {
     initializeAuth,
     validateToken,
     updateUser,
-    clearError
+    clearError,
+    checkSystemStatus,
+    initializeSystem
   };
 });
 

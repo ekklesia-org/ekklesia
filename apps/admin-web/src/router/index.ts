@@ -2,17 +2,20 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import LoginView from '../views/LoginView.vue';
 import DashboardView from '../views/DashboardView.vue';
+import SetupView from '../views/SetupView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      redirect: () => {
-        // Redirect based on auth status
-        const authStore = useAuthStore();
-        return authStore.isAuthenticated ? '/dashboard' : '/login';
-      }
+      redirect: '/dashboard'
+    },
+    {
+      path: '/setup',
+      name: 'setup',
+      component: SetupView,
+      meta: { requiresSetup: true }
     },
     {
       path: '/login',
@@ -29,9 +32,27 @@ const router = createRouter({
   ],
 });
 
-// Navigation guard to check authentication
+// Navigation guard to check authentication and setup
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
+  
+  // Check if system needs setup (except for setup route itself)
+  if (to.path !== '/setup') {
+    const systemStatus = await authStore.checkSystemStatus();
+    if (systemStatus.needsSetup) {
+      next('/setup');
+      return;
+    }
+  }
+  
+  // For setup route, check if system already initialized
+  if (to.meta.requiresSetup) {
+    const systemStatus = await authStore.checkSystemStatus();
+    if (systemStatus.isInitialized) {
+      next('/login');
+      return;
+    }
+  }
   
   // For routes that require authentication
   if (to.meta.requiresAuth) {
