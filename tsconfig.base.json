@@ -22,6 +22,7 @@
       "@ekklesia/shared-utils/*": ["libs/shared-utils/src/*"],
       "@ekklesia/shared/*": ["libs/shared/src/*"],
       "@ekklesia/translations": ["libs/translations/src/index.ts"],
+      "@ekklesia/ui": ["libs/ui/src/index.ts"],
       "translations": ["libs/translations/src/index.ts"]
     }
   },
