@@ -18,27 +18,34 @@ Before running this project, ensure you have:
 
 - **Node.js** (v18 or higher)
 - **npm** or **yarn**
-- **PostgreSQL** (v14 or higher)
+- **Docker** (for PostgreSQL database)
 - **Git**
 
-### Installing PostgreSQL (macOS)
+### Installing Docker
 
-```bash
-# Using Homebrew
-brew install postgresql@14
-brew services start postgresql@14
+- **macOS**: Download [Docker Desktop for Mac](https://docs.docker.com/desktop/install/mac-install/)
+- **Windows**: Download [Docker Desktop for Windows](https://docs.docker.com/desktop/install/windows-install/)
+- **Linux**: Follow the [Docker installation guide](https://docs.docker.com/engine/install/) for your distribution
 
-# Create a database
-createdb ekklesia_dev
-```
-
-### Installing PostgreSQL (Other platforms)
-
-- **Windows**: Download from [postgresql.org](https://www.postgresql.org/download/windows/)
-- **Linux**: Use your package manager (e.g., `sudo apt install postgresql`)
-- **Docker**: `docker run --name ekklesia-postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres`
+**Note**: Make sure Docker is running before proceeding with the setup.
 
 ## 🚀 Quick Start
+
+### Option A: Automated Setup (Recommended)
+
+```bash
+git clone <repository-url>
+cd ekklesia
+./setup.sh
+```
+
+The setup script will:
+- Install dependencies
+- Start PostgreSQL with Docker
+- Run database migrations
+- Display next steps
+
+### Option B: Manual Setup
 
 ### 1. Clone and Install Dependencies
 
@@ -48,22 +55,26 @@ cd ekklesia
 npm install --legacy-peer-deps
 ```
 
-### 2. Environment Setup
-
-Copy and configure the environment variables:
+### 2. Start PostgreSQL with Docker
 
 ```bash
-# The .env file is already configured for local development
-# Update DATABASE_URL in .env with your PostgreSQL username if different
-# Example: postgresql://your_username@localhost:5432/ekklesia_dev
+# Start PostgreSQL container
+npm run db:up
+
+# Check if database is running
+npm run db:logs
 ```
 
-Default configuration:
-- **Database**: `postgresql://[username]@localhost:5432/ekklesia_dev`
+### 3. Environment Setup
+
+The `.env` file is already configured for Docker PostgreSQL:
+
+- **Database**: `postgresql://postgres:postgres@localhost:5432/ekklesia_dev`
+- **PostgreSQL Version**: 16 (matches Azure Database for PostgreSQL)
 - **API Port**: `3000`
 - **JWT Secret**: `ekklesia-super-secret-key-change-in-production`
 
-### 3. Database Setup
+### 4. Database Setup
 
 ```bash
 # Run database migrations
@@ -73,7 +84,7 @@ npm run db:migrate
 npm run db:studio
 ```
 
-### 4. Start Development Servers
+### 5. Start Development Servers
 
 #### Option 1: Run All Applications (Recommended)
 ```bash
@@ -105,10 +116,23 @@ npm run dev:client
 - `npm run dev:admin` - Start admin web application only
 - `npm run dev:client` - Start client application only
 
-### Database
+### Database (Docker)
+- `npm run db:up` - Start PostgreSQL container
+- `npm run db:down` - Stop and remove containers
+- `npm run db:logs` - View PostgreSQL logs
 - `npm run db:migrate` - Run Prisma migrations
 - `npm run db:studio` - Open Prisma Studio
 - `npm run db:reset` - Reset database (⚠️ destructive)
+
+### Database Management UI (Optional)
+- `npm run pgadmin:up` - Start pgAdmin container
+- `npm run pgadmin:down` - Stop pgAdmin container
+- **pgAdmin URL**: `http://localhost:5050` (admin@example.com / admin)
+
+### Docker Management
+- `npm run docker:up` - Start all containers (PostgreSQL + pgAdmin)
+- `npm run docker:down` - Stop all containers
+- `npm run docker:logs` - View all container logs
 
 ### Build & Production
 - `npm run build:all` - Build all applications for production
@@ -157,7 +181,7 @@ ekklesia/
 ### Backend
 - **NestJS** - Node.js framework
 - **Prisma** - Database ORM
-- **PostgreSQL** - Database
+- **PostgreSQL 16** - Database (via Docker)
 - **TypeScript** - Programming language
 - **JWT** - Authentication
 
@@ -179,20 +203,29 @@ ekklesia/
 
 ### Database Connection Issues
 
-1. **PostgreSQL not running**:
+1. **Docker not running**:
+   - Make sure Docker Desktop is running
+   - Check with: `docker ps`
+
+2. **PostgreSQL container not running**:
    ```bash
-   brew services start postgresql@14  # macOS
-   sudo service postgresql start      # Linux
+   npm run db:up
+   npm run db:logs
    ```
 
-2. **Database doesn't exist**:
+3. **Container startup issues**:
    ```bash
-   createdb ekklesia_dev
+   # Stop and restart containers
+   npm run db:down
+   npm run db:up
+   
+   # View detailed logs
+   docker-compose logs postgres
    ```
 
-3. **Permission denied**:
-   - Update `DATABASE_URL` in `.env` with your PostgreSQL username
-   - Ensure your user has database creation privileges
+4. **Port 5432 already in use**:
+   - Stop local PostgreSQL if running: `brew services stop postgresql@16` or `brew services stop postgresql@14`
+   - Or change the port in `docker-compose.yml`
 
 ### Port Conflicts
 
@@ -217,10 +250,16 @@ npm run build:all
 
 ### Environment Variables for Production
 Update `.env` for production:
-- Change `DATABASE_URL` to production database
+- Change `DATABASE_URL` to production database (e.g., Azure Database for PostgreSQL 16)
 - Update `JWT_SECRET` to a secure secret
 - Set `NODE_ENV=production`
 - Configure `VUE_APP_API_URL` to production API URL
+
+### Azure Database for PostgreSQL
+This project is configured to work with Azure Database for PostgreSQL 16:
+- The Docker setup uses PostgreSQL 16 to match Azure
+- Prisma migrations are compatible with both environments
+- Connection string format: `postgresql://username:password@server.postgres.database.azure.com:5432/database?sslmode=require`
 
 ## 🤝 Contributing
 

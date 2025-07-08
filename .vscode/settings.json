@@ -1,3 +1,10 @@
 {
-    "nxConsole.generateAiAgentRules": true
+    "nxConsole.generateAiAgentRules": true,
+    "cSpell.words": [
+        "ekklesia",
+        "initdb",
+        "pgadmin",
+        "postgres",
+        "postgresql"
+    ]
 }

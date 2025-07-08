@@ -8,9 +8,17 @@
     "dev:admin": "npx nx serve admin-web",
     "dev:client": "npx nx serve client-app",
     "build:all": "npx nx run-many -t build -p api admin-web client-app",
+    "db:up": "docker-compose up -d postgres",
+    "db:down": "docker-compose down",
+    "db:logs": "docker-compose logs -f postgres",
     "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
-    "db:reset": "npx prisma migrate reset"
+    "db:reset": "npx prisma migrate reset",
+    "pgadmin:up": "docker-compose up -d pgadmin",
+    "pgadmin:down": "docker-compose stop pgadmin",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f"
   },
   "private": true,
   "dependencies": {
