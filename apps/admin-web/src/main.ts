@@ -1,4 +1,5 @@
 import './main.css';
+import '@ekklesia/ui';
 import router from './router';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
