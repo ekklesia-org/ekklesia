@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+/* UI Library Base Styles */
+@layer base {
+  /* Ensure consistent font rendering */
+  * {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Focus styles for better accessibility */
+  *:focus {
+    outline: 2px solid rgb(220, 141, 79);
+    outline-offset: 2px;
+  }
+
+  /* Remove default button styles */
+  button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+  }
+}
+
+/* UI Library Component Styles */
+@layer components {
+  /* Base button styles - using standard CSS instead of @apply */
+  .btn-base {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    transition: all 0.2s;
+  }
+
+  .btn-base:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.05), 0 0 0 4px rgba(220, 141, 79, 0.5);
+  }
+
+  .btn-base:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* UI Library Utilities */
+@layer utilities {
+  /* Animation utilities */
+  .animate-spin-slow {
+    animation: spin 2s linear infinite;
+  }
+
+  /* Safe area utilities for mobile */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+}

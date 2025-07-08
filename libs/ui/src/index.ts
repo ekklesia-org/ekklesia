@@ -1,3 +1,6 @@
+// Styles - Import this in your main application
+import './styles/index.css';
+
 // Common Components
 export { default as AppButton } from './components/common/AppButton.vue';
 export { default as AppCard } from './components/common/AppCard.vue';
