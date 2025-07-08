@@ -1,138 +1,170 @@
 <template>
-  <div class="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 via-purple-600 to-indigo-700 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-md w-full space-y-8">
-      <!-- Logo Section -->
-      <div class="text-center">
-        <h1 class="text-4xl font-bold text-white mb-2">
-          {{ $t('app.title') }}
-        </h1>
-        <p class="text-blue-100 text-sm">
-          {{ $t('auth.admin_portal') }}
-        </p>
+  <div class="min-h-screen flex">
+    <!-- Left side - Branding -->
+    <div class="hidden lg:flex lg:w-1/2 bg-gray-900 relative overflow-hidden">
+      <div class="absolute inset-0 bg-black opacity-20" />
+      <div class="relative z-10 flex flex-col justify-center items-center w-full px-12 text-white">
+        <div class="text-center">
+          <div class="mb-6">
+            <img
+              :src="EkklesiaLogo"
+              :alt="t('auth.ekklesia_logo')"
+              class="h-26 w-auto mx-auto filter brightness-0 invert"
+            >
+          </div>
+          <p class="text-xl opacity-90 font-light">
+            {{ $t('auth.admin_portal') }}
+          </p>
+        </div>
       </div>
+      <!-- Decorative elements -->
+      <div class="absolute top-0 right-0 w-80 h-80 bg-white opacity-5 rounded-full transform translate-x-40 -translate-y-40" />
+      <div class="absolute bottom-0 left-0 w-64 h-64 bg-white opacity-5 rounded-full transform -translate-x-32 translate-y-32" />
+    </div>
 
-      <!-- Login Card -->
-      <div class="bg-white rounded-xl shadow-2xl p-8">
-        <div class="text-center mb-8">
-          <h2 class="text-2xl font-semibold text-gray-900">
-            {{ $t('auth.login') }}
-          </h2>
+    <!-- Right side - Login form -->
+    <div class="flex-1 flex items-center justify-center px-6 py-12 lg:px-8 bg-gray-50">
+      <div class="w-full max-w-md">
+        <!-- Mobile header -->
+        <div class="text-center mb-8 lg:hidden">
+          <div class="mb-4">
+            <img
+              :src="EkklesiaLogo"
+              alt="Ekklesia"
+              class="h-18 w-auto mx-auto"
+            >
+          </div>
+          <p class="text-gray-600">
+            {{ $t('auth.admin_portal') }}
+          </p>
         </div>
 
-        <form
-          class="space-y-6"
-          @submit.prevent="handleLogin"
-        >
-          <!-- Email Field -->
-          <div>
-            <label
-              for="email"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              {{ $t('auth.email') }}
-            </label>
-            <input
-              id="email"
-              v-model="formData.email"
-              type="email"
-              :placeholder="$t('auth.email_placeholder')"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-              :class="{ 'border-red-500 focus:ring-red-500': errors.email }"
-              required
-            >
-            <p
-              v-if="errors.email"
-              class="mt-1 text-sm text-red-600"
-            >
-              {{ errors.email }}
+        <!-- Login Card -->
+        <div class="bg-white rounded-2xl shadow-xl p-8">
+          <div class="mb-8">
+            <h2 class="text-2xl font-light text-gray-900 mb-2">
+              {{ $t('auth.login') }}
+            </h2>
+            <p class="text-gray-500 text-sm">
+              Entre com suas credenciais para acessar o painel
             </p>
           </div>
 
-          <!-- Password Field -->
-          <div>
-            <label
-              for="password"
-              class="block text-sm font-medium text-gray-700 mb-2"
-            >
-              {{ $t('auth.password') }}
-            </label>
-            <input
-              id="password"
-              v-model="formData.password"
-              type="password"
-              :placeholder="$t('auth.password_placeholder')"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200"
-              :class="{ 'border-red-500 focus:ring-red-500': errors.password }"
-              required
-            >
-            <p
-              v-if="errors.password"
-              class="mt-1 text-sm text-red-600"
-            >
-              {{ errors.password }}
-            </p>
-          </div>
+          <form
+            class="space-y-6"
+            @submit.prevent="handleLogin"
+          >
+            <div class="space-y-1">
+              <label
+                for="email"
+                class="block text-sm font-medium text-gray-700"
+              >
+                {{ $t('auth.email') }}
+              </label>
+              <input
+                id="email"
+                v-model="formData.email"
+                type="email"
+                :placeholder="$t('auth.email_placeholder')"
+                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
+                :class="{ 'border-red-300 focus:ring-red-500 bg-red-50': errors.email }"
+                required
+              >
+              <p
+                v-if="errors.email"
+                class="text-sm text-red-600 mt-1"
+              >
+                {{ errors.email }}
+              </p>
+            </div>
 
-          <!-- Submit Button -->
-          <div>
+            <div class="space-y-1">
+              <label
+                for="password"
+                class="block text-sm font-medium text-gray-700"
+              >
+                {{ $t('auth.password') }}
+              </label>
+              <input
+                id="password"
+                v-model="formData.password"
+                type="password"
+                :placeholder="$t('auth.password_placeholder')"
+                class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
+                :class="{ 'border-red-300 focus:ring-red-500 bg-red-50': errors.password }"
+                required
+              >
+              <p
+                v-if="errors.password"
+                class="text-sm text-red-600 mt-1"
+              >
+                {{ errors.password }}
+              </p>
+            </div>
+
+            <!-- Error Message -->
+            <div
+              v-if="errorMessage"
+              class="bg-red-50 border-l-4 border-red-400 p-4 rounded-r-lg"
+            >
+              <div class="flex items-center">
+                <svg
+                  class="h-5 w-5 text-red-400 mr-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                <span class="text-sm text-red-700">{{ errorMessage }}</span>
+              </div>
+            </div>
+
             <button
               type="submit"
-              class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition duration-200"
+              class="w-full py-3 px-4 bg-gray-900 text-white font-medium rounded-lg hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
               :disabled="isLoading"
             >
-              <svg
+              <span
                 v-if="isLoading"
-                class="animate-spin -ml-1 mr-3 h-4 w-4 text-white"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
+                class="flex items-center justify-center"
               >
-                <circle
-                  class="opacity-25"
-                  cx="12"
-                  cy="12"
-                  r="10"
-                  stroke="currentColor"
-                  stroke-width="4"
-                />
-                <path
-                  class="opacity-75"
-                  fill="currentColor"
-                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                />
-              </svg>
-              {{ isLoading ? $t('auth.logging_in') : $t('auth.login') }}
+                <svg
+                  class="animate-spin -ml-1 mr-2 h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    class="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    stroke-width="4"
+                  />
+                  <path
+                    class="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  />
+                </svg>
+                {{ $t('auth.logging_in') }}
+              </span>
+              <span v-else>{{ $t('auth.login') }}</span>
             </button>
-          </div>
+          </form>
 
-          <!-- Error Message -->
-          <div
-            v-if="errorMessage"
-            class="bg-red-50 border border-red-200 rounded-lg p-4"
-          >
-            <div class="flex items-center">
-              <svg
-                class="h-5 w-5 text-red-400 mr-2"
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 20 20"
-                fill="currentColor"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z"
-                  clip-rule="evenodd"
-                />
-              </svg>
-              <span class="text-sm text-red-700">{{ errorMessage }}</span>
-            </div>
+          <!-- Footer -->
+          <div class="mt-8 text-center">
+            <p class="text-xs text-gray-500">
+              {{ $t('auth.need_help') }}
+            </p>
           </div>
-        </form>
-
-        <!-- Footer -->
-        <div class="mt-8 text-center">
-          <p class="text-xs text-gray-500">
-            {{ $t('auth.need_help') }}
-          </p>
         </div>
       </div>
     </div>
@@ -144,6 +176,7 @@ import { reactive, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuth } from '../stores/auth';
 import { LoginCredentials } from '@ekklesia/shared';
+import EkklesiaLogo from '../assets/ekklesia-logo.png';
 
 interface FormErrors {
   email?: string;
