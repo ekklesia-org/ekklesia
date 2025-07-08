@@ -158,20 +158,23 @@ npm run dev:client
 ```
 ekklesia/
 ├── apps/
-│   ├── api/                 # NestJS backend API
+│   ├── api/                 # NestJS backend API (main application)
 │   ├── api-e2e/             # API end-to-end tests
 │   ├── admin-web/           # Vue.js admin interface
 │   ├── admin-web-e2e/       # Admin web E2E tests
 │   ├── client-app/          # Vue.js client application
 │   └── client-app-e2e/      # Client app E2E tests
 ├── libs/
-│   ├── api/                 # Shared API logic
-│   ├── database/            # Database layer & Prisma
+│   ├── api/                 # Feature modules (auth, financial, members, tenant)
+│   ├── database/            # Database layer & Prisma service
 │   ├── shared/              # Common types & interfaces
 │   └── shared-utils/        # Utility functions
+├── generated/
+│   └── prisma/              # Generated Prisma client
 ├── prisma/
 │   └── schema.prisma        # Database schema
 ├── .env                     # Environment variables
+├── context.md               # Project context for AI assistance
 ├── nx.json                  # Nx workspace configuration
 └── package.json             # Dependencies & scripts
 ```
@@ -183,7 +186,16 @@ ekklesia/
 - **Prisma** - Database ORM
 - **PostgreSQL 16** - Database (via Docker)
 - **TypeScript** - Programming language
-- **JWT** - Authentication
+- **JWT** - Authentication (with bcrypt password hashing)
+- **Passport** - Authentication middleware
+
+### Authentication Features
+- ✓ **JWT Token-based** authentication
+- ✓ **Secure password hashing** with bcrypt
+- ✓ **Protected routes** with JWT guards
+- ✓ **Multi-tenant support** (church-based isolation)
+- ✓ **Role-based access control** (Super Admin, Church Admin, Pastor, etc.)
+- ✓ **Token validation** endpoints
 
 ### Frontend
 - **Vue 3** - Frontend framework
