@@ -3,31 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
 import { PrismaService } from '@ekklesia/database/lib/database.service';
 import { User } from '@ekklesia/prisma';
-
-export interface LoginDto {
-  email: string;
-  password: string;
-}
-
-export interface RegisterDto {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  churchId?: string;
-}
-
-export interface AuthResponse {
-  access_token: string;
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-    churchId?: string;
-  };
-}
+import { LoginDto, RegisterDto, AuthResponseDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
@@ -36,7 +12,7 @@ export class AuthService {
     private jwtService: JwtService
   ) {}
 
-  async login(loginDto: LoginDto): Promise<AuthResponse> {
+  async login(loginDto: LoginDto): Promise<AuthResponseDto> {
     const { email, password } = loginDto;
 
     // Find user by email
@@ -89,7 +65,7 @@ export class AuthService {
     };
   }
 
-  async register(registerDto: RegisterDto): Promise<AuthResponse> {
+  async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
     const { email, password, firstName, lastName, churchId } = registerDto;
 
     // Check if user already exists
