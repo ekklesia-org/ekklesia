@@ -442,7 +442,6 @@ defineProps<{
 <style scoped>
 svg {
   display: block;
-  vertical-align: middle;
   shape-rendering: auto;
   text-rendering: optimizeLegibility;
 }
