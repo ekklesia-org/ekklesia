@@ -16,7 +16,31 @@ const adminTranslations = {
       email_placeholder: 'Enter your email address',
       password_placeholder: 'Enter your password',
       logging_in: 'Signing in...',
-      need_help: 'Need help? Contact your system administrator'
+      need_help: 'Need help? Contact your system administrator',
+      ekklesia_logo: 'Ekklesia Logo'
+    },
+    setup: {
+      title: 'Welcome to Ekklesia',
+      subtitle: 'Let\'s set up your church management system',
+      create_admin: 'Create Admin Account',
+      admin_description: 'Set up your administrator account and church information',
+      first_name: 'First Name',
+      last_name: 'Last Name',
+      email: 'Email address',
+      password: 'Password',
+      password_hint: 'Minimum 6 characters',
+      church_name: 'Church Name',
+      initialize_button: '🚀 Initialize System',
+      setting_up: 'Setting up...',
+      validation: {
+        first_name_required: 'First name is required',
+        last_name_required: 'Last name is required',
+        email_required: 'Email is required',
+        email_invalid: 'Please enter a valid email address',
+        password_required: 'Password is required',
+        password_min_length: 'Password must be at least 6 characters',
+        church_name_required: 'Church name is required'
+      }
     },
     dashboard: {
       title: 'Dashboard',
@@ -70,7 +94,31 @@ const adminTranslations = {
       email_placeholder: 'Ingresa tu correo electrónico',
       password_placeholder: 'Ingresa tu contraseña',
       logging_in: 'Iniciando sesión...',
-      need_help: '¿Necesitas ayuda? Contacta a tu administrador del sistema'
+      need_help: '¿Necesitas ayuda? Contacta a tu administrador del sistema',
+      ekklesia_logo: 'Logo de Ekklesia'
+    },
+    setup: {
+      title: 'Bienvenido a Ekklesia',
+      subtitle: 'Configuremos tu sistema de gestión de iglesia',
+      create_admin: 'Crear Cuenta de Administrador',
+      admin_description: 'Configura tu cuenta de administrador y la información de la iglesia',
+      first_name: 'Nombre',
+      last_name: 'Apellido',
+      email: 'Correo electrónico',
+      password: 'Contraseña',
+      password_hint: 'Mínimo 6 caracteres',
+      church_name: 'Nombre de la Iglesia',
+      initialize_button: '🚀 Inicializar Sistema',
+      setting_up: 'Configurando...',
+      validation: {
+        first_name_required: 'El nombre es obligatorio',
+        last_name_required: 'El apellido es obligatorio',
+        email_required: 'El correo electrónico es obligatorio',
+        email_invalid: 'Por favor ingresa un correo electrónico válido',
+        password_required: 'La contraseña es obligatoria',
+        password_min_length: 'La contraseña debe tener al menos 6 caracteres',
+        church_name_required: 'El nombre de la iglesia es obligatorio'
+      }
     },
     dashboard: {
       title: 'Panel de Control',
@@ -124,7 +172,31 @@ const adminTranslations = {
       email_placeholder: 'Digite seu endereço de e-mail',
       password_placeholder: 'Digite sua senha',
       logging_in: 'Entrando...',
-      need_help: 'Precisa de ajuda? Entre em contato com o administrador do sistema'
+      need_help: 'Precisa de ajuda? Entre em contato com o administrador do sistema',
+      ekklesia_logo: 'Logo Ekklesia'
+    },
+    setup: {
+      title: 'Bem-vindo ao Ekklesia',
+      subtitle: 'Vamos configurar seu sistema de gestão de igreja',
+      create_admin: 'Criar Conta de Administrador',
+      admin_description: 'Configure sua conta de administrador e as informações da igreja',
+      first_name: 'Nome',
+      last_name: 'Sobrenome',
+      email: 'Endereço de e-mail',
+      password: 'Senha',
+      password_hint: 'Mínimo 6 caracteres',
+      church_name: 'Nome da Igreja',
+      initialize_button: '🚀 Inicializar Sistema',
+      setting_up: 'Configurando...',
+      validation: {
+        first_name_required: 'O nome é obrigatório',
+        last_name_required: 'O sobrenome é obrigatório',
+        email_required: 'O e-mail é obrigatório',
+        email_invalid: 'Por favor insira um endereço de e-mail válido',
+        password_required: 'A senha é obrigatória',
+        password_min_length: 'A senha deve ter pelo menos 6 caracteres',
+        church_name_required: 'O nome da igreja é obrigatório'
+      }
     },
     dashboard: {
       title: 'Painel de Controle',

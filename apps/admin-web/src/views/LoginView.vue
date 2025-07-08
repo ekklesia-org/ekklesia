@@ -7,9 +7,9 @@
         <div class="text-center">
           <div class="mb-6">
             <img
-              :src="EkklesiaLogo"
+              :src="EkklesiaLogoDark"
               :alt="t('auth.ekklesia_logo')"
-              class="h-26 w-auto mx-auto filter brightness-0 invert"
+              class="h-26 w-auto mx-auto"
             >
           </div>
           <p class="text-xl opacity-90 font-light">
@@ -68,6 +68,7 @@
                 :placeholder="$t('auth.email_placeholder')"
                 class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                 :class="{ 'border-red-300 focus:ring-red-500 bg-red-50': errors.email }"
+                autocomplete="email"
                 required
               >
               <p
@@ -92,6 +93,7 @@
                 :placeholder="$t('auth.password_placeholder')"
                 class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200 bg-gray-50 focus:bg-white"
                 :class="{ 'border-red-300 focus:ring-red-500 bg-red-50': errors.password }"
+                autocomplete="current-password"
                 required
               >
               <p
@@ -177,6 +179,7 @@ import { useI18n } from 'vue-i18n';
 import { useAuth } from '../stores/auth';
 import { LoginCredentials } from '@ekklesia/shared';
 import EkklesiaLogo from '../assets/ekklesia-logo.png';
+import EkklesiaLogoDark from '../assets/ekklesia-logo-dark.png';
 
 interface FormErrors {
   email?: string;

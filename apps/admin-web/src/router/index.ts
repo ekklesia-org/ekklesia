@@ -54,6 +54,23 @@ router.beforeEach(async (to, from, next) => {
     }
   }
   
+  // Handle root path redirect based on auth status
+  if (to.path === '/') {
+    const systemStatus = await authStore.checkSystemStatus();
+    if (systemStatus.needsSetup) {
+      next('/setup');
+      return;
+    }
+    
+    if (authStore.isAuthenticated) {
+      next('/dashboard');
+      return;
+    } else {
+      next('/login');
+      return;
+    }
+  }
+  
   // For routes that require authentication
   if (to.meta.requiresAuth) {
     if (!authStore.isAuthenticated) {
