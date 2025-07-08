@@ -1,7 +1,25 @@
 {
   "name": "ekklesia",
   "displayName": "Ekklesia",
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "description": "A comprehensive church management system built with NestJS, Vue.js, and Prisma. Features include JWT authentication, multi-tenant architecture, member management, financial tracking, and audit logging.",
+  "keywords": [
+    "church-management",
+    "nestjs",
+    "vue",
+    "prisma",
+    "jwt-authentication",
+    "multi-tenant",
+    "postgresql",
+    "typescript",
+    "nx-monorepo"
+  ],
+  "author": "Diego Lamarão",
+  "homepage": "https://github.com/ekklesia-org/ekklesia",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ekklesia-org/ekklesia.git"
+  },
   "license": "MIT",
   "scripts": {
     "dev": "npx nx run-many -t serve -p api admin-web client-app",
