@@ -15,20 +15,5 @@ export { default as AppHeader } from './components/layout/AppHeader.vue';
 // Feedback Components
 export { default as AppAlert } from './components/feedback/AppAlert.vue';
 
-// Export local types
-export interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  churchId?: string;
-  phone?: string;
-  avatar?: string;
-  status?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-// TODO: Export common types from shared library once available
-// export * from '@ekklesia/shared';
+// Export types from shared library
+export type { User } from '@ekklesia/shared';

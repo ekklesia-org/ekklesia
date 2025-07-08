@@ -118,7 +118,6 @@ import {
   AppButton,
 } from '@ekklesia/ui';
 
-// Icons (using inline SVG until heroicons are available)
 const LogoutIcon = {
   template: `
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -193,7 +192,7 @@ const donationAmount = ref(0);
 const announcementCount = ref(0);
 
 // User data from auth store
-const user = computed(() => auth.user);
+const user = computed(() => auth.user || undefined);
 
 onMounted(() => {
   // Load dashboard data (mock data for now)

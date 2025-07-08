@@ -76,20 +76,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-// Define User type locally for now
-interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  churchId?: string;
-  phone?: string;
-  avatar?: string;
-  status?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
+import type { User } from '@ekklesia/shared';
 
 interface Props {
   title?: string;
