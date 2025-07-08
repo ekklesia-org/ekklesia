@@ -11,7 +11,8 @@
     "baseUrl": "../..",
     "paths": {
       "@ekklesia/shared": ["libs/shared/src/index.ts"],
-      "@ekklesia/shared/*": ["libs/shared/src/*"]
+      "@ekklesia/shared/*": ["libs/shared/src/*"],
+      "@ekklesia/translations": ["libs/translations/src/index.ts"]
     }
   },
   "files": [],
