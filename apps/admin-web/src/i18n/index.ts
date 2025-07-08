@@ -24,7 +24,11 @@ const adminTranslations = {
       members: 'Total Members',
       events: 'Upcoming Events',
       donations: 'Monthly Donations',
-      announcements: 'Active Announcements'
+      announcements: 'Active Announcements',
+      quick_actions: 'Quick Actions',
+      add_member: 'Add New Member',
+      create_event: 'Create Event',
+      new_announcement: 'New Announcement'
     },
     validation: {
       required: '{field} is required',
@@ -74,7 +78,11 @@ const adminTranslations = {
       members: 'Total de Miembros',
       events: 'Eventos Próximos',
       donations: 'Donaciones Mensuales',
-      announcements: 'Anuncios Activos'
+      announcements: 'Anuncios Activos',
+      quick_actions: 'Acciones Rápidas',
+      add_member: 'Agregar Nuevo Miembro',
+      create_event: 'Crear Evento',
+      new_announcement: 'Nuevo Anuncio'
     },
     validation: {
       required: '{field} es obligatorio',
@@ -124,7 +132,11 @@ const adminTranslations = {
       members: 'Total de Membros',
       events: 'Eventos Próximos',
       donations: 'Doações Mensais',
-      announcements: 'Anúncios Ativos'
+      announcements: 'Anúncios Ativos',
+      quick_actions: 'Ações Rápidas',
+      add_member: 'Adicionar Novo Membro',
+      create_event: 'Criar Evento',
+      new_announcement: 'Novo Anúncio'
     },
     validation: {
       required: '{field} é obrigatório',
@@ -159,7 +171,7 @@ const adminTranslations = {
 function getBrowserLocale(): SupportedLocale {
   const browserLang = navigator.language || navigator.languages[0];
   const locale = browserLang.split('-')[0];
-  
+
   if (locale === 'es') return 'es';
   if (locale === 'pt') return 'pt-BR';
   return 'en';
