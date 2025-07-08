@@ -142,7 +142,8 @@
 <script setup lang="ts">
 import { reactive, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useAuth, type LoginCredentials } from '../stores/auth';
+import { useAuth } from '../stores/auth';
+import { LoginCredentials } from '@ekklesia/shared';
 
 interface FormErrors {
   email?: string;
@@ -166,12 +167,12 @@ const authError = computed(() => auth.error);
 // Watch for auth errors and translate them
 const errorMessage = computed(() => {
   if (!authError.value) return '';
-  
+
   // Try to translate the error if it looks like a translation key
   if (authError.value.startsWith('errors.') || authError.value.startsWith('validation.')) {
     return t(authError.value);
   }
-  
+
   // Return the error message as-is if not a translation key
   return authError.value;
 });
@@ -184,21 +185,21 @@ watch([() => formData.email, () => formData.password], () => {
 const validateForm = (): boolean => {
   // Clear previous errors
   Object.keys(errors).forEach(key => delete errors[key as keyof FormErrors]);
-  
+
   // Validate email
   if (!formData.email) {
     errors.email = t('validation.required', { field: t('auth.email') });
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
     errors.email = t('validation.email_invalid');
   }
-  
+
   // Validate password
   if (!formData.password) {
     errors.password = t('validation.required', { field: t('auth.password') });
   } else if (formData.password.length < 6) {
     errors.password = t('validation.min_length', { field: t('auth.password'), min: 6 });
   }
-  
+
   return Object.keys(errors).length === 0;
 };
 
@@ -207,7 +208,7 @@ const handleLogin = async () => {
   if (!validateForm()) {
     return;
   }
-  
+
   try {
     // Use auth store to login and redirect
     await auth.loginAndRedirect(formData);

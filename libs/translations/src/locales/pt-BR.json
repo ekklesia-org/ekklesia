@@ -120,6 +120,7 @@
     "balance": "Saldo"
   },
   "errors": {
+    "server_error": "Erro do servidor, tente novamente mais tarde",
     "validation": {
       "required": "Este campo é obrigatório",
       "email_invalid": "Por favor, insira um email válido",
@@ -133,7 +134,8 @@
       "account_disabled": "Sua conta foi desabilitada",
       "session_expired": "Sua sessão expirou, por favor faça login novamente",
       "email_already_exists": "Já existe uma conta com este email",
-      "weak_password": "A senha é muito fraca"
+      "weak_password": "A senha é muito fraca",
+      "login_failed": "Falha no login. Por favor, tente novamente."
     },
     "general": {
       "something_went_wrong": "Algo deu errado",

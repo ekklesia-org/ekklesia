@@ -120,6 +120,7 @@
     "balance": "Balance"
   },
   "errors": {
+    "server_error": "Server error, please try again later",
     "validation": {
       "required": "This field is required",
       "email_invalid": "Please enter a valid email",
@@ -133,7 +134,8 @@
       "account_disabled": "Your account has been disabled",
       "session_expired": "Your session has expired, please login again",
       "email_already_exists": "An account with this email already exists",
-      "weak_password": "Password is too weak"
+      "weak_password": "Password is too weak",
+      "login_failed": "Login failed. Please try again."
     },
     "general": {
       "something_went_wrong": "Something went wrong",

@@ -120,6 +120,7 @@
     "balance": "Balance"
   },
   "errors": {
+    "server_error": "Error del servidor, por favor inténtalo más tarde",
     "validation": {
       "required": "Este campo es obligatorio",
       "email_invalid": "Por favor ingresa un correo electrónico válido",
@@ -133,7 +134,8 @@
       "account_disabled": "Tu cuenta ha sido deshabilitada",
       "session_expired": "Tu sesión ha expirado, por favor inicia sesión nuevamente",
       "email_already_exists": "Ya existe una cuenta con este correo electrónico",
-      "weak_password": "La contraseña es muy débil"
+      "weak_password": "La contraseña es muy débil",
+      "login_failed": "Error al iniciar sesión. Por favor, inténtalo de nuevo."
     },
     "general": {
       "something_went_wrong": "Algo salió mal",

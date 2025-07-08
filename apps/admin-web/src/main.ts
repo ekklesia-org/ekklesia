@@ -8,7 +8,6 @@ import { useAuthStore } from './stores/auth';
 import axios from 'axios';
 
 // Configure axios defaults
-axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 
 // Create app and pinia
