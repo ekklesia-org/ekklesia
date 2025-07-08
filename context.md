@@ -29,6 +29,7 @@ Ekklesia is a comprehensive church management system developed using a modern, f
 ## Key Features
 
 ### Multi-Module System
+- **Authentication**: JWT-based authentication with login/register endpoints
 - **Member Management**: Full member lifecycle
 - **Financial Management**: Income/expenses, OCR, bank integration
 - **User Management**: Roles/permissions
