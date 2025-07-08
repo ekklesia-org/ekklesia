@@ -15,13 +15,15 @@
     "skipDefaultLibCheck": true,
     "strictPropertyInitialization": false,
     "baseUrl": ".",
-"paths": {
-  "@ekklesia/api/*": ["libs/api/src/*"],
-  "@ekklesia/shared/*": ["libs/shared/src/*"],
-  "@ekklesia/database/*": ["libs/database/src/*"],
-  "@ekklesia/shared-utils/*": ["libs/shared-utils/src/*"],
-  "@ekklesia/prisma": ["generated/prisma"]
-},
+    "paths": {
+      "@ekklesia/api/*": ["libs/api/src/*"],
+      "@ekklesia/database/*": ["libs/database/src/*"],
+      "@ekklesia/prisma": ["generated/prisma"],
+      "@ekklesia/shared-utils/*": ["libs/shared-utils/src/*"],
+      "@ekklesia/shared/*": ["libs/shared/src/*"],
+      "@ekklesia/translations": ["libs/translations/src/index.ts"],
+      "translations": ["libs/translations/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

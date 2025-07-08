@@ -22,18 +22,27 @@ export class AuthService {
     });
 
     if (!user) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException({
+        message: 'Invalid credentials',
+        translationKey: 'errors.auth.invalid_credentials'
+      });
     }
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException({
+        message: 'Invalid credentials',
+        translationKey: 'errors.auth.invalid_credentials'
+      });
     }
 
     // Check if user is active
     if (!user.isActive) {
-      throw new UnauthorizedException('Account is deactivated');
+      throw new UnauthorizedException({
+        message: 'Account is deactivated',
+        translationKey: 'errors.auth.account_disabled'
+      });
     }
 
     // Update last login
@@ -74,7 +83,10 @@ export class AuthService {
     });
 
     if (existingUser) {
-      throw new UnauthorizedException('User with this email already exists');
+      throw new UnauthorizedException({
+        message: 'User with this email already exists',
+        translationKey: 'errors.auth.email_already_exists'
+      });
     }
 
     // Hash password

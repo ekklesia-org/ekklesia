@@ -1,0 +1,170 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "close": "Close",
+    "confirm": "Confirm",
+    "search": "Search",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "submit": "Submit",
+    "reset": "Reset",
+    "clear": "Clear",
+    "select": "Select",
+    "yes": "Yes",
+    "no": "No",
+    "ok": "OK",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "members": "Members",
+    "financial": "Financial",
+    "reports": "Reports",
+    "settings": "Settings",
+    "profile": "Profile",
+    "logout": "Logout",
+    "login": "Login"
+  },
+  "auth": {
+    "login": {
+      "title": "Login to Ekklesia",
+      "subtitle": "Access your church management system",
+      "email": "Email",
+      "password": "Password",
+      "remember_me": "Remember me",
+      "forgot_password": "Forgot password?",
+      "login_button": "Sign In",
+      "no_account": "Don't have an account?",
+      "create_account": "Create account"
+    },
+    "register": {
+      "title": "Create Account",
+      "subtitle": "Join your church community",
+      "first_name": "First Name",
+      "last_name": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "confirm_password": "Confirm Password",
+      "church_code": "Church Code (Optional)",
+      "register_button": "Create Account",
+      "have_account": "Already have an account?",
+      "sign_in": "Sign in"
+    },
+    "profile": {
+      "title": "Profile",
+      "personal_info": "Personal Information",
+      "church_info": "Church Information",
+      "security": "Security",
+      "update_profile": "Update Profile",
+      "change_password": "Change Password"
+    }
+  },
+  "members": {
+    "title": "Members",
+    "add_member": "Add Member",
+    "member_list": "Member List",
+    "member_details": "Member Details",
+    "personal_info": "Personal Information",
+    "contact_info": "Contact Information",
+    "church_info": "Church Information",
+    "family_info": "Family Information",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "date_of_birth": "Date of Birth",
+    "address": "Address",
+    "city": "City",
+    "state": "State",
+    "zip_code": "ZIP Code",
+    "marital_status": "Marital Status",
+    "baptism_date": "Baptism Date",
+    "member_since": "Member Since",
+    "status": "Status",
+    "active": "Active",
+    "inactive": "Inactive",
+    "transferred": "Transferred",
+    "deceased": "Deceased"
+  },
+  "financial": {
+    "title": "Financial",
+    "transactions": "Transactions",
+    "add_transaction": "Add Transaction",
+    "income": "Income",
+    "expense": "Expense",
+    "amount": "Amount",
+    "description": "Description",
+    "category": "Category",
+    "date": "Date",
+    "tithe": "Tithe",
+    "offering": "Offering",
+    "donation": "Donation",
+    "utilities": "Utilities",
+    "maintenance": "Maintenance",
+    "supplies": "Supplies",
+    "ministry": "Ministry",
+    "salary": "Salary",
+    "other": "Other",
+    "total_income": "Total Income",
+    "total_expenses": "Total Expenses",
+    "balance": "Balance"
+  },
+  "errors": {
+    "validation": {
+      "required": "This field is required",
+      "email_invalid": "Please enter a valid email",
+      "password_min_length": "Password must be at least 6 characters",
+      "passwords_dont_match": "Passwords don't match",
+      "invalid_date": "Please enter a valid date",
+      "invalid_phone": "Please enter a valid phone number"
+    },
+    "auth": {
+      "invalid_credentials": "Invalid email or password",
+      "account_disabled": "Your account has been disabled",
+      "session_expired": "Your session has expired, please login again",
+      "email_already_exists": "An account with this email already exists",
+      "weak_password": "Password is too weak"
+    },
+    "general": {
+      "something_went_wrong": "Something went wrong",
+      "network_error": "Network error, please check your connection",
+      "server_error": "Server error, please try again later",
+      "not_found": "The requested resource was not found",
+      "permission_denied": "You don't have permission to perform this action"
+    }
+  },
+  "messages": {
+    "success": {
+      "saved": "Saved successfully",
+      "deleted": "Deleted successfully",
+      "created": "Created successfully",
+      "updated": "Updated successfully",
+      "login_success": "Welcome back!",
+      "logout_success": "You have been logged out",
+      "profile_updated": "Profile updated successfully",
+      "password_changed": "Password changed successfully"
+    }
+  },
+  "confirmations": {
+    "delete": "Are you sure you want to delete this item?",
+    "logout": "Are you sure you want to logout?",
+    "unsaved_changes": "You have unsaved changes. Are you sure you want to leave?"
+  },
+  "church": {
+    "name": "Church Name",
+    "address": "Church Address",
+    "website": "Website",
+    "email": "Email",
+    "phone": "Phone"
+  }
+}
