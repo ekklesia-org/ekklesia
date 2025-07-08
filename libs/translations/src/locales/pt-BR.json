@@ -36,7 +36,11 @@
     "login": "Entrar"
   },
   "auth": {
-    "login": {
+    "login": "Entrar",
+    "email": "E-mail",
+    "password": "Senha",
+    "logout": "Sair",
+    "signin": {
       "title": "Entrar no Ekklesia",
       "subtitle": "Acesse seu sistema de gestão de igreja",
       "email": "Email",

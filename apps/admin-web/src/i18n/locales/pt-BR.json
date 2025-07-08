@@ -1,0 +1,72 @@
+{
+  "app": {
+    "title": "Ekklesia Admin"
+  },
+  "auth": {
+    "admin_portal": "Portal Administrativo",
+    "email_placeholder": "Digite seu endereço de e-mail",
+    "password_placeholder": "Digite sua senha",
+    "logging_in": "Entrando...",
+    "need_help": "Precisa de ajuda? Entre em contato com o administrador do sistema",
+    "ekklesia_logo": "Logo Ekklesia"
+  },
+  "setup": {
+    "title": "Bem-vindo ao Ekklesia",
+    "subtitle": "Vamos configurar seu sistema de gestão de igreja",
+    "create_admin": "Criar Conta de Administrador",
+    "admin_description": "Configure sua conta de administrador e as informações da igreja",
+    "first_name": "Nome",
+    "last_name": "Sobrenome",
+    "email": "Endereço de e-mail",
+    "password": "Senha",
+    "password_hint": "Mínimo 6 caracteres",
+    "church_name": "Nome da Igreja",
+    "initialize_button": "🚀 Inicializar Sistema",
+    "setting_up": "Configurando...",
+    "validation": {
+      "first_name_required": "O nome é obrigatório",
+      "last_name_required": "O sobrenome é obrigatório",
+      "email_required": "O e-mail é obrigatório",
+      "email_invalid": "Por favor insira um endereço de e-mail válido",
+      "password_required": "A senha é obrigatória",
+      "password_min_length": "A senha deve ter pelo menos 6 caracteres",
+      "church_name_required": "O nome da igreja é obrigatório"
+    }
+  },
+  "dashboard": {
+    "title": "Painel de Controle",
+    "welcome": "Bem-vindo de volta, {name}!",
+    "members": "Total de Membros",
+    "events": "Eventos Próximos",
+    "donations": "Doações Mensais",
+    "announcements": "Anúncios Ativos",
+    "quick_actions": "Ações Rápidas",
+    "add_member": "Adicionar Novo Membro",
+    "create_event": "Criar Evento",
+    "new_announcement": "Novo Anúncio"
+  },
+  "validation": {
+    "min_length": "{field} deve ter pelo menos {min} caracteres"
+  },
+  "admin": {
+    "title": "Administração da Igreja",
+    "dashboard": {
+      "title": "Painel de Administração",
+      "overview": "Visão Geral",
+      "statistics": "Estatísticas",
+      "recent_activity": "Atividade Recente"
+    },
+    "users": {
+      "title": "Gerenciamento de Usuários",
+      "add_user": "Adicionar Usuário",
+      "roles": "Funções",
+      "permissions": "Permissões"
+    },
+    "church_settings": {
+      "title": "Configurações da Igreja",
+      "general": "Configurações Gerais",
+      "modules": "Módulos Habilitados",
+      "integrations": "Integrações"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "app": {
+    "title": "Ekklesia Admin"
+  },
+  "auth": {
+    "admin_portal": "Administrative Portal",
+    "email_placeholder": "Enter your email address",
+    "password_placeholder": "Enter your password",
+    "logging_in": "Signing in...",
+    "need_help": "Need help? Contact your system administrator",
+    "ekklesia_logo": "Ekklesia Logo"
+  },
+  "setup": {
+    "title": "Welcome to Ekklesia",
+    "subtitle": "Let's set up your church management system",
+    "create_admin": "Create Admin Account",
+    "admin_description": "Set up your administrator account and church information",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email address",
+    "password": "Password",
+    "password_hint": "Minimum 6 characters",
+    "church_name": "Church Name",
+    "initialize_button": "🚀 Initialize System",
+    "setting_up": "Setting up...",
+    "validation": {
+      "first_name_required": "First name is required",
+      "last_name_required": "Last name is required",
+      "email_required": "Email is required",
+      "email_invalid": "Please enter a valid email address",
+      "password_required": "Password is required",
+      "password_min_length": "Password must be at least 6 characters",
+      "church_name_required": "Church name is required"
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome back, {name}!",
+    "members": "Total Members",
+    "events": "Upcoming Events",
+    "donations": "Monthly Donations",
+    "announcements": "Active Announcements",
+    "quick_actions": "Quick Actions",
+    "add_member": "Add New Member",
+    "create_event": "Create Event",
+    "new_announcement": "New Announcement"
+  },
+  "validation": {
+    "min_length": "{field} must be at least {min} characters"
+  },
+  "admin": {
+    "title": "Church Administration",
+    "dashboard": {
+      "title": "Admin Dashboard",
+      "overview": "Overview",
+      "statistics": "Statistics",
+      "recent_activity": "Recent Activity"
+    },
+    "users": {
+      "title": "User Management",
+      "add_user": "Add User",
+      "roles": "Roles",
+      "permissions": "Permissions"
+    },
+    "church_settings": {
+      "title": "Church Settings",
+      "general": "General Settings",
+      "modules": "Enabled Modules",
+      "integrations": "Integrations"
+    }
+  }
+}

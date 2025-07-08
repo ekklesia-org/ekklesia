@@ -1,0 +1,72 @@
+{
+  "app": {
+    "title": "Ekklesia Admin"
+  },
+  "auth": {
+    "admin_portal": "Portal Administrativo",
+    "email_placeholder": "Ingresa tu correo electrónico",
+    "password_placeholder": "Ingresa tu contraseña",
+    "logging_in": "Iniciando sesión...",
+    "need_help": "¿Necesitas ayuda? Contacta a tu administrador del sistema",
+    "ekklesia_logo": "Logo de Ekklesia"
+  },
+  "setup": {
+    "title": "Bienvenido a Ekklesia",
+    "subtitle": "Configuremos tu sistema de gestión de iglesia",
+    "create_admin": "Crear Cuenta de Administrador",
+    "admin_description": "Configura tu cuenta de administrador y la información de la iglesia",
+    "first_name": "Nombre",
+    "last_name": "Apellido",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "password_hint": "Mínimo 6 caracteres",
+    "church_name": "Nombre de la Iglesia",
+    "initialize_button": "🚀 Inicializar Sistema",
+    "setting_up": "Configurando...",
+    "validation": {
+      "first_name_required": "El nombre es obligatorio",
+      "last_name_required": "El apellido es obligatorio",
+      "email_required": "El correo electrónico es obligatorio",
+      "email_invalid": "Por favor ingresa un correo electrónico válido",
+      "password_required": "La contraseña es obligatoria",
+      "password_min_length": "La contraseña debe tener al menos 6 caracteres",
+      "church_name_required": "El nombre de la iglesia es obligatorio"
+    }
+  },
+  "dashboard": {
+    "title": "Panel de Control",
+    "welcome": "¡Bienvenido de vuelta, {name}!",
+    "members": "Total de Miembros",
+    "events": "Eventos Próximos",
+    "donations": "Donaciones Mensuales",
+    "announcements": "Anuncios Activos",
+    "quick_actions": "Acciones Rápidas",
+    "add_member": "Agregar Nuevo Miembro",
+    "create_event": "Crear Evento",
+    "new_announcement": "Nuevo Anuncio"
+  },
+  "validation": {
+    "min_length": "{field} debe tener al menos {min} caracteres"
+  },
+  "admin": {
+    "title": "Administración de la Iglesia",
+    "dashboard": {
+      "title": "Panel de Administración",
+      "overview": "Resumen",
+      "statistics": "Estadísticas",
+      "recent_activity": "Actividad Reciente"
+    },
+    "users": {
+      "title": "Gestión de Usuarios",
+      "add_user": "Agregar Usuario",
+      "roles": "Roles",
+      "permissions": "Permisos"
+    },
+    "church_settings": {
+      "title": "Configuración de la Iglesia",
+      "general": "Configuración General",
+      "modules": "Módulos Habilitados",
+      "integrations": "Integraciones"
+    }
+  }
+}

@@ -36,7 +36,11 @@
     "login": "Login"
   },
   "auth": {
-    "login": {
+    "login": "Login",
+    "email": "Email",
+    "password": "Password",
+    "logout": "Logout",
+    "signin": {
       "title": "Login to Ekklesia",
       "subtitle": "Access your church management system",
       "email": "Email",
