@@ -2,7 +2,16 @@
   "name": "@./source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "dev": "npx nx run-many -t serve -p api admin-web client-app",
+    "dev:api": "npx nx serve api",
+    "dev:admin": "npx nx serve admin-web",
+    "dev:client": "npx nx serve client-app",
+    "build:all": "npx nx run-many -t build -p api admin-web client-app",
+    "db:migrate": "npx prisma migrate dev",
+    "db:studio": "npx prisma studio",
+    "db:reset": "npx prisma migrate reset"
+  },
   "private": true,
   "dependencies": {
     "@capacitor/cli": "^7.4.1",
