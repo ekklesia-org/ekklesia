@@ -12,6 +12,8 @@
     "paths": {
       "@ekklesia/shared": ["libs/shared/src/index.ts"],
       "@ekklesia/shared/*": ["libs/shared/src/*"],
+      "@ekklesia/shared-utils": ["libs/shared-utils/src/index.ts"],
+      "@ekklesia/shared-utils/*": ["libs/shared-utils/src/*"],
       "@ekklesia/translations": ["libs/translations/src/index.ts"]
     }
   },
