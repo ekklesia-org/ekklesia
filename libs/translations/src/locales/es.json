@@ -141,6 +141,42 @@
       "weak_password": "La contraseña es muy débil",
       "login_failed": "Error al iniciar sesión. Por favor, inténtalo de nuevo."
     },
+    "church": {
+      "slug_already_exists": "Ya existe una iglesia con este slug",
+      "email_already_exists": "Ya existe una iglesia con este correo electrónico",
+      "not_found": "Iglesia no encontrada",
+      "create_failed": "Error al crear la iglesia",
+      "update_failed": "Error al actualizar la iglesia",
+      "delete_failed": "Error al eliminar la iglesia",
+      "cannot_delete_with_super_admins": "No se puede eliminar una iglesia que tiene usuarios Super Admin",
+      "cannot_delete_last_church": "No se puede eliminar la última iglesia del sistema",
+      "settings_already_exist": "La configuración de la iglesia ya existe",
+      "settings_not_found": "Configuración de la iglesia no encontrada",
+      "settings_create_failed": "Error al crear la configuración de la iglesia",
+      "settings_update_failed": "Error al actualizar la configuración de la iglesia",
+      "cannot_transfer_to_inactive_church": "No se puede transferir Super Admins a una iglesia inactiva"
+    },
+    "user": {
+      "email_already_exists": "Ya existe un usuario con este correo electrónico",
+      "create_failed": "Error al crear el usuario",
+      "not_found": "Usuario no encontrado",
+      "fetch_failed": "Error al obtener el usuario",
+      "update_failed": "Error al actualizar el usuario",
+      "current_password_incorrect": "La contraseña actual es incorrecta",
+      "password_update_failed": "Error al actualizar la contraseña",
+      "remove_failed": "Error al eliminar el usuario",
+      "delete_failed": "Error al eliminar el usuario",
+      "activate_failed": "Error al activar el usuario",
+      "deactivate_failed": "Error al desactivar el usuario",
+      "role_update_failed": "Error al actualizar el rol del usuario",
+      "fetch_by_church_failed": "Error al obtener usuarios por iglesia"
+    },
+    "member": {
+      "create_failed": "Error al crear el miembro",
+      "not_found": "Miembro no encontrado",
+      "update_failed": "Error al actualizar el miembro",
+      "delete_failed": "Error al eliminar el miembro"
+    },
     "general": {
       "something_went_wrong": "Algo salió mal",
       "network_error": "Error de red, por favor verifica tu conexión",

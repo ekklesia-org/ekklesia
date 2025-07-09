@@ -141,6 +141,42 @@
       "weak_password": "Password is too weak",
       "login_failed": "Login failed. Please try again."
     },
+    "church": {
+      "slug_already_exists": "A church with this slug already exists",
+      "email_already_exists": "A church with this email already exists",
+      "not_found": "Church not found",
+      "create_failed": "Failed to create church",
+      "update_failed": "Failed to update church",
+      "delete_failed": "Failed to delete church",
+      "cannot_delete_with_super_admins": "Cannot delete a church that has Super Admin users",
+      "cannot_delete_last_church": "Cannot delete the last church in the system",
+      "settings_already_exist": "Church settings already exist",
+      "settings_not_found": "Church settings not found",
+      "settings_create_failed": "Failed to create church settings",
+      "settings_update_failed": "Failed to update church settings",
+      "cannot_transfer_to_inactive_church": "Cannot transfer Super Admins to an inactive church"
+    },
+    "user": {
+      "email_already_exists": "A user with this email already exists",
+      "create_failed": "Failed to create user",
+      "not_found": "User not found",
+      "fetch_failed": "Failed to fetch user",
+      "update_failed": "Failed to update user",
+      "current_password_incorrect": "Current password is incorrect",
+      "password_update_failed": "Failed to update password",
+      "remove_failed": "Failed to remove user",
+      "delete_failed": "Failed to delete user",
+      "activate_failed": "Failed to activate user",
+      "deactivate_failed": "Failed to deactivate user",
+      "role_update_failed": "Failed to update user role",
+      "fetch_by_church_failed": "Failed to fetch users by church"
+    },
+    "member": {
+      "create_failed": "Failed to create member",
+      "not_found": "Member not found",
+      "update_failed": "Failed to update member",
+      "delete_failed": "Failed to delete member"
+    },
     "general": {
       "something_went_wrong": "Something went wrong",
       "network_error": "Network error, please check your connection",

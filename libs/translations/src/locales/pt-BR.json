@@ -141,6 +141,42 @@
       "weak_password": "A senha é muito fraca",
       "login_failed": "Falha no login. Por favor, tente novamente."
     },
+    "church": {
+      "slug_already_exists": "Já existe uma igreja com este slug",
+      "email_already_exists": "Já existe uma igreja com este email",
+      "not_found": "Igreja não encontrada",
+      "create_failed": "Falha ao criar a igreja",
+      "update_failed": "Falha ao atualizar a igreja",
+      "delete_failed": "Falha ao excluir a igreja",
+      "cannot_delete_with_super_admins": "Não é possível excluir uma igreja que possui usuários Super Admin",
+      "cannot_delete_last_church": "Não é possível excluir a última igreja do sistema",
+      "settings_already_exist": "Configurações da igreja já existem",
+      "settings_not_found": "Configurações da igreja não encontradas",
+      "settings_create_failed": "Falha ao criar configurações da igreja",
+      "settings_update_failed": "Falha ao atualizar configurações da igreja",
+      "cannot_transfer_to_inactive_church": "Não é possível transferir Super Admins para uma igreja inativa"
+    },
+    "user": {
+      "email_already_exists": "Já existe um usuário com este email",
+      "create_failed": "Falha ao criar usuário",
+      "not_found": "Usuário não encontrado",
+      "fetch_failed": "Falha ao buscar usuário",
+      "update_failed": "Falha ao atualizar usuário",
+      "current_password_incorrect": "A senha atual está incorreta",
+      "password_update_failed": "Falha ao atualizar senha",
+      "remove_failed": "Falha ao remover usuário",
+      "delete_failed": "Falha ao excluir usuário",
+      "activate_failed": "Falha ao ativar usuário",
+      "deactivate_failed": "Falha ao desativar usuário",
+      "role_update_failed": "Falha ao atualizar papel do usuário",
+      "fetch_by_church_failed": "Falha ao buscar usuários por igreja"
+    },
+    "member": {
+      "create_failed": "Falha ao criar membro",
+      "not_found": "Membro não encontrado",
+      "update_failed": "Falha ao atualizar membro",
+      "delete_failed": "Falha ao excluir membro"
+    },
     "general": {
       "something_went_wrong": "Algo deu errado",
       "network_error": "Erro de rede, verifique sua conexão",
