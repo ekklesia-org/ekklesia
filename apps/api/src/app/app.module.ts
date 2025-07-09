@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { AuthModule } from '@ekklesia/api/lib/auth.module';
 import { DatabaseModule } from '@ekklesia/database/lib/database.module';
 import { ChurchModule } from '@ekklesia/api/church';
+import { MembersModule } from '@ekklesia/api/members';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ChurchModule } from '@ekklesia/api/church';
     }),
     DatabaseModule,
     AuthModule,
-    ChurchModule
+    ChurchModule,
+    MembersModule
   ],
   controllers: [AppController],
   providers: [AppService],
