@@ -165,7 +165,7 @@ ekklesia/
 │   ├── client-app/          # Vue.js client application
 │   └── client-app-e2e/      # Client app E2E tests
 ├── libs/
-│   ├── api/                 # Feature modules (auth, financial, members, tenant)
+│   ├── api/                 # Feature modules (auth, financial, members, church)
 │   ├── database/            # Database layer & Prisma service
 │   ├── shared/              # Common types & interfaces
 │   └── shared-utils/        # Utility functions
@@ -193,7 +193,7 @@ ekklesia/
 - ✓ **JWT Token-based** authentication
 - ✓ **Secure password hashing** with bcrypt
 - ✓ **Protected routes** with JWT guards
-- ✓ **Multi-tenant support** (church-based isolation)
+- ✓ **Multi-church support** (church-based isolation)
 - ✓ **Role-based access control** (Super Admin, Church Admin, Pastor, etc.)
 - ✓ **Token validation** endpoints
 

@@ -51,7 +51,7 @@ export class RegisterDto {
   lastName: string;
 
   @ApiProperty({
-    description: 'Church ID for multi-tenant support',
+    description: 'Church ID for multi-church support',
     example: 'church_12345',
     required: false,
   })

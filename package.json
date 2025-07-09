@@ -2,14 +2,14 @@
   "name": "ekklesia",
   "displayName": "Ekklesia",
   "version": "1.0.0",
-  "description": "A comprehensive church management system built with NestJS, Vue.js, and Prisma. Features include JWT authentication, multi-tenant architecture, member management, financial tracking, and audit logging.",
+  "description": "A comprehensive church management system built with NestJS, Vue.js, and Prisma. Features include JWT authentication, multi-church architecture, member management, financial tracking, and audit logging.",
   "keywords": [
     "church-management",
     "nestjs",
     "vue",
     "prisma",
     "jwt-authentication",
-    "multi-tenant",
+    "multi-church",
     "postgresql",
     "typescript",
     "nx-monorepo"

@@ -1,7 +1,7 @@
 # Context for Ekklesia Project
 
 ## Overview
-Ekklesia is a comprehensive church management system developed using a modern, full-stack approach. It is structured as an Nx monorepo and designed to support multiple tenants (churches) in a single system.
+Ekklesia is a comprehensive church management system developed using a modern, full-stack approach. It is structured as an Nx monorepo and designed to support multiple churches in a single system.
 
 ## Architecture
 
@@ -11,7 +11,7 @@ Ekklesia is a comprehensive church management system developed using a modern, f
 - **Client App**: Vue.js client-facing application
 - **Shared Libraries**:
   - **Database**: Prisma ORM
-  - **API Libraries**: Financial, members, and tenant management
+  - **API Libraries**: Financial, members, and church management
   - **Shared**: Common types/interfaces
   - **Shared Utils**: Utility functions
 
@@ -49,7 +49,7 @@ Ekklesia is a comprehensive church management system developed using a modern, f
 
 ## Production Ready
 - Azure database compatibility
-- Multi-tenant data isolation
+- Multi-church data isolation
 - Comprehensive logging and reporting
 - Responsive, modern UI
 
