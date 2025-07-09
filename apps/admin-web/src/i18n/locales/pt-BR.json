@@ -95,6 +95,44 @@
       "integrations": "Integrações"
     }
   },
+  "users": {
+    "title": "Gestão de Usuários",
+    "manager": {
+      "title": "Gestão de Usuários",
+      "all_users": "Todos os Usuários",
+      "create_user": "Criar Usuário",
+      "create_first_user": "Criar Primeiro Usuário",
+      "no_users": "Nenhum usuário encontrado",
+      "confirm_delete": "Tem certeza de que deseja deletar este usuário?",
+      "confirm_deactivate": "Tem certeza de que deseja desativar este usuário?"
+    },
+    "create_user": "Criar Usuário",
+    "edit_user": "Editar Usuário",
+    "first_name": "Nome",
+    "last_name": "Sobrenome",
+    "email": "E-mail",
+    "password": "Senha",
+    "password_hint": "Mínimo 6 caracteres",
+    "role": "Função",
+    "select_role": "Selecione uma função...",
+    "name": "Nome",
+    "status": "Status",
+    "created": "Criado",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "activate": "Ativar",
+    "deactivate": "Desativar",
+    "show_inactive": "Mostrar Inativos",
+    "hide_inactive": "Ocultar Inativos",
+    "roles": {
+      "super_admin": "Super Admin",
+      "church_admin": "Admin da Igreja",
+      "pastor": "Pastor",
+      "treasurer": "Tesoureiro",
+      "secretary": "Secretário",
+      "member": "Membro"
+    }
+  },
   "error": {
     "title": "Erro do Servidor",
     "server_unavailable": "O servidor não está disponível no momento",
@@ -204,14 +242,19 @@
     }
   },
   "common": {
-    "email": "E-mail",
-    "phone": "Telefone",
-    "address": "Endereço",
+    "loading": "Carregando...",
+    "saving": "Salvando...",
+    "create": "Criar",
+    "update": "Atualizar",
     "edit": "Editar",
     "delete": "Deletar",
     "cancel": "Cancelar",
-    "create": "Criar",
-    "update": "Atualizar"
+    "save": "Salvar",
+    "retry": "Tentar Novamente",
+    "actions": "Ações",
+    "previous": "Anterior",
+    "next": "Próximo",
+    "page_of": "Página {current} de {total}"
   },
   "coming_soon": {
     "title": "Em Desenvolvimento",

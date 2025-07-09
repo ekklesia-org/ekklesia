@@ -90,6 +90,44 @@
       "integrations": "Integraciones"
     }
   },
+  "users": {
+    "title": "Gestión de Usuarios",
+    "manager": {
+      "title": "Gestión de Usuarios",
+      "all_users": "Todos los Usuarios",
+      "create_user": "Crear Usuario",
+      "create_first_user": "Crear Primer Usuario",
+      "no_users": "No se encontraron usuarios",
+      "confirm_delete": "¿Estás seguro de que deseas eliminar este usuario?",
+      "confirm_deactivate": "¿Estás seguro de que deseas desactivar este usuario?"
+    },
+    "create_user": "Crear Usuario",
+    "edit_user": "Editar Usuario",
+    "first_name": "Nombre",
+    "last_name": "Apellido",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "password_hint": "Mínimo 6 caracteres",
+    "role": "Rol",
+    "select_role": "Selecciona un rol...",
+    "name": "Nombre",
+    "status": "Estado",
+    "created": "Creado",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "activate": "Activar",
+    "deactivate": "Desactivar",
+    "show_inactive": "Mostrar Inactivos",
+    "hide_inactive": "Ocultar Inactivos",
+    "roles": {
+      "super_admin": "Super Admin",
+      "church_admin": "Admin de la Iglesia",
+      "pastor": "Pastor",
+      "treasurer": "Tesorero",
+      "secretary": "Secretario",
+      "member": "Miembro"
+    }
+  },
   "error": {
     "title": "Error del Servidor",
     "server_unavailable": "El servidor no está disponible actualmente",
@@ -151,5 +189,20 @@
       "cannot_delete_last_church": "No se puede eliminar la última iglesia del sistema.",
       "transfer_success": "¡Super Administradores transferidos exitosamente!"
     }
+  },
+  "common": {
+    "loading": "Cargando...",
+    "saving": "Guardando...",
+    "create": "Crear",
+    "update": "Actualizar",
+    "edit": "Editar",
+    "delete": "Eliminar",
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "retry": "Intentar de Nuevo",
+    "actions": "Acciones",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "page_of": "Página {current} de {total}"
   }
 }

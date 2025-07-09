@@ -5,6 +5,7 @@ import DashboardView from '../views/DashboardView.vue';
 import SetupView from '../views/SetupView.vue';
 import ErrorView from '../views/ErrorView.vue';
 import ChurchManagerView from '../views/ChurchManagerView.vue';
+import UserManagerView from '../views/UserManagerView.vue';
 import ComingSoonView from '../views/ComingSoonView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 
@@ -79,7 +80,7 @@ const router = createRouter({
     {
       path: '/users',
       name: 'users',
-      component: ComingSoonView,
+      component: UserManagerView,
       meta: { requiresAuth: true }
     },
     {
