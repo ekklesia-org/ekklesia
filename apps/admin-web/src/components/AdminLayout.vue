@@ -2,7 +2,6 @@
   <div class="flex h-screen bg-gray-50">
     <!-- Sidebar -->
     <AppSidebar
-      :title="$t('app.title')"
       :menu-items="menuItems"
       :logo-src="logo"
     />

@@ -2,21 +2,6 @@
   <div class="min-h-screen flex items-center justify-center bg-gray-50 px-4 sm:px-6 lg:px-8">
     <div class="max-w-md w-full space-y-6">
       <div class="text-center">
-        <div class="mb-4">
-          <img
-            :src="EkklesiaLogo"
-            alt="Ekklesia"
-            class="h-18 w-auto mx-auto"
-          >
-        </div>
-
-        <!-- 404 Icon -->
-        <div class="mb-4">
-          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-yellow-100">
-            <ExclamationTriangleIcon class="h-8 w-8 text-yellow-600" />
-          </div>
-        </div>
-
         <h1 class="text-6xl font-bold text-gray-900 mb-2">
           404
         </h1>
@@ -34,7 +19,7 @@
       >
         <div class="text-center space-y-4">
           <!-- Requested URL -->
-          <div 
+          <div
             v-if="requestedUrl"
             class="bg-gray-50 border border-gray-200 rounded-lg p-4"
           >
@@ -84,7 +69,7 @@
                 </template>
                 {{ $t('not_found.quick_links.dashboard') }}
               </AppButton>
-              
+
               <AppButton
                 v-if="canManageChurches"
                 variant="ghost"

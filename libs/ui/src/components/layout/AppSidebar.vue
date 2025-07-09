@@ -3,14 +3,17 @@
     <div class="px-6 py-4 border-b border-gray-200">
       <div
         v-if="logoSrc"
-        class="flex items-center mb-2"
+        class="flex items-center mb-2 justify-center"
       >
         <img
           :src="logoSrc"
           :alt="title"
           class="h-8 w-auto mr-3"
+          :class="{ 'h-16': !title }"
         >
-        <h2 class="text-lg font-semibold text-gray-900">
+        <h2
+          class="text-lg font-semibold text-gray-900"
+        >
           {{ title }}
         </h2>
       </div>
@@ -66,7 +69,7 @@ interface Props {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: 'Ekklesia',
+  title: '',
   logoSrc: undefined,
 });
 
