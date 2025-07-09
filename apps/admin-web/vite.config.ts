@@ -10,7 +10,7 @@ export default defineConfig(async () => {
     root: __dirname,
     cacheDir: '../node_modules/.vite/admin-web',
     server: {
-      port: 4200,
+      port: 4201,
       host: 'localhost',
       proxy: {
         '/api': 'http://localhost:3000',
