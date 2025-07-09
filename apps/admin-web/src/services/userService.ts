@@ -1,40 +1,5 @@
 import axios from 'axios';
-
-// User interface
-export interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  isActive: boolean;
-  createdAt: Date;
-  churchId?: string;
-}
-
-export interface UserListResponse {
-  users: User[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
-
-export interface CreateUserDto {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  churchId?: string;
-}
-
-export interface UpdateUserDto {
-  firstName?: string;
-  lastName?: string;
-  role?: string;
-  isActive?: boolean;
-}
+import { User, UserListResponse, CreateUserDto, UpdateUserDto } from '@ekklesia/shared';
 
 export class UserService {
   private readonly baseUrl = '/api/users';

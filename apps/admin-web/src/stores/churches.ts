@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { ChurchService, ChurchWithUsers, CreateChurchDto } from '../services/churchService';
+import { ChurchService } from '../services/churchService';
+import { ChurchWithUsers, CreateChurchDto, UpdateChurchDto } from '@ekklesia/shared';
 
 export const useChurchesStore = defineStore('churches', () => {
   const churchService = new ChurchService();
@@ -105,7 +106,7 @@ export const useChurchesStore = defineStore('churches', () => {
     }
   };
 
-  const updateChurch = async (id: string, data: Partial<CreateChurchDto>): Promise<ChurchWithUsers | null> => {
+  const updateChurch = async (id: string, data: UpdateChurchDto): Promise<ChurchWithUsers | null> => {
     loading.value = true;
     error.value = null;
 

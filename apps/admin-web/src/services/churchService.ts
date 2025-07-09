@@ -1,40 +1,5 @@
 import axios from 'axios';
-import { Church } from '@ekklesia/shared';
-
-// Extended church interface with user information
-export interface ChurchWithUsers extends Church {
-  users: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-    isActive: boolean;
-    createdAt: Date;
-  }[];
-}
-
-export interface ChurchListResponse {
-  churches: ChurchWithUsers[];
-  total: number;
-  page: number;
-  limit: number;
-  totalPages: number;
-}
-
-export interface CreateChurchDto {
-  name: string;
-  slug?: string;
-  email: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipCode?: string;
-  website?: string;
-  logoUrl?: string;
-  isActive?: boolean;
-}
+import { Church, ChurchWithUsers, ChurchListResponse, CreateChurchDto, UpdateChurchDto } from '@ekklesia/shared';
 
 export class ChurchService {
   private readonly baseUrl = '/api/churches';
@@ -80,7 +45,7 @@ export class ChurchService {
   /**
    * Update an existing church
    */
-  async updateChurch(id: string, data: Partial<CreateChurchDto>): Promise<ChurchWithUsers> {
+  async updateChurch(id: string, data: UpdateChurchDto): Promise<ChurchWithUsers> {
     const response = await axios.put<ChurchWithUsers>(`${this.baseUrl}/${id}`, data);
     return response.data;
   }

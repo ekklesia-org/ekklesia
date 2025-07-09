@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { UserService, User, CreateUserDto, UpdateUserDto } from '../services/userService';
+import { UserService } from '../services/userService';
+import { User, CreateUserDto, UpdateUserDto } from '@ekklesia/shared';
 
 export const useUsersStore = defineStore('users', () => {
   const userService = new UserService();
