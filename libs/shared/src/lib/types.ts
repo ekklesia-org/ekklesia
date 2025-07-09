@@ -41,57 +41,6 @@ export interface AuthToken {
   expiresIn: number;
 }
 
-// Auth-related types (from backend)
-export interface LoginDto {
-  email: string;
-  password: string;
-}
-
-export interface RegisterDto {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  churchId?: string;
-}
-
-export interface AuthResponseDto {
-  access_token: string;
-  user: {
-    id: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    role: string;
-    churchId?: string;
-  };
-}
-
-export interface UserProfileDto {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
-  churchId: string | null;
-  isActive: boolean;
-  lastLogin: Date | null;
-}
-
-export interface TokenVerificationDto {
-  valid: boolean;
-  userId: string;
-  username: string;
-}
-
-export interface SetupDto {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  churchName: string;
-}
-
 // Legacy auth types (keeping for backward compatibility)
 export interface LoginCredentials {
   email: string;
@@ -178,63 +127,6 @@ export interface UpdateChurchRequest {
   website?: string;
   logoUrl?: string;
   taxId?: string;
-  isActive?: boolean;
-}
-
-// User DTOs (from backend)
-export interface CreateUserDto {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  phone?: string;
-  avatar?: string;
-  isActive?: boolean;
-  role: UserRole;
-  churchId?: string;
-}
-
-export interface UpdateUserDto {
-  firstName?: string;
-  lastName?: string;
-  phone?: string;
-  avatar?: string;
-  isActive?: boolean;
-  role?: UserRole;
-  churchId?: string;
-}
-
-export interface UpdateUserPasswordDto {
-  currentPassword: string;
-  newPassword: string;
-}
-
-// Church DTOs (from backend)
-export interface CreateChurchDto {
-  name: string;
-  slug?: string;
-  email: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipCode?: string;
-  website?: string;
-  logoUrl?: string;
-  isActive?: boolean;
-}
-
-export interface UpdateChurchDto {
-  name?: string;
-  slug?: string;
-  email?: string;
-  phone?: string;
-  address?: string;
-  city?: string;
-  state?: string;
-  zipCode?: string;
-  website?: string;
-  logoUrl?: string;
   isActive?: boolean;
 }
 

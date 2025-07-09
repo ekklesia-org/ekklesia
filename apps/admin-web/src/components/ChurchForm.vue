@@ -57,6 +57,15 @@
               :error="errors.website"
             />
           </div>
+
+          <div class="form-row">
+            <AppInput
+              v-model="formData.taxId"
+              :label="$t('churches.form.tax_id')"
+              :placeholder="$t('churches.form.tax_id_placeholder')"
+              :error="errors.taxId"
+            />
+          </div>
         </div>
 
         <!-- Address Information -->
@@ -153,7 +162,7 @@
 import { ref, reactive, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppInput, AppButton } from '@ekklesia/ui';
-import type { CreateChurchDto, ChurchWithUsers } from '../services/churchService';
+import type { CreateChurchDto, ChurchWithUsers } from '@ekklesia/shared';
 
 interface Props {
   church?: ChurchWithUsers;
@@ -187,6 +196,7 @@ const formData = reactive<CreateChurchDto>({
   zipCode: '',
   website: '',
   logoUrl: '',
+  taxId: '',
   isActive: true,
 });
 
@@ -213,6 +223,7 @@ watch(() => props.church, (church) => {
     formData.zipCode = church.zipCode || '';
     formData.website = church.website || '';
     formData.logoUrl = church.logoUrl || '';
+    formData.taxId = church.taxId || '';
     formData.isActive = church.isActive;
   }
 }, { immediate: true });
@@ -296,6 +307,7 @@ const handleSubmit = () => {
     zipCode: formData.zipCode?.trim() || undefined,
     website: formData.website?.trim() || undefined,
     logoUrl: formData.logoUrl?.trim() || undefined,
+    taxId: formData.taxId?.trim() || undefined,
   };
 
   emit('submit', submitData);

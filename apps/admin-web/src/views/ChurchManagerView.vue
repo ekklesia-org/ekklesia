@@ -32,6 +32,7 @@
           <p><strong>{{ $t('common.email') }}:</strong> {{ church.email }}</p>
           <p><strong>{{ $t('common.phone') }}:</strong> {{ church.phone || '-' }}</p>
           <p><strong>{{ $t('common.address') }}:</strong> {{ church.address || '-' }} </p>
+          <p><strong>{{ $t('common.tax_id') }}:</strong> {{ church.taxId || '-' }}</p>
           <p>
             <strong>{{ $t('churches.manager.users') }}:</strong>
             <span
@@ -94,7 +95,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton, useToast } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
-import { ChurchWithUsers, CreateChurchDto } from '../services/churchService';
+import { ChurchWithUsers, CreateChurchDto } from '@ekklesia/shared';
 import ChurchForm from '../components/ChurchForm.vue';
 import SuperAdminTransferDialog from '../components/SuperAdminTransferDialog.vue';
 import { useChurchesStore } from '../stores/churches';
