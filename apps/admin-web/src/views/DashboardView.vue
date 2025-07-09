@@ -193,7 +193,7 @@ import {
 } from '@ekklesia/ui';
 import { UserRole } from '@ekklesia/shared';
 import AdminLayout from '../components/AdminLayout.vue';
-import { useChurchService } from '../composables/useChurchService';
+import { useChurchesStore } from '../stores/churches';
 
 // Heroicons
 import {
@@ -226,10 +226,10 @@ const systemHealth = ref('Good');
 const user = computed(() => auth.user || undefined);
 const isSuperAdmin = computed(() => user.value?.role === UserRole.SUPER_ADMIN);
 
-// Church service for super admin
-const { churches, activeChurches, totalUsers, loadChurches } = useChurchService();
-const churchCount = computed(() => activeChurches.value.length);
-const totalChurchUsers = computed(() => totalUsers.value);
+// Churches store for super admin
+const churchesStore = useChurchesStore();
+const churchCount = computed(() => churchesStore.activeChurches.length);
+const totalChurchUsers = computed(() => churchesStore.totalUsers);
 
 onMounted(() => {
   // Load dashboard data (mock data for now)
@@ -247,7 +247,7 @@ const loadDashboardData = async () => {
   if (isSuperAdmin.value) {
     totalEvents.value = 45;
     systemHealth.value = 'Good';
-    await loadChurches();
+    await churchesStore.fetchChurches();
   }
 };
 

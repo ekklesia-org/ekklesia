@@ -13,6 +13,7 @@
         :title="pageTitle"
         :subtitle="pageSubtitle"
         :user="user"
+        logo-src="@/assets/ekklesia-logo.png"
       >
         <template #userActions>
           <AppButton

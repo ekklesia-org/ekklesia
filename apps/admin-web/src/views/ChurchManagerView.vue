@@ -84,21 +84,19 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
-import { ChurchService, ChurchWithUsers } from '../services/churchService';
+import { ChurchWithUsers, CreateChurchDto } from '../services/churchService';
 import ChurchForm from '../components/ChurchForm.vue';
+import { useChurchesStore } from '../stores/churches';
 
 const { t } = useI18n();
-const churchService = new ChurchService();
+const churchesStore = useChurchesStore();
 
-const churches = ref<ChurchWithUsers[]>([]);
 const selectedChurch = ref<ChurchWithUsers | null>(null);
 const showForm = ref(false);
-const isSubmitting = ref(false);
 
-const fetchChurches = async () => {
-  const response = await churchService.getChurches();
-  churches.value = response.churches;
-};
+// Use store getters and state
+const churches = computed(() => churchesStore.churches);
+const isSubmitting = computed(() => churchesStore.isLoading);
 
 const showCreateForm = () => {
   selectedChurch.value = null;
@@ -112,26 +110,21 @@ const editChurch = (church: ChurchWithUsers) => {
 
 const deleteChurch = async (id: string) => {
   if (confirm(t('churches.manager.confirm_delete'))) {
-    await churchService.deleteChurch(id);
-    await fetchChurches();
+    await churchesStore.deleteChurch(id);
   }
 };
 
-const handleFormSubmit = async (data: any) => {
-  isSubmitting.value = true;
-
+const handleFormSubmit = async (data: CreateChurchDto) => {
   try {
     if (selectedChurch.value) {
-      await churchService.updateChurch(selectedChurch.value.id, data);
+      await churchesStore.updateChurch(selectedChurch.value.id, data);
     } else {
-      await churchService.createChurch(data);
+      await churchesStore.createChurch(data);
     }
   } catch (error) {
     console.error('Error saving church:', error);
   } finally {
-    isSubmitting.value = false;
     showForm.value = false;
-    fetchChurches();
   }
 };
 
@@ -140,7 +133,7 @@ const cancelForm = () => {
 };
 
 onMounted(() => {
-  fetchChurches();
+  churchesStore.fetchChurches();
 });
 </script>
 

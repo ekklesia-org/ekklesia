@@ -190,15 +190,15 @@ const handleLogin = async () => {
   } catch (error) {
     // Show error toast
     const errorMessage = authError.value || t('auth.login_failed', 'Login failed. Please try again.');
-    const translatedError = errorMessage.startsWith('errors.') || errorMessage.startsWith('validation.') 
+    const translatedError = errorMessage.startsWith('errors.') || errorMessage.startsWith('validation.')
       ? t(errorMessage)
       : errorMessage;
-    
+
     toast.error(translatedError, {
       title: t('auth.login_error', 'Login Error'),
       duration: 5000,
     });
-    
+
     console.error('Login failed:', error);
   }
 };
