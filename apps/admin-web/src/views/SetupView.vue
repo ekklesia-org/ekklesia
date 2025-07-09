@@ -17,7 +17,10 @@
         </p>
       </div>
 
-      <AppCard variant="elevated" rounded="xl">
+      <AppCard
+        variant="elevated"
+        rounded="xl"
+      >
         <div class="mb-6">
           <h2 class="text-xl font-light text-gray-900 mb-2">
             {{ $t('setup.create_admin') }}

@@ -1,6 +1,9 @@
 import './main.css';
-import '@ekklesia/ui';
+import '../../../dist/libs/ui/index.css';
 import router from './router';
+
+// Import UI library components
+import '@ekklesia/ui';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from './app/App.vue';

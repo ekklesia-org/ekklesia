@@ -1,4 +1,4 @@
-// Styles - Import this in your main application
+// Import styles to be included in the build
 import './styles/index.css';
 
 // Common Components

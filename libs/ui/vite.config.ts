@@ -46,8 +46,14 @@ export default defineConfig(async () => {
       },
       rollupOptions: {
         // External packages that should not be bundled into your library.
-        external: [],
+        external: ['vue'],
+        output: {
+          globals: {
+            vue: 'Vue',
+          },
+        },
       },
+      cssCodeSplit: false,
     },
     test: {
       watch: false,
