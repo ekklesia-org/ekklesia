@@ -4,6 +4,7 @@ import LoginView from '../views/LoginView.vue';
 import DashboardView from '../views/DashboardView.vue';
 import SetupView from '../views/SetupView.vue';
 import ErrorView from '../views/ErrorView.vue';
+import ChurchManagerView from '../views/ChurchManagerView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -34,6 +35,12 @@ const router = createRouter({
       path: '/dashboard',
       name: 'dashboard',
       component: DashboardView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/churches',
+      name: 'churches',
+      component: ChurchManagerView,
       meta: { requiresAuth: true }
     },
   ],

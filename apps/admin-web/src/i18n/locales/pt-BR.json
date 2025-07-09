@@ -110,6 +110,52 @@
     "view_church": "Ver Detalhes da Igreja",
     "manage_users": "Gerenciar Usuários",
     "church_settings": "Configurações da Igreja",
+    "manager": {
+      "title": "Gerenciador de Igrejas",
+      "all_churches": "Todas as Igrejas",
+      "create_church": "Criar Igreja",
+      "no_churches": "Nenhuma igreja encontrada",
+      "users": "Usuários",
+      "confirm_delete": "Tem certeza que deseja deletar esta igreja?"
+    },
+    "form": {
+      "basic_info": "Informações Básicas",
+      "address_info": "Informações de Endereço",
+      "advanced_options": "Opções Avançadas",
+      "name": "Nome da Igreja",
+      "name_placeholder": "Ex: Igreja Batista Central",
+      "slug": "Slug",
+      "slug_placeholder": "igreja-batista-central",
+      "slug_help": "URL amigável (será gerada automaticamente se não preenchida)",
+      "email": "E-mail",
+      "email_placeholder": "contato@igreja.com",
+      "phone": "Telefone",
+      "phone_placeholder": "(11) 99999-9999",
+      "website": "Site",
+      "website_placeholder": "https://www.igreja.com",
+      "address": "Endereço",
+      "address_placeholder": "Rua das Flores, 123",
+      "city": "Cidade",
+      "city_placeholder": "São Paulo",
+      "state": "Estado",
+      "state_placeholder": "SP",
+      "zip_code": "CEP",
+      "zip_code_placeholder": "01234-567",
+      "logo_url": "URL do Logo",
+      "logo_url_placeholder": "https://www.exemplo.com/logo.png",
+      "is_active": "Igreja Ativa",
+      "errors": {
+        "name_required": "Nome da igreja é obrigatório",
+        "name_min_length": "Nome deve ter pelo menos 2 caracteres",
+        "name_max_length": "Nome deve ter no máximo 100 caracteres",
+        "email_required": "E-mail é obrigatório",
+        "email_invalid": "E-mail inválido",
+        "slug_min_length": "Slug deve ter pelo menos 2 caracteres",
+        "slug_max_length": "Slug deve ter no máximo 100 caracteres",
+        "website_invalid": "URL do site inválida",
+        "logo_url_invalid": "URL do logo inválida"
+      }
+    },
     "create_church": {
       "title": "Criar Nova Igreja",
       "church_info": "Informações da Igreja",
@@ -140,5 +186,15 @@
       "active": "Ativo",
       "inactive": "Inativo"
     }
+  },
+  "common": {
+    "email": "E-mail",
+    "phone": "Telefone",
+    "address": "Endereço",
+    "edit": "Editar",
+    "delete": "Deletar",
+    "cancel": "Cancelar",
+    "create": "Criar",
+    "update": "Atualizar"
   }
 }
