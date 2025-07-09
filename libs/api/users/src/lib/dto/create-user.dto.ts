@@ -1,8 +1,9 @@
 import { IsString, IsEmail, IsOptional, IsEnum, IsBoolean, IsUUID, Length, MinLength } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { UserRole } from '@ekklesia/prisma';
+import { ICreateUserDto } from '@ekklesia/shared';
 
-export class CreateUserDto {
+export class CreateUserDto implements ICreateUserDto {
   @ApiProperty({
     description: 'Email address of the user',
     example: 'john.doe@example.com'

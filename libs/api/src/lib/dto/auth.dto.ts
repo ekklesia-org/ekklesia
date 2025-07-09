@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MinLength, IsOptional } from 'class-validator';
+import { ILoginDto, IRegisterDto, IAuthResponseDto, IUserProfileDto, ITokenVerificationDto } from '@ekklesia/shared';
 
-export class LoginDto {
+export class LoginDto implements ILoginDto {
   @ApiProperty({
     description: 'User email address',
     example: 'user@example.com',
@@ -19,7 +20,7 @@ export class LoginDto {
   password: string;
 }
 
-export class RegisterDto {
+export class RegisterDto implements IRegisterDto {
   @ApiProperty({
     description: 'User email address',
     example: 'newuser@example.com',
@@ -60,7 +61,7 @@ export class RegisterDto {
   churchId?: string;
 }
 
-export class AuthResponseDto {
+export class AuthResponseDto implements IAuthResponseDto {
   @ApiProperty({
     description: 'JWT access token',
     example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...',
@@ -115,7 +116,7 @@ export class AuthResponseDto {
   };
 }
 
-export class UserProfileDto {
+export class UserProfileDto implements IUserProfileDto {
   @ApiProperty({
     description: 'User ID',
     example: 'user_12345',
@@ -168,7 +169,7 @@ export class UserProfileDto {
   lastLogin: Date | null;
 }
 
-export class TokenVerificationDto {
+export class TokenVerificationDto implements ITokenVerificationDto {
   @ApiProperty({
     description: 'Whether token is valid',
     example: true,

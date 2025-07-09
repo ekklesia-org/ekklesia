@@ -1,10 +1,11 @@
 import { PartialType, OmitType, ApiProperty } from '@nestjs/swagger';
 import { IsString, MinLength } from 'class-validator';
 import { CreateUserDto } from './create-user.dto';
+import { IUpdateUserDto, IUpdateUserPasswordDto } from '@ekklesia/shared';
 
-export class UpdateUserDto extends PartialType(OmitType(CreateUserDto, ['password'] as const)) {}
+export class UpdateUserDto extends PartialType(OmitType(CreateUserDto, ['password'] as const)) implements IUpdateUserDto {}
 
-export class UpdateUserPasswordDto {
+export class UpdateUserPasswordDto implements IUpdateUserPasswordDto {
   @ApiProperty({
     description: 'Current password',
     example: 'currentPassword123'

@@ -1,7 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsEmail, IsString, MinLength, IsNotEmpty } from 'class-validator';
+import { ISetupDto } from '@ekklesia/shared';
 
-export class SetupDto {
+export class SetupDto implements ISetupDto {
   @ApiProperty({ 
     description: 'Admin email address',
     example: 'admin@igreja.com' 

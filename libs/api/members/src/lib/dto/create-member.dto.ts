@@ -1,8 +1,9 @@
 import { IsString, IsEmail, IsOptional, IsEnum, IsDateString, Length, IsUUID } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { MemberStatus, MaritalStatus } from '@ekklesia/prisma';
+import { ICreateMemberDto } from '@ekklesia/shared';
 
-export class CreateMemberDto {
+export class CreateMemberDto implements ICreateMemberDto {
   @ApiProperty({
     description: 'Church ID that the member belongs to',
     example: 'cuid-example'

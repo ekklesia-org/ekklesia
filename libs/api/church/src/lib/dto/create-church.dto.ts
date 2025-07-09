@@ -1,7 +1,8 @@
 import { IsString, IsEmail, IsOptional, IsBoolean, IsUrl, Length } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ICreateChurchDto } from '@ekklesia/shared';
 
-export class CreateChurchDto {
+export class CreateChurchDto implements ICreateChurchDto {
   @ApiProperty({
     description: 'Name of the church',
     example: 'First Baptist Church',
@@ -85,6 +86,14 @@ export class CreateChurchDto {
   @IsUrl()
   @IsOptional()
   logoUrl?: string;
+
+  @ApiPropertyOptional({
+    description: 'Tax identification number (CNPJ in Brazil, EIN in US, etc.)',
+    example: '12.345.678/0001-90'
+  })
+  @IsString()
+  @IsOptional()
+  taxId?: string;
 
   @ApiPropertyOptional({
     description: 'Whether the church is active',
