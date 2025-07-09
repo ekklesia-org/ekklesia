@@ -174,12 +174,17 @@
       "church_city": "Ciudad",
       "church_state": "Estado",
       "church_zip": "Código Postal",
+      "church_tax_id": "ID Fiscal",
       "admin_first_name": "Nombre del Administrador",
       "admin_last_name": "Apellido del Administrador",
       "admin_email": "Correo del Administrador",
       "admin_password": "Contraseña del Administrador",
       "create_button": "Crear Iglesia",
       "cancel_button": "Cancelar"
+    },
+    "form": {
+      "tax_id": "ID Fiscal",
+      "tax_id_placeholder": "12345678901"
     },
     "list": {
       "name": "Nombre de la Iglesia",
@@ -228,6 +233,20 @@
     "actions": "Acciones",
     "previous": "Anterior",
     "next": "Siguiente",
-    "page_of": "Página {current} de {total}"
+    "page_of": "Página {current} de {total}",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "address": "Dirección",
+    "name": "Nombre",
+    "status": "Estado",
+    "created": "Creado",
+    "updated": "Actualizado",
+    "active": "Activo",
+    "inactive": "Inactivo",
+    "yes": "Sí",
+    "no": "No",
+    "confirm": "Confirmar",
+    "close": "Cerrar",
+    "tax_id": "ID Fiscal"
   }
 }

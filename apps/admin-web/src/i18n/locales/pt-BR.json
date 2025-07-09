@@ -201,6 +201,8 @@
       "zip_code_placeholder": "01234-567",
       "logo_url": "URL do Logo",
       "logo_url_placeholder": "https://www.exemplo.com/logo.png",
+      "tax_id": "CNPJ",
+      "tax_id_placeholder": "12.345.678/0001-90",
       "is_active": "Igreja Ativa",
       "errors": {
         "name_required": "Nome da igreja é obrigatório",
@@ -266,7 +268,7 @@
     "transfer_delete_success": "Super administradores transferidos e igreja deletada com sucesso!",
     "transfer_delete_error": "Falha ao transferir e deletar igreja. Tente novamente."
   },
-  "common": {
+    "common": {
     "loading": "Carregando...",
     "saving": "Salvando...",
     "create": "Criar",
@@ -292,7 +294,8 @@
     "yes": "Sim",
     "no": "Não",
     "confirm": "Confirmar",
-    "close": "Fechar"
+    "close": "Fechar",
+    "tax_id": "CNPJ"
   },
   "coming_soon": {
     "title": "Em Desenvolvimento",

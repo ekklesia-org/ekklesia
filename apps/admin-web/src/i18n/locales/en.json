@@ -124,12 +124,17 @@
       "church_city": "City",
       "church_state": "State",
       "church_zip": "ZIP Code",
+      "church_tax_id": "Tax ID",
       "admin_first_name": "Admin First Name",
       "admin_last_name": "Admin Last Name",
       "admin_email": "Admin Email",
       "admin_password": "Admin Password",
       "create_button": "Create Church",
       "cancel_button": "Cancel"
+    },
+    "form": {
+      "tax_id": "Tax ID",
+      "tax_id_placeholder": "123-45-6789"
     },
     "list": {
       "name": "Church Name",
@@ -283,6 +288,7 @@
     "yes": "Yes",
     "no": "No",
     "confirm": "Confirm",
-    "close": "Close"
+    "close": "Close",
+    "tax_id": "Tax ID"
   }
 }

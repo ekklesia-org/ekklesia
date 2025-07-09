@@ -128,6 +128,7 @@ export interface Church {
   zipCode?: string;
   website?: string;
   logoUrl?: string;
+  taxId?: string;
   isActive: boolean;
   userCount?: number;
   createdAt: Date;
@@ -157,6 +158,7 @@ export interface CreateChurchRequest {
   churchCity?: string;
   churchState?: string;
   churchZip?: string;
+  churchTaxId?: string;
   // Admin user information
   adminFirstName: string;
   adminLastName: string;
@@ -175,6 +177,7 @@ export interface UpdateChurchRequest {
   zipCode?: string;
   website?: string;
   logoUrl?: string;
+  taxId?: string;
   isActive?: boolean;
 }
 
