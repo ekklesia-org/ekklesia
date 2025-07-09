@@ -11,6 +11,7 @@ export { default as AppInput } from './components/forms/AppInput.vue';
 
 // Layout Components
 export { default as AppHeader } from './components/layout/AppHeader.vue';
+export { default as AppSidebar } from './components/layout/AppSidebar.vue';
 
 // Feedback Components
 export { default as AppAlert } from './components/feedback/AppAlert.vue';

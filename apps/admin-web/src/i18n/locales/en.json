@@ -40,6 +40,18 @@
       "church_name_required": "Church name is required"
     }
   },
+  "sidebar": {
+    "dashboard": "Dashboard",
+    "churches": "Manage Churches",
+    "statistics": "Global Statistics",
+    "members": "Members",
+    "events": "Events",
+    "finances": "Finances",
+    "announcements": "Announcements",
+    "users": "Users",
+    "church_settings": "Church Settings",
+    "reports": "Reports"
+  },
   "dashboard": {
     "title": "Dashboard",
     "welcome": "Welcome back, {name}!",

@@ -1,27 +1,9 @@
 <template>
-  <div class="min-h-screen bg-gray-50">
-    <!-- Header -->
-    <AppHeader
-      :title="$t('dashboard.title')"
-      :subtitle="$t('dashboard.welcome', { name: user?.firstName })"
-      :user="user"
-    >
-      <template #userActions>
-        <AppButton
-          variant="danger"
-          size="sm"
-          @click="logout"
-        >
-          <template #icon>
-            <ArrowRightOnRectangleIcon class="h-4 w-4" />
-          </template>
-          {{ $t('auth.logout') }}
-        </AppButton>
-      </template>
-    </AppHeader>
-
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <AdminLayout
+    :title="$t('dashboard.title')"
+    :subtitle="$t('dashboard.welcome', { name: user?.firstName })"
+  >
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Super Admin Church Management -->
       <div
         v-if="isSuperAdmin"
@@ -151,8 +133,8 @@
           </AppButton>
         </div>
       </AppCard>
-    </main>
-  </div>
+    </div>
+  </AdminLayout>
 </template>
 
 <script setup lang="ts">
@@ -160,18 +142,17 @@ import { ref, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuth } from '../stores/auth';
 import {
-  AppHeader,
   AppStatsCard,
   AppCard,
   AppButton,
 } from '@ekklesia/ui';
 import { UserRole } from '@ekklesia/shared';
+import AdminLayout from '../components/AdminLayout.vue';
 import ChurchManagement from '../components/ChurchManagement.vue';
 import { useChurchService } from '../composables/useChurchService';
 
 // Heroicons
 import {
-  ArrowRightOnRectangleIcon,
   UsersIcon,
   CalendarIcon,
   CurrencyDollarIcon,
@@ -216,10 +197,6 @@ const loadDashboardData = async () => {
   if (isSuperAdmin.value) {
     await loadChurches();
   }
-};
-
-const logout = () => {
-  auth.logoutAndRedirect();
 };
 
 const addMember = () => {

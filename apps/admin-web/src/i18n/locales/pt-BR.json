@@ -40,6 +40,18 @@
       "church_name_required": "O nome da igreja é obrigatório"
     }
   },
+  "sidebar": {
+    "dashboard": "Painel de Controle",
+    "churches": "Gerenciar Igrejas",
+    "statistics": "Estatísticas Gerais",
+    "members": "Membros",
+    "events": "Eventos",
+    "finances": "Finanças",
+    "announcements": "Anúncios",
+    "users": "Usuários",
+    "church_settings": "Configurações da Igreja",
+    "reports": "Relatórios"
+  },
   "dashboard": {
     "title": "Painel de Controle",
     "welcome": "Bem-vindo de volta, {name}!",

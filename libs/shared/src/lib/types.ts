@@ -1,3 +1,5 @@
+import { UserRole } from './enums';
+
 // Geral
 export type ID = string;
 
@@ -14,7 +16,7 @@ export interface User {
   email: string;
   firstName: string;
   lastName: string;
-  role: string;
+  role: UserRole;
   churchId?: string;
   phone?: string;
   avatar?: string;
