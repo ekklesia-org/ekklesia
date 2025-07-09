@@ -216,16 +216,17 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AppButton, useToast } from '@ekklesia/ui';
+import { AppButton } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import UserForm from '../components/UserForm.vue';
 import { User, CreateUserDto, UpdateUserDto } from '../services/userService';
 import { useUsersStore } from '../stores/users';
 import { useSelectedChurch } from '../stores/selectedChurch';
 import { useAuth } from '../stores/auth';
+import { useErrorHandler } from '../utils/errorHandler';
 
 const { t } = useI18n();
-const toast = useToast();
+const { handleError, handleSuccess } = useErrorHandler();
 const usersStore = useUsersStore();
 const selectedChurchStore = useSelectedChurch();
 const auth = useAuth();
@@ -266,27 +267,25 @@ const fetchUsersWithContext = (page = 1) => {
 const activateUser = async (id: string) => {
   try {
     await usersStore.activateUser(id);
-    toast.success(t('users.activate_success'));
+    handleSuccess(t('users.activate_success'));
   } catch (error) {
-    console.error('Error activating user:', error);
-    toast.error(t('users.activate_error'));
+    handleError(error, t('users.activate_error'));
   }
 };
 
 const deactivateUser = async (id: string) => {
   const user = users.value.find(u => u.id === id);
   if (user && isLastSuperAdmin(user)) {
-    toast.error(t('users.manager.cannot_deactivate_last_super_admin'));
+    handleError(new Error(t('users.manager.cannot_deactivate_last_super_admin')));
     return;
   }
   
   if (confirm(t('users.manager.confirm_deactivate'))) {
     try {
       await usersStore.deactivateUser(id);
-      toast.success(t('users.deactivate_success'));
+      handleSuccess(t('users.deactivate_success'));
     } catch (error) {
-      console.error('Error deactivating user:', error);
-      toast.error(t('users.deactivate_error'));
+      handleError(error, t('users.deactivate_error'));
     }
   }
 };
@@ -294,17 +293,16 @@ const deactivateUser = async (id: string) => {
 const deleteUser = async (id: string) => {
   const user = users.value.find(u => u.id === id);
   if (user && isLastSuperAdmin(user)) {
-    toast.error(t('users.manager.cannot_delete_last_super_admin'));
+    handleError(new Error(t('users.manager.cannot_delete_last_super_admin')));
     return;
   }
   
   if (confirm(t('users.manager.confirm_delete'))) {
     try {
       await usersStore.deleteUser(id);
-      toast.success(t('users.delete_success'));
+      handleSuccess(t('users.delete_success'));
     } catch (error) {
-      console.error('Error deleting user:', error);
-      toast.error(t('users.delete_error'));
+      handleError(error, t('users.delete_error'));
     }
   }
 };
@@ -313,16 +311,15 @@ const handleFormSubmit = async (data: CreateUserDto | UpdateUserDto) => {
   try {
     if (selectedUser.value) {
       await usersStore.updateUser(selectedUser.value.id, data as UpdateUserDto);
-      toast.success(t('users.update_success'));
+      handleSuccess(t('users.update_success'));
     } else {
       await usersStore.createUser(data as CreateUserDto);
-      toast.success(t('users.create_success'));
+      handleSuccess(t('users.create_success'));
     }
     showForm.value = false;
   } catch (error) {
-    console.error('Error saving user:', error);
     const errorMessage = selectedUser.value ? t('users.update_error') : t('users.create_error');
-    toast.error(errorMessage);
+    handleError(error, errorMessage);
   }
 };
 

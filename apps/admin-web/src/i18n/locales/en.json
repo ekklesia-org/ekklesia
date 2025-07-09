@@ -215,6 +215,48 @@
     "delete_success": "User deleted successfully!",
     "delete_error": "Failed to delete user. Please try again."
   },
+  "errors": {
+    "generic": {
+      "server_error": "Server error occurred. Please try again.",
+      "unknown_error": "An unknown error occurred. Please try again."
+    },
+    "church": {
+      "slug_already_exists": "A church with this slug already exists.",
+      "email_already_exists": "A church with this email already exists.",
+      "create_failed": "Failed to create church. Please try again.",
+      "update_failed": "Failed to update church. Please try again.",
+      "delete_failed": "Failed to delete church. Please try again.",
+      "not_found": "Church not found.",
+      "cannot_delete_with_super_admins": "Cannot delete church with Super Administrators. Transfer them first.",
+      "cannot_delete_last_church": "Cannot delete the last church in the system.",
+      "cannot_transfer_to_inactive_church": "Cannot transfer Super Administrators to an inactive church.",
+      "settings_already_exist": "Settings for this church already exist.",
+      "settings_not_found": "Settings for this church not found.",
+      "settings_create_failed": "Failed to create church settings. Please try again.",
+      "settings_update_failed": "Failed to update church settings. Please try again."
+    },
+    "user": {
+      "email_already_exists": "A user with this email already exists.",
+      "create_failed": "Failed to create user. Please try again.",
+      "update_failed": "Failed to update user. Please try again.",
+      "delete_failed": "Failed to delete user. Please try again.",
+      "not_found": "User not found.",
+      "fetch_failed": "Failed to fetch user data. Please try again.",
+      "current_password_incorrect": "Current password is incorrect.",
+      "password_update_failed": "Failed to update password. Please try again.",
+      "remove_failed": "Failed to remove user. Please try again.",
+      "activate_failed": "Failed to activate user. Please try again.",
+      "deactivate_failed": "Failed to deactivate user. Please try again.",
+      "role_update_failed": "Failed to update user role. Please try again.",
+      "fetch_by_church_failed": "Failed to fetch users by church. Please try again."
+    },
+    "member": {
+      "create_failed": "Failed to create member. Please try again.",
+      "update_failed": "Failed to update member. Please try again.",
+      "delete_failed": "Failed to delete member. Please try again.",
+      "not_found": "Member not found."
+    }
+  },
   "common": {
     "loading": "Loading...",
     "saving": "Saving...",

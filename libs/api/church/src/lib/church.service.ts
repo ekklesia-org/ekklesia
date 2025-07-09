@@ -24,7 +24,10 @@ export class ChurchService {
     });
 
     if (existingChurch) {
-      throw new BadRequestException(`Church with slug "${finalSlug}" already exists`);
+      throw new BadRequestException({
+        message: `Church with slug "${finalSlug}" already exists`,
+        translationKey: 'errors.church.slug_already_exists'
+      });
     }
 
     // Check if email already exists
@@ -33,7 +36,10 @@ export class ChurchService {
     });
 
     if (existingEmailChurch) {
-      throw new BadRequestException(`Church with email "${createChurchDto.email}" already exists`);
+      throw new BadRequestException({
+        message: `Church with email "${createChurchDto.email}" already exists`,
+        translationKey: 'errors.church.email_already_exists'
+      });
     }
 
     try {
@@ -64,7 +70,10 @@ export class ChurchService {
         userCount: church.users.length
       } as Church & { userCount: number };
     } catch (error) {
-      throw new BadRequestException(`Failed to create church: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to create church: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.church.create_failed'
+      });
     }
   }
 
@@ -146,7 +155,10 @@ export class ChurchService {
     });
 
     if (!church) {
-      throw new NotFoundException(`Church with ID "${id}" not found`);
+      throw new NotFoundException({
+        message: `Church with ID "${id}" not found`,
+        translationKey: 'errors.church.not_found'
+      });
     }
 
     return {
@@ -178,7 +190,10 @@ export class ChurchService {
     });
 
     if (!church) {
-      throw new NotFoundException(`Church with slug "${slug}" not found`);
+      throw new NotFoundException({
+        message: `Church with slug "${slug}" not found`,
+        translationKey: 'errors.church.not_found'
+      });
     }
 
     return {
@@ -202,7 +217,10 @@ export class ChurchService {
       });
 
       if (existingSlugChurch && existingSlugChurch.id !== id) {
-        throw new BadRequestException(`Church with slug "${slug}" already exists`);
+        throw new BadRequestException({
+          message: `Church with slug "${slug}" already exists`,
+          translationKey: 'errors.church.slug_already_exists'
+        });
       }
     }
 
@@ -213,7 +231,10 @@ export class ChurchService {
       });
 
       if (existingEmailChurch && existingEmailChurch.id !== id) {
-        throw new BadRequestException(`Church with email "${updateChurchDto.email}" already exists`);
+        throw new BadRequestException({
+          message: `Church with email "${updateChurchDto.email}" already exists`,
+          translationKey: 'errors.church.email_already_exists'
+        });
       }
     }
 
@@ -245,7 +266,10 @@ export class ChurchService {
         userCount: church.users.length
       } as Church & { userCount: number };
     } catch (error) {
-      throw new BadRequestException(`Failed to update church: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to update church: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.church.update_failed'
+      });
     }
   }
 
@@ -263,9 +287,10 @@ export class ChurchService {
     });
 
     if (superAdmins.length > 0) {
-      throw new BadRequestException(
-        'Cannot delete a church that has Super Admin users. Super Admins must be transferred to another church or their role changed before deletion.'
-      );
+      throw new BadRequestException({
+        message: 'Cannot delete a church that has Super Admin users. Super Admins must be transferred to another church or their role changed before deletion.',
+        translationKey: 'errors.church.cannot_delete_with_super_admins'
+      });
     }
 
     try {
@@ -293,7 +318,10 @@ export class ChurchService {
         userCount: church.users.length
       } as Church & { userCount: number };
     } catch (error) {
-      throw new BadRequestException(`Failed to delete church: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to delete church: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.church.delete_failed'
+      });
     }
   }
 
@@ -311,9 +339,10 @@ export class ChurchService {
     });
 
     if (superAdmins.length > 0) {
-      throw new BadRequestException(
-        'Cannot permanently delete a church that has Super Admin users. Super Admins must be transferred to another church or their role changed before deletion.'
-      );
+      throw new BadRequestException({
+        message: 'Cannot permanently delete a church that has Super Admin users. Super Admins must be transferred to another church or their role changed before deletion.',
+        translationKey: 'errors.church.cannot_delete_with_super_admins'
+      });
     }
 
     // Check if this is the last active church in the system
@@ -322,9 +351,10 @@ export class ChurchService {
     });
 
     if (activeChurchCount <= 1) {
-      throw new BadRequestException(
-        'Cannot delete the last church in the system. At least one church must remain active.'
-      );
+      throw new BadRequestException({
+        message: 'Cannot delete the last church in the system. At least one church must remain active.',
+        translationKey: 'errors.church.cannot_delete_last_church'
+      });
     }
 
     try {
@@ -332,7 +362,10 @@ export class ChurchService {
         where: { id }
       });
     } catch (error) {
-      throw new BadRequestException(`Failed to permanently delete church: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to permanently delete church: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.church.delete_failed'
+      });
     }
   }
 
@@ -349,7 +382,10 @@ export class ChurchService {
     });
 
     if (existingSettings) {
-      throw new BadRequestException(`Settings for church "${createSettingsDto.churchId}" already exist`);
+      throw new BadRequestException({
+        message: `Settings for church "${createSettingsDto.churchId}" already exist`,
+        translationKey: 'errors.church.settings_already_exist'
+      });
     }
 
     try {
@@ -372,7 +408,10 @@ export class ChurchService {
 
       return settings;
     } catch (error) {
-      throw new BadRequestException(`Failed to create church settings: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to create church settings: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.church.settings_create_failed'
+      });
     }
   }
 
@@ -389,7 +428,10 @@ export class ChurchService {
     });
 
     if (!existingSettings) {
-      throw new NotFoundException(`Settings for church "${churchId}" not found`);
+      throw new NotFoundException({
+        message: `Settings for church "${churchId}" not found`,
+        translationKey: 'errors.church.settings_not_found'
+      });
     }
 
     try {
@@ -403,7 +445,10 @@ export class ChurchService {
 
       return settings;
     } catch (error) {
-      throw new BadRequestException(`Failed to update church settings: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to update church settings: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.church.settings_update_failed'
+      });
     }
   }
 
@@ -422,7 +467,10 @@ export class ChurchService {
     });
 
     if (!settings) {
-      throw new NotFoundException(`Settings for church "${churchId}" not found`);
+      throw new NotFoundException({
+        message: `Settings for church "${churchId}" not found`,
+        translationKey: 'errors.church.settings_not_found'
+      });
     }
 
     return settings;
@@ -435,7 +483,10 @@ export class ChurchService {
     // Verify destination church exists and is active
     const destinationChurch = await this.findOne(toChurchId);
     if (!destinationChurch.isActive) {
-      throw new BadRequestException('Cannot transfer Super Admins to an inactive church');
+      throw new BadRequestException({
+        message: 'Cannot transfer Super Admins to an inactive church',
+        translationKey: 'errors.church.cannot_transfer_to_inactive_church'
+      });
     }
 
     // Get all Super Admin users from source church

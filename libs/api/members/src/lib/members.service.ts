@@ -18,7 +18,10 @@ export class MembersService {
       });
       return member;
     } catch (error) {
-      throw new BadRequestException(`Failed to create member: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to create member: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.member.create_failed'
+      });
     }
   }
 
@@ -56,7 +59,10 @@ export class MembersService {
     });
 
     if (!member) {
-      throw new NotFoundException(`Member with ID "${id}" not found`);
+      throw new NotFoundException({
+        message: `Member with ID "${id}" not found`,
+        translationKey: 'errors.member.not_found'
+      });
     }
 
     return member;
@@ -73,7 +79,10 @@ export class MembersService {
       });
       return member;
     } catch (error) {
-      throw new BadRequestException(`Failed to update member: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to update member: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.member.update_failed'
+      });
     }
   }
 
@@ -88,7 +97,10 @@ export class MembersService {
       });
       return member;
     } catch (error) {
-      throw new BadRequestException(`Failed to delete member: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to delete member: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.member.delete_failed'
+      });
     }
   }
 
@@ -101,7 +113,10 @@ export class MembersService {
         where: { id },
       });
     } catch (error) {
-      throw new BadRequestException(`Failed to permanently delete member: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to permanently delete member: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.member.delete_failed'
+      });
     }
   }
 }

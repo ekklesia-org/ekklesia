@@ -19,7 +19,10 @@ export class UsersService {
     });
 
     if (existingUser) {
-      throw new BadRequestException(`User with email "${createUserDto.email}" already exists`);
+      throw new BadRequestException({
+        message: `User with email "${createUserDto.email}" already exists`,
+        translationKey: 'errors.user.email_already_exists'
+      });
     }
 
     // Hash password
@@ -42,7 +45,10 @@ export class UsersService {
       const { password, ...userWithoutPassword } = user;
       return { ...userWithoutPassword } as unknown as User;
     } catch (error) {
-      throw new BadRequestException(`Failed to create user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to create user: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.create_failed'
+      });
     }
   }
 
@@ -115,7 +121,10 @@ export class UsersService {
         totalPages: Math.ceil(total / limit),
       };
     } catch (error) {
-      throw new BadRequestException(`Failed to fetch users: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to fetch users: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.fetch_failed'
+      });
     }
   }
 
@@ -146,7 +155,10 @@ export class UsersService {
       });
       
       if (!user) {
-        throw new NotFoundException(`User with ID "${id}" not found`);
+        throw new NotFoundException({
+          message: `User with ID "${id}" not found`,
+          translationKey: 'errors.user.not_found'
+        });
       }
       
       return user;
@@ -154,7 +166,10 @@ export class UsersService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      throw new BadRequestException(`Failed to fetch user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to fetch user: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.fetch_failed'
+      });
     }
   }
 
@@ -197,7 +212,10 @@ export class UsersService {
       });
       
       if (!user) {
-        throw new NotFoundException(`User with email "${email}" not found`);
+        throw new NotFoundException({
+          message: `User with email "${email}" not found`,
+          translationKey: 'errors.user.not_found'
+        });
       }
       
       return user;
@@ -205,7 +223,10 @@ export class UsersService {
       if (error instanceof NotFoundException) {
         throw error;
       }
-      throw new BadRequestException(`Failed to fetch user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to fetch user: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.fetch_failed'
+      });
     }
   }
 
@@ -219,7 +240,10 @@ export class UsersService {
         data: updateUserDto,
       });
     } catch (error) {
-      throw new BadRequestException(`Failed to update user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to update user: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.update_failed'
+      });
     }
   }
 
@@ -233,7 +257,10 @@ export class UsersService {
     // Verify current password
     const isCurrentPasswordValid = await bcrypt.compare(updatePasswordDto.currentPassword, user.password);
     if (!isCurrentPasswordValid) {
-      throw new BadRequestException('Current password is incorrect');
+      throw new BadRequestException({
+        message: 'Current password is incorrect',
+        translationKey: 'errors.user.current_password_incorrect'
+      });
     }
 
     // Hash new password
@@ -250,7 +277,10 @@ export class UsersService {
       
       return { message: 'Password updated successfully' };
     } catch (error) {
-      throw new BadRequestException(`Failed to update password: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to update password: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.password_update_failed'
+      });
     }
   }
 
@@ -265,7 +295,10 @@ export class UsersService {
       });
       return user;
     } catch (error) {
-      throw new BadRequestException(`Failed to remove user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to remove user: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.remove_failed'
+      });
     }
   }
 
@@ -278,7 +311,10 @@ export class UsersService {
         where: { id },
       });
     } catch (error) {
-      throw new BadRequestException(`Failed to delete user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to delete user: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.delete_failed'
+      });
     }
   }
 
@@ -292,7 +328,10 @@ export class UsersService {
         data: { isActive: true },
       });
     } catch (error) {
-      throw new BadRequestException(`Failed to activate user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to activate user: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.activate_failed'
+      });
     }
   }
 
@@ -306,7 +345,10 @@ export class UsersService {
         data: { isActive: false },
       });
     } catch (error) {
-      throw new BadRequestException(`Failed to deactivate user: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to deactivate user: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.deactivate_failed'
+      });
     }
   }
 
@@ -320,7 +362,10 @@ export class UsersService {
         data: { role },
       });
     } catch (error) {
-      throw new BadRequestException(`Failed to update user role: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to update user role: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.role_update_failed'
+      });
     }
   }
 
@@ -349,7 +394,10 @@ export class UsersService {
         totalPages: Math.ceil(total / limit),
       };
     } catch (error) {
-      throw new BadRequestException(`Failed to fetch users by church: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new BadRequestException({
+        message: `Failed to fetch users by church: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.fetch_by_church_failed'
+      });
     }
   }
 }
