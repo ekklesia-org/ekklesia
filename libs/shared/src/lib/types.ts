@@ -159,3 +159,180 @@ export interface PaginatedResponse<T> {
 export interface MessageResponse {
   message: string;
 }
+
+// ===== DTO INTERFACES =====
+// These interfaces define the structure of DTOs that can be shared between client and server
+// Backend implements these as classes with validation decorators
+
+// Auth DTOs
+export interface ILoginDto {
+  email: string;
+  password: string;
+}
+
+export interface IRegisterDto {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  churchId?: string;
+}
+
+export interface IAuthResponseDto {
+  access_token: string;
+  user: {
+    id: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    role: string;
+    churchId?: string;
+  };
+}
+
+export interface IUserProfileDto {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  role: string;
+  churchId: string | null;
+  isActive: boolean;
+  lastLogin: Date | null;
+}
+
+export interface ITokenVerificationDto {
+  valid: boolean;
+  userId: string;
+  username: string;
+}
+
+// Setup DTO
+export interface ISetupDto {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  churchName: string;
+}
+
+// User DTOs
+export interface ICreateUserDto {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  avatar?: string;
+  isActive?: boolean;
+  role: any; // UserRole enum (backend will type this properly)
+  churchId?: string;
+}
+
+export interface IUpdateUserDto {
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  avatar?: string;
+  isActive?: boolean;
+  role?: any; // UserRole enum (backend will type this properly)
+  churchId?: string;
+}
+
+export interface IUpdateUserPasswordDto {
+  currentPassword: string;
+  newPassword: string;
+}
+
+// Church DTOs
+export interface ICreateChurchDto {
+  name: string;
+  slug?: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  website?: string;
+  logoUrl?: string;
+  taxId?: string;
+  isActive?: boolean;
+}
+
+export interface IUpdateChurchDto {
+  name?: string;
+  slug?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  website?: string;
+  logoUrl?: string;
+  taxId?: string;
+  isActive?: boolean;
+}
+
+export interface IChurchSettingsDto {
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  website?: string;
+  logoUrl?: string;
+  taxId?: string;
+}
+
+// Member DTOs
+export interface ICreateMemberDto {
+  churchId: string;
+  firstName: string;
+  lastName: string;
+  email?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  cpf?: string;
+  rg?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  status?: any; // MemberStatus enum (backend will type this properly)
+  maritalStatus?: any; // MaritalStatus enum (backend will type this properly)
+  baptismDate?: string;
+  memberSince?: string;
+  spouseId?: string;
+  profession?: string;
+  notes?: string;
+  photoUrl?: string;
+  userId?: string;
+}
+
+export interface IUpdateMemberDto {
+  firstName?: string;
+  lastName?: string;
+  email?: string;
+  phone?: string;
+  dateOfBirth?: string;
+  cpf?: string;
+  rg?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  status?: any; // MemberStatus enum (backend will type this properly)
+  maritalStatus?: any; // MaritalStatus enum (backend will type this properly)
+  baptismDate?: string;
+  memberSince?: string;
+  spouseId?: string;
+  profession?: string;
+  notes?: string;
+  photoUrl?: string;
+  userId?: string;
+}

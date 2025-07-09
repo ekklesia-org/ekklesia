@@ -23,6 +23,7 @@
       "@ekklesia/database/*": ["libs/database/src/*"],
       "@ekklesia/prisma": ["generated/prisma"],
       "@ekklesia/shared-utils/*": ["libs/shared-utils/src/*"],
+      "@ekklesia/shared": ["libs/shared/src/index.ts"],
       "@ekklesia/shared/*": ["libs/shared/src/*"],
       "@ekklesia/translations": ["libs/translations/src/index.ts"],
       "@ekklesia/ui": ["libs/ui/src/index.ts"],
