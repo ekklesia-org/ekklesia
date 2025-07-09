@@ -106,6 +106,29 @@ export class ChurchController {
   getSettings(@Param('churchId') churchId: string) {
     return this.churchService.getSettings(churchId);
   }
+
+  @Post(':fromChurchId/transfer-super-admins/:toChurchId')
+  @ApiOperation({ summary: 'Transfer Super Admin users from one church to another' })
+  @ApiParam({ name: 'fromChurchId', description: 'ID of the source church' })
+  @ApiParam({ name: 'toChurchId', description: 'ID of the destination church' })
+  @ApiResponse({ status: 200, description: 'Super Admins transferred successfully' })
+  @ApiResponse({ status: 400, description: 'Bad Request.' })
+  @ApiResponse({ status: 404, description: 'Church not found.' })
+  async transferSuperAdmins(
+    @Param('fromChurchId') fromChurchId: string,
+    @Param('toChurchId') toChurchId: string
+  ) {
+    await this.churchService.transferSuperAdmins(fromChurchId, toChurchId);
+    return { message: 'Super Admin users transferred successfully' };
+  }
+
+  @Get(':churchId/transfer-options')
+  @ApiOperation({ summary: 'Get available churches for Super Admin transfer' })
+  @ApiParam({ name: 'churchId', description: 'ID of the church to exclude from options' })
+  @ApiResponse({ status: 200, description: 'Success' })
+  getTransferOptions(@Param('churchId') churchId: string) {
+    return this.churchService.getChurchesForTransfer(churchId);
+  }
 }
 
 // NOTE: Ensure imports correctly match your project structure and modules.

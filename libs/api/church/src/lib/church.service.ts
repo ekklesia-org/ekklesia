@@ -253,6 +253,21 @@ export class ChurchService {
    * Delete a church (soft delete by setting isActive to false)
    */
   async remove(id: string): Promise<Church & { userCount: number }> {
+    // Check if church has Super Admin users
+    const superAdmins = await this.prisma.user.findMany({
+      where: {
+        churchId: id,
+        role: 'SUPER_ADMIN',
+        isActive: true
+      }
+    });
+
+    if (superAdmins.length > 0) {
+      throw new BadRequestException(
+        'Cannot delete a church that has Super Admin users. Super Admins must be transferred to another church or their role changed before deletion.'
+      );
+    }
+
     try {
       const church = await this.prisma.church.update({
         where: { id },
@@ -286,6 +301,32 @@ export class ChurchService {
    * Permanently delete a church
    */
   async hardDelete(id: string): Promise<void> {
+    // Check if church has Super Admin users
+    const superAdmins = await this.prisma.user.findMany({
+      where: {
+        churchId: id,
+        role: 'SUPER_ADMIN',
+        isActive: true
+      }
+    });
+
+    if (superAdmins.length > 0) {
+      throw new BadRequestException(
+        'Cannot permanently delete a church that has Super Admin users. Super Admins must be transferred to another church or their role changed before deletion.'
+      );
+    }
+
+    // Check if this is the last active church in the system
+    const activeChurchCount = await this.prisma.church.count({
+      where: { isActive: true }
+    });
+
+    if (activeChurchCount <= 1) {
+      throw new BadRequestException(
+        'Cannot delete the last church in the system. At least one church must remain active.'
+      );
+    }
+
     try {
       await this.prisma.church.delete({
         where: { id }
@@ -385,6 +426,57 @@ export class ChurchService {
     }
 
     return settings;
+  }
+
+  /**
+   * Transfer Super Admin users to another church
+   */
+  async transferSuperAdmins(fromChurchId: string, toChurchId: string): Promise<void> {
+    // Verify destination church exists and is active
+    const destinationChurch = await this.findOne(toChurchId);
+    if (!destinationChurch.isActive) {
+      throw new BadRequestException('Cannot transfer Super Admins to an inactive church');
+    }
+
+    // Get all Super Admin users from source church
+    const superAdmins = await this.prisma.user.findMany({
+      where: {
+        churchId: fromChurchId,
+        role: 'SUPER_ADMIN',
+        isActive: true
+      }
+    });
+
+    if (superAdmins.length === 0) {
+      return; // No Super Admins to transfer
+    }
+
+    // Transfer all Super Admins to the destination church
+    await this.prisma.user.updateMany({
+      where: {
+        churchId: fromChurchId,
+        role: 'SUPER_ADMIN',
+        isActive: true
+      },
+      data: {
+        churchId: toChurchId
+      }
+    });
+  }
+
+  /**
+   * Get churches that can receive Super Admin transfers
+   */
+  async getChurchesForTransfer(excludeChurchId: string): Promise<Church[]> {
+    return await this.prisma.church.findMany({
+      where: {
+        id: { not: excludeChurchId },
+        isActive: true
+      },
+      orderBy: {
+        name: 'asc'
+      }
+    });
   }
 
   /**
