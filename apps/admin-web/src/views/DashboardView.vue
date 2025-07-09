@@ -185,6 +185,7 @@
 <script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useAuth } from '../stores/auth';
 import {
   AppStatsCard,
@@ -210,6 +211,7 @@ import {
 } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
+const router = useRouter();
 const auth = useAuth();
 
 // Dashboard data
@@ -252,33 +254,27 @@ const loadDashboardData = async () => {
 };
 
 const addMember = () => {
-  // Navigate to add member page
-  console.log('Add member clicked');
+  router.push('/members');
 };
 
 const createEvent = () => {
-  // Navigate to create event page
-  console.log('Create event clicked');
+  router.push('/events');
 };
 
 const newAnnouncement = () => {
-  // Navigate to new announcement page
-  console.log('New announcement clicked');
+  router.push('/announcements');
 };
 
 // Super Admin actions
 const createChurch = () => {
-  // Navigate to create church page
-  console.log('Create church clicked');
+  router.push('/churches');
 };
 
 const manageUsers = () => {
-  // Navigate to manage users page
-  console.log('Manage users clicked');
+  router.push('/users');
 };
 
 const systemSettings = () => {
-  // Navigate to system settings page
-  console.log('System settings clicked');
+  router.push('/church-settings');
 };
 </script>

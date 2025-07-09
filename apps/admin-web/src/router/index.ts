@@ -5,6 +5,8 @@ import DashboardView from '../views/DashboardView.vue';
 import SetupView from '../views/SetupView.vue';
 import ErrorView from '../views/ErrorView.vue';
 import ChurchManagerView from '../views/ChurchManagerView.vue';
+import ComingSoonView from '../views/ComingSoonView.vue';
+import NotFoundView from '../views/NotFoundView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -43,6 +45,68 @@ const router = createRouter({
       component: ChurchManagerView,
       meta: { requiresAuth: true }
     },
+    {
+      path: '/coming-soon',
+      name: 'coming-soon',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    // Routes that redirect to coming soon page
+    {
+      path: '/members',
+      name: 'members',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/events',
+      name: 'events',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/finances',
+      name: 'finances',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/announcements',
+      name: 'announcements',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/users',
+      name: 'users',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/church-settings',
+      name: 'church-settings',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/statistics',
+      name: 'statistics',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/reports',
+      name: 'reports',
+      component: ComingSoonView,
+      meta: { requiresAuth: true }
+    },
+    // 404 catch-all route - must be last
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: NotFoundView,
+      meta: { allowAll: true }
+    },
   ],
 });
 
@@ -50,8 +114,8 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
 
-  // Skip status check for error page
-  if (to.path === '/error') {
+  // Skip status check for error page and 404 page
+  if (to.path === '/error' || to.name === 'not-found') {
     next();
     return;
   }

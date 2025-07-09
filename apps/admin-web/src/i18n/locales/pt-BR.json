@@ -201,5 +201,97 @@
     "cancel": "Cancelar",
     "create": "Criar",
     "update": "Atualizar"
+  },
+  "coming_soon": {
+    "title": "Em Desenvolvimento",
+    "subtitle": "Esta funcionalidade está sendo desenvolvida",
+    "main_title": "Funcionalidade em Desenvolvimento",
+    "description": "Esta funcionalidade ainda está sendo desenvolvida pela nossa equipe. Em breve ela estará disponível para uso.",
+    "status": "Em desenvolvimento ativo",
+    "back_to_dashboard": "Voltar ao Painel",
+    "features": {
+      "members": {
+        "title": "Gerenciamento de Membros",
+        "description": "Cadastro e gerenciamento completo de membros da igreja"
+      },
+      "events": {
+        "title": "Eventos",
+        "description": "Criação e gerenciamento de eventos e cultos"
+      },
+      "finances": {
+        "title": "Controle Financeiro",
+        "description": "Gestão de dízimos, ofertas e despesas da igreja"
+      },
+      "announcements": {
+        "title": "Anúncios",
+        "description": "Sistema de comunicação interna da igreja"
+      },
+      "users": {
+        "title": "Usuários",
+        "description": "Gerenciamento de usuários e permissões"
+      },
+      "settings": {
+        "title": "Configurações",
+        "description": "Configurações específicas da igreja"
+      },
+      "statistics": {
+        "title": "Estatísticas",
+        "description": "Relatórios e métricas da igreja"
+      },
+      "reports": {
+        "title": "Relatórios",
+        "description": "Relatórios detalhados e exportação de dados"
+      }
+    },
+    "timeline": {
+      "title": "Cronograma de Desenvolvimento",
+      "status": {
+        "completed": "Concluído",
+        "in_progress": "Em andamento",
+        "planned": "Planejado"
+      },
+      "phase1": {
+        "title": "Fase 1 - Fundação",
+        "description": "Sistema base com autenticação e gerenciamento de igrejas",
+        "features": "Autenticação, Setup inicial, Gerenciamento de igrejas"
+      },
+      "phase2": {
+        "title": "Fase 2 - Gestão de Membros",
+        "description": "Implementação do módulo de membros e usuários",
+        "features": "Cadastro de membros, Gerenciamento de usuários, Permissões"
+      },
+      "phase3": {
+        "title": "Fase 3 - Eventos e Finanças",
+        "description": "Módulos de eventos e controle financeiro",
+        "features": "Eventos, Cultos, Dízimos, Ofertas, Despesas"
+      },
+      "phase4": {
+        "title": "Fase 4 - Comunicação e Relatórios",
+        "description": "Sistema de comunicação e relatórios avançados",
+        "features": "Anúncios, Notificações, Relatórios, Estatísticas"
+      }
+    }
+  },
+  "not_found": {
+    "title": "Página Não Encontrada",
+    "description": "A página que você está procurando não foi encontrada ou não existe.",
+    "requested_url": "URL Solicitada",
+    "status": "Página não encontrada",
+    "suggestions": {
+      "title": "Sugestões",
+      "check_url": "Verifique se a URL digitada está correta",
+      "use_navigation": "Use o menu de navegação para encontrar o que precisa",
+      "contact_admin": "Entre em contato com o administrador se o problema persistir"
+    },
+    "quick_links": {
+      "title": "Links Rápidos",
+      "dashboard": "Painel de Controle",
+      "churches": "Gerenciar Igrejas",
+      "coming_soon": "Funcionalidades em Desenvolvimento"
+    },
+    "actions": {
+      "go_back": "Voltar",
+      "go_home": "Ir para o Painel"
+    }
   }
 }
