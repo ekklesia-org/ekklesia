@@ -8,180 +8,21 @@
 
     <nav class="sidebar-nav">
       <ul class="nav-list">
-        <!-- Dashboard - Always visible -->
-        <li class="nav-item">
-          <router-link
-            to="/dashboard"
-            class="nav-link"
-            :class="{ active: isActive('/dashboard') }"
-          >
-            <component
-              :is="DashboardIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.dashboard || 'Dashboard' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Super Admin Only - Church Management -->
-        <li
-          v-if="isSuperAdmin"
+        <li 
+          v-for="item in menuItems" 
+          :key="item.id"
           class="nav-item"
         >
           <router-link
-            to="/churches"
+            :to="item.to"
             class="nav-link"
-            :class="{ active: isActive('/churches') }"
+            :class="{ active: isActive(item.to) }"
           >
             <component
-              :is="BuildingOfficeIcon"
+              :is="item.icon"
               class="nav-icon"
             />
-            <span class="nav-text">{{ translations?.churches || 'Churches' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Super Admin Only - Global Statistics -->
-        <li
-          v-if="isSuperAdmin"
-          class="nav-item"
-        >
-          <router-link
-            to="/statistics"
-            class="nav-link"
-            :class="{ active: isActive('/statistics') }"
-          >
-            <component
-              :is="ChartBarIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.statistics || 'Statistics' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Church Admin and up - Members Management -->
-        <li
-          v-if="canManageMembers"
-          class="nav-item"
-        >
-          <router-link
-            to="/members"
-            class="nav-link"
-            :class="{ active: isActive('/members') }"
-          >
-            <component
-              :is="UsersIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.members || 'Members' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Church Admin and up - Events Management -->
-        <li
-          v-if="canManageEvents"
-          class="nav-item"
-        >
-          <router-link
-            to="/events"
-            class="nav-link"
-            :class="{ active: isActive('/events') }"
-          >
-            <component
-              :is="CalendarIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.events || 'Events' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Pastor, Treasurer, Church Admin - Financial Management -->
-        <li
-          v-if="canManageFinances"
-          class="nav-item"
-        >
-          <router-link
-            to="/finances"
-            class="nav-link"
-            :class="{ active: isActive('/finances') }"
-          >
-            <component
-              :is="CurrencyDollarIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.finances || 'Finances' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Church Admin and up - Announcements -->
-        <li
-          v-if="canManageAnnouncements"
-          class="nav-item"
-        >
-          <router-link
-            to="/announcements"
-            class="nav-link"
-            :class="{ active: isActive('/announcements') }"
-          >
-            <component
-              :is="SpeakerWaveIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.announcements || 'Announcements' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Church Admin and up - User Management -->
-        <li
-          v-if="canManageUsers"
-          class="nav-item"
-        >
-          <router-link
-            to="/users"
-            class="nav-link"
-            :class="{ active: isActive('/users') }"
-          >
-            <component
-              :is="UserGroupIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.users || 'Users' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Church Admin only - Church Settings -->
-        <li
-          v-if="isChurchAdmin"
-          class="nav-item"
-        >
-          <router-link
-            to="/church-settings"
-            class="nav-link"
-            :class="{ active: isActive('/church-settings') }"
-          >
-            <component
-              :is="CogIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.church_settings || 'Church Settings' }}</span>
-          </router-link>
-        </li>
-
-        <!-- Reports - For authorized roles -->
-        <li
-          v-if="canViewReports"
-          class="nav-item"
-        >
-          <router-link
-            to="/reports"
-            class="nav-link"
-            :class="{ active: isActive('/reports') }"
-          >
-            <component
-              :is="DocumentChartBarIcon"
-              class="nav-icon"
-            />
-            <span class="nav-text">{{ translations?.reports || 'Reports' }}</span>
+            <span class="nav-text">{{ item.label }}</span>
           </router-link>
         </li>
       </ul>
@@ -190,78 +31,26 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { UserRole, User } from '@ekklesia/shared';
-import {
-  HomeIcon as DashboardIcon,
-  BuildingOfficeIcon,
-  ChartBarIcon,
-  UsersIcon,
-  CalendarIcon,
-  CurrencyDollarIcon,
-  SpeakerWaveIcon,
-  UserGroupIcon,
-  CogIcon,
-  DocumentChartBarIcon,
-} from '@heroicons/vue/24/outline';
+import type { Component } from 'vue';
+
+export interface MenuItem {
+  id: string;
+  label: string;
+  to: string;
+  icon: Component;
+}
 
 interface Props {
   title?: string;
-  user?: User | null;
-  translations?: {
-    dashboard?: string;
-    churches?: string;
-    statistics?: string;
-    members?: string;
-    events?: string;
-    finances?: string;
-    announcements?: string;
-    users?: string;
-    church_settings?: string;
-    reports?: string;
-  };
+  menuItems: MenuItem[];
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  title: 'Ekklesia Admin',
-  user: null,
-  translations: () => ({}),
+  title: 'Ekklesia',
 });
 
 const route = useRoute();
-
-// Role-based permissions
-const isSuperAdmin = computed(() => props.user?.role === UserRole.SUPER_ADMIN);
-const isChurchAdmin = computed(() => props.user?.role === UserRole.CHURCH_ADMIN);
-const isPastor = computed(() => props.user?.role === UserRole.PASTOR);
-const isTreasurer = computed(() => props.user?.role === UserRole.TREASURER);
-const isSecretary = computed(() => props.user?.role === UserRole.SECRETARY);
-
-// Permission checks
-const canManageMembers = computed(() =>
-  isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isSecretary.value
-);
-
-const canManageEvents = computed(() =>
-  isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isSecretary.value
-);
-
-const canManageFinances = computed(() =>
-  isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isTreasurer.value
-);
-
-const canManageAnnouncements = computed(() =>
-  isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isSecretary.value
-);
-
-const canManageUsers = computed(() =>
-  isSuperAdmin.value || isChurchAdmin.value
-);
-
-const canViewReports = computed(() =>
-  isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isTreasurer.value
-);
 
 // Check if current route is active
 const isActive = (path: string) => {

@@ -51,7 +51,7 @@ export interface AuthError {
 export interface RequestParams {
   headers?: { [key: string]: string };
   query?: { [key: string]: string | number };
-  body?: any;
+  body?: Record<string, unknown>; // Use um tipo genérico mais detalhado
 }
 
 // Church Entity (for super admin management)

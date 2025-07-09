@@ -1,11 +1,11 @@
 <template>
-  <div class="admin-layout">
+  <div class="client-layout">
     <!-- Sidebar -->
-    <AppSidebar
+    <AppSidebar 
       :title="$t('app.title')"
       :menu-items="menuItems"
     />
-
+    
     <!-- Main Content Area -->
     <div class="main-content">
       <!-- Header -->
@@ -16,6 +16,7 @@
       >
         <template #userActions>
           <AppButton
+            v-if="user"
             variant="danger"
             size="sm"
             @click="logout"
@@ -24,6 +25,17 @@
               <ArrowRightOnRectangleIcon class="h-4 w-4" />
             </template>
             {{ $t('auth.logout') }}
+          </AppButton>
+          <AppButton
+            v-else
+            variant="primary"
+            size="sm"
+            @click="login"
+          >
+            <template #icon>
+              <ArrowRightOnRectangleIcon class="h-4 w-4" />
+            </template>
+            {{ $t('auth.login') }}
           </AppButton>
         </template>
       </AppHeader>
@@ -38,10 +50,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useAuth } from '../stores/auth';
+import { useRouter } from 'vue-router';
 import { AppSidebar, AppHeader, AppButton } from '@ekklesia/ui';
 import { ArrowRightOnRectangleIcon } from '@heroicons/vue/24/outline';
-import { useAdminMenu } from '../composables/useAdminMenu';
+import { useClientMenu } from '../composables/useClientMenu';
 
 interface Props {
   title?: string;
@@ -53,22 +65,28 @@ const props = withDefaults(defineProps<Props>(), {
   subtitle: '',
 });
 
-const auth = useAuth();
+const router = useRouter();
 
-const user = computed(() => auth.user || undefined);
+// Mock user - in real app this would come from auth store
+const user = computed(() => null); // or auth.user
 const pageTitle = computed(() => props.title || '');
 const pageSubtitle = computed(() => props.subtitle || '');
 
 // Generate menu items based on user role
-const { menuItems } = useAdminMenu(user.value ?? null);
+const { menuItems } = useClientMenu(user.value);
 
 const logout = () => {
-  auth.logoutAndRedirect();
+  // Handle logout logic
+  console.log('Logout clicked');
+};
+
+const login = () => {
+  router.push('/login');
 };
 </script>
 
 <style scoped>
-.admin-layout {
+.client-layout {
   display: flex;
   height: 100vh;
   background-color: #f9fafb; /* bg-gray-50 */

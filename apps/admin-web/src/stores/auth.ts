@@ -130,10 +130,10 @@ export const useAuthStore = defineStore('auth', () => {
       return response.data;
     } catch (err) {
       console.error('Failed to check system status:', err);
-      
+
       // Create a more descriptive error to throw
       let errorMessage = 'Server is not responding';
-      
+
       if (axios.isAxiosError(err)) {
         if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
           errorMessage = 'Cannot connect to server';
@@ -145,7 +145,7 @@ export const useAuthStore = defineStore('auth', () => {
           errorMessage = err.response.data.message;
         }
       }
-      
+
       // Throw the error so it can be caught by the router
       const serverError = new Error(errorMessage);
       serverError.name = 'ServerError';
