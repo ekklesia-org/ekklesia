@@ -22,16 +22,13 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Super Admin Tenant Management -->
-      <div
-        v-if="isSuperAdmin"
-        class="mb-8"
-      >
-        <AppCard :title="$t('tenants.title')">
+      <!-- Super Admin Church Management -->
+      <div v-if="isSuperAdmin" class="mb-8">
+        <AppCard :title="$t('churches.title')">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <AppStatsCard
-              :title="$t('tenants.active_tenants')"
-              :value="tenantCount"
+              :title="$t('churches.active_churches')"
+              :value="churchCount"
               color="indigo"
             >
               <template #icon>
@@ -40,8 +37,8 @@
             </AppStatsCard>
 
             <AppStatsCard
-              :title="$t('tenants.total_users')"
-              :value="totalTenantUsers"
+              :title="$t('churches.total_users')"
+              :value="totalChurchUsers"
               color="blue"
             >
               <template #icon>
@@ -60,7 +57,7 @@
             </AppStatsCard>
           </div>
 
-          <TenantManagement />
+          <ChurchManagement />
         </AppCard>
       </div>
 
@@ -166,8 +163,8 @@ import {
   AppButton,
 } from '@ekklesia/ui';
 import { UserRole } from '@ekklesia/shared';
-import TenantManagement from '../components/TenantManagement.vue';
-import { useTenantService } from '../composables/useTenantService';
+import ChurchManagement from '../components/ChurchManagement.vue';
+import { useChurchService } from '../composables/useChurchService';
 
 // Heroicons
 import {
@@ -195,10 +192,10 @@ const announcementCount = ref(0);
 const user = computed(() => auth.user || undefined);
 const isSuperAdmin = computed(() => user.value?.role === UserRole.SUPER_ADMIN);
 
-// Tenant service for super admin
-const { tenants, activeTenants, totalUsers, loadTenants } = useTenantService();
-const tenantCount = computed(() => activeTenants.value.length);
-const totalTenantUsers = computed(() => totalUsers.value);
+// Church service for super admin
+const { churches, activeChurches, totalUsers, loadChurches } = useChurchService();
+const churchCount = computed(() => activeChurches.value.length);
+const totalChurchUsers = computed(() => totalUsers.value);
 
 onMounted(() => {
   // Load dashboard data (mock data for now)
@@ -214,7 +211,7 @@ const loadDashboardData = async () => {
 
   // Super admin specific data
   if (isSuperAdmin.value) {
-    await loadTenants();
+    await loadChurches();
   }
 };
 

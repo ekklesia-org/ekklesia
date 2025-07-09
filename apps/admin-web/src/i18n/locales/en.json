@@ -78,18 +78,18 @@
       "integrations": "Integrations"
     }
   },
-  "tenants": {
-    "title": "Tenant Management",
-    "subtitle": "Manage church tenants and their settings",
-    "active_tenants": "Active Tenants",
+  "churches": {
+    "title": "Church Management",
+    "subtitle": "Manage churches and their settings",
+    "active_churches": "Active Churches",
     "total_users": "Total Users",
-    "add_tenant": "Add New Tenant",
-    "edit_tenant": "Edit Tenant",
-    "view_tenant": "View Tenant Details",
+    "add_church": "Add New Church",
+    "edit_church": "Edit Church",
+    "view_church": "View Church Details",
     "manage_users": "Manage Users",
-    "tenant_settings": "Tenant Settings",
-    "create_tenant": {
-      "title": "Create New Tenant",
+    "church_settings": "Church Settings",
+    "create_church": {
+      "title": "Create New Church",
       "church_info": "Church Information",
       "admin_info": "Admin User Information",
       "church_name": "Church Name",
@@ -103,7 +103,7 @@
       "admin_last_name": "Admin Last Name",
       "admin_email": "Admin Email",
       "admin_password": "Admin Password",
-      "create_button": "Create Tenant",
+      "create_button": "Create Church",
       "cancel_button": "Cancel"
     },
     "list": {

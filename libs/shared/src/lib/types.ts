@@ -52,8 +52,8 @@ export interface RequestParams {
   body?: any;
 }
 
-// Tenant/Church Entity (for super admin management)
-export interface Tenant {
+// Church Entity (for super admin management)
+export interface Church {
   id: string;
   name: string;
   slug: string;
@@ -71,8 +71,8 @@ export interface Tenant {
   updatedAt: Date;
 }
 
-// Tenant creation request
-export interface CreateTenantRequest {
+// Church creation request
+export interface CreateChurchRequest {
   // Church information
   churchName: string;
   churchEmail: string;
@@ -88,8 +88,8 @@ export interface CreateTenantRequest {
   adminPassword: string;
 }
 
-// Tenant update request
-export interface UpdateTenantRequest {
+// Church update request
+export interface UpdateChurchRequest {
   name?: string;
   email?: string;
   phone?: string;

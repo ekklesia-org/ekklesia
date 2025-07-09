@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router';
+import { AppToastContainer } from '@ekklesia/ui';
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import { RouterLink, RouterView } from 'vue-router';
     </nav>
   </header>
   <RouterView />
+  <AppToastContainer />
 </template>
 
 <style scoped lang="scss">

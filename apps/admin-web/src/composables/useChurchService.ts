@@ -1,13 +1,13 @@
 import { ref, computed } from 'vue';
-import { Tenant, CreateTenantRequest, UpdateTenantRequest } from '@ekklesia/shared';
+import { Church, CreateChurchRequest, UpdateChurchRequest } from '@ekklesia/shared';
 
-export const useTenantService = () => {
-  const tenants = ref<Tenant[]>([]);
+export const useChurchService = () => {
+  const churches = ref<Church[]>([]);
   const loading = ref(false);
   const error = ref<string>('');
 
   // Mock data for development
-  const mockTenants: Tenant[] = [
+  const mockChurches: Church[] = [
     {
       id: '1',
       name: 'Central Church',
@@ -55,26 +55,26 @@ export const useTenantService = () => {
     },
   ];
 
-  const activeTenants = computed(() => tenants.value.filter(t => t.isActive));
-  const totalUsers = computed(() => tenants.value.reduce((sum, t) => sum + (t.userCount || 0), 0));
+  const activeChurches = computed(() => churches.value.filter(c => c.isActive));
+  const totalUsers = computed(() => churches.value.reduce((sum, c) => sum + (c.userCount || 0), 0));
 
-  const loadTenants = async () => {
+  const loadChurches = async () => {
     loading.value = true;
     error.value = '';
 
     try {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 500));
-      tenants.value = mockTenants;
+      churches.value = mockChurches;
     } catch (err) {
-      error.value = 'Failed to load tenants';
-      console.error('Error loading tenants:', err);
+      error.value = 'Failed to load churches';
+      console.error('Error loading churches:', err);
     } finally {
       loading.value = false;
     }
   };
 
-  const createTenant = async (data: CreateTenantRequest): Promise<Tenant> => {
+  const createChurch = async (data: CreateChurchRequest): Promise<Church> => {
     loading.value = true;
     error.value = '';
 
@@ -82,7 +82,7 @@ export const useTenantService = () => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      const newTenant: Tenant = {
+      const newChurch: Church = {
         id: Date.now().toString(),
         name: data.churchName,
         slug: data.churchName.toLowerCase().replace(/\s+/g, '_'),
@@ -98,18 +98,18 @@ export const useTenantService = () => {
         updatedAt: new Date(),
       };
 
-      tenants.value.push(newTenant);
-      return newTenant;
+      churches.value.push(newChurch);
+      return newChurch;
     } catch (err) {
-      error.value = 'Failed to create tenant';
-      console.error('Error creating tenant:', err);
+      error.value = 'Failed to create church';
+      console.error('Error creating church:', err);
       throw err;
     } finally {
       loading.value = false;
     }
   };
 
-  const updateTenant = async (id: string, data: UpdateTenantRequest): Promise<Tenant> => {
+  const updateChurch = async (id: string, data: UpdateChurchRequest): Promise<Church> => {
     loading.value = true;
     error.value = '';
 
@@ -117,29 +117,29 @@ export const useTenantService = () => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const index = tenants.value.findIndex(t => t.id === id);
+      const index = churches.value.findIndex(c => c.id === id);
       if (index === -1) {
-        throw new Error('Tenant not found');
+        throw new Error('Church not found');
       }
 
-      const updatedTenant = {
-        ...tenants.value[index],
+      const updatedChurch = {
+        ...churches.value[index],
         ...data,
         updatedAt: new Date(),
       };
 
-      tenants.value[index] = updatedTenant;
-      return updatedTenant;
+      churches.value[index] = updatedChurch;
+      return updatedChurch;
     } catch (err) {
-      error.value = 'Failed to update tenant';
-      console.error('Error updating tenant:', err);
+      error.value = 'Failed to update church';
+      console.error('Error updating church:', err);
       throw err;
     } finally {
       loading.value = false;
     }
   };
 
-  const deleteTenant = async (id: string): Promise<void> => {
+  const deleteChurch = async (id: string): Promise<void> => {
     loading.value = true;
     error.value = '';
 
@@ -147,35 +147,35 @@ export const useTenantService = () => {
       // Simulate API call
       await new Promise(resolve => setTimeout(resolve, 500));
       
-      const index = tenants.value.findIndex(t => t.id === id);
+      const index = churches.value.findIndex(c => c.id === id);
       if (index === -1) {
-        throw new Error('Tenant not found');
+        throw new Error('Church not found');
       }
 
-      tenants.value.splice(index, 1);
+      churches.value.splice(index, 1);
     } catch (err) {
-      error.value = 'Failed to delete tenant';
-      console.error('Error deleting tenant:', err);
+      error.value = 'Failed to delete church';
+      console.error('Error deleting church:', err);
       throw err;
     } finally {
       loading.value = false;
     }
   };
 
-  const getTenantById = (id: string): Tenant | undefined => {
-    return tenants.value.find(t => t.id === id);
+  const getChurchById = (id: string): Church | undefined => {
+    return churches.value.find(c => c.id === id);
   };
 
   return {
-    tenants,
+    churches,
     loading,
     error,
-    activeTenants,
+    activeChurches,
     totalUsers,
-    loadTenants,
-    createTenant,
-    updateTenant,
-    deleteTenant,
-    getTenantById,
+    loadChurches,
+    createChurch,
+    updateChurch,
+    deleteChurch,
+    getChurchById,
   };
 };

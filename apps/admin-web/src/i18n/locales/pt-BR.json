@@ -78,18 +78,18 @@
       "integrations": "Integrações"
     }
   },
-  "tenants": {
-    "title": "Gerenciamento de Tenants",
-    "subtitle": "Gerencie tenants de igrejas e suas configurações",
-    "active_tenants": "Tenants Ativos",
+  "churches": {
+    "title": "Gerenciamento de Igrejas",
+    "subtitle": "Gerencie igrejas e suas configurações",
+    "active_churches": "Igrejas Ativas",
     "total_users": "Total de Usuários",
-    "add_tenant": "Adicionar Novo Tenant",
-    "edit_tenant": "Editar Tenant",
-    "view_tenant": "Ver Detalhes do Tenant",
+    "add_church": "Adicionar Nova Igreja",
+    "edit_church": "Editar Igreja",
+    "view_church": "Ver Detalhes da Igreja",
     "manage_users": "Gerenciar Usuários",
-    "tenant_settings": "Configurações do Tenant",
-    "create_tenant": {
-      "title": "Criar Novo Tenant",
+    "church_settings": "Configurações da Igreja",
+    "create_church": {
+      "title": "Criar Nova Igreja",
       "church_info": "Informações da Igreja",
       "admin_info": "Informações do Usuário Administrador",
       "church_name": "Nome da Igreja",
@@ -103,7 +103,7 @@
       "admin_last_name": "Sobrenome do Administrador",
       "admin_email": "E-mail do Administrador",
       "admin_password": "Senha do Administrador",
-      "create_button": "Criar Tenant",
+      "create_button": "Criar Igreja",
       "cancel_button": "Cancelar"
     },
     "list": {
