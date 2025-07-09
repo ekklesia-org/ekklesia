@@ -4,9 +4,16 @@
   },
   "auth": {
     "admin_portal": "Portal Administrativo",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
     "email_placeholder": "Ingresa tu correo electrónico",
     "password_placeholder": "Ingresa tu contraseña",
     "logging_in": "Iniciando sesión...",
+    "login_success": "¡Inicio de sesión exitoso!",
+    "login_failed": "Error al iniciar sesión. Inténtalo de nuevo.",
+    "login_error": "Error de Inicio de Sesión",
     "need_help": "¿Necesitas ayuda? Contacta a tu administrador del sistema",
     "ekklesia_logo": "Logo de Ekklesia"
   },
@@ -46,6 +53,8 @@
     "new_announcement": "Nuevo Anuncio"
   },
   "validation": {
+    "required": "{field} es obligatorio",
+    "email_invalid": "Por favor ingresa un correo electrónico válido",
     "min_length": "{field} debe tener al menos {min} caracteres"
   },
   "admin": {
@@ -67,6 +76,47 @@
       "general": "Configuración General",
       "modules": "Módulos Habilitados",
       "integrations": "Integraciones"
+    }
+  },
+  "tenants": {
+    "title": "Gestión de Tenants",
+    "subtitle": "Gestiona tenants de iglesias y sus configuraciones",
+    "active_tenants": "Tenants Activos",
+    "total_users": "Total de Usuarios",
+    "add_tenant": "Agregar Nuevo Tenant",
+    "edit_tenant": "Editar Tenant",
+    "view_tenant": "Ver Detalles del Tenant",
+    "manage_users": "Gestionar Usuarios",
+    "tenant_settings": "Configuración del Tenant",
+    "create_tenant": {
+      "title": "Crear Nuevo Tenant",
+      "church_info": "Información de la Iglesia",
+      "admin_info": "Información del Usuario Administrador",
+      "church_name": "Nombre de la Iglesia",
+      "church_email": "Correo de la Iglesia",
+      "church_phone": "Teléfono de la Iglesia",
+      "church_address": "Dirección de la Iglesia",
+      "church_city": "Ciudad",
+      "church_state": "Estado",
+      "church_zip": "Código Postal",
+      "admin_first_name": "Nombre del Administrador",
+      "admin_last_name": "Apellido del Administrador",
+      "admin_email": "Correo del Administrador",
+      "admin_password": "Contraseña del Administrador",
+      "create_button": "Crear Tenant",
+      "cancel_button": "Cancelar"
+    },
+    "list": {
+      "name": "Nombre de la Iglesia",
+      "email": "Correo",
+      "users": "Usuarios",
+      "status": "Estado",
+      "created": "Creado",
+      "actions": "Acciones"
+    },
+    "status": {
+      "active": "Activo",
+      "inactive": "Inactivo"
     }
   }
 }

@@ -51,3 +51,53 @@ export interface RequestParams {
   query?: { [key: string]: string | number };
   body?: any;
 }
+
+// Tenant/Church Entity (for super admin management)
+export interface Tenant {
+  id: string;
+  name: string;
+  slug: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  website?: string;
+  logoUrl?: string;
+  isActive: boolean;
+  userCount?: number;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Tenant creation request
+export interface CreateTenantRequest {
+  // Church information
+  churchName: string;
+  churchEmail: string;
+  churchPhone?: string;
+  churchAddress?: string;
+  churchCity?: string;
+  churchState?: string;
+  churchZip?: string;
+  // Admin user information
+  adminFirstName: string;
+  adminLastName: string;
+  adminEmail: string;
+  adminPassword: string;
+}
+
+// Tenant update request
+export interface UpdateTenantRequest {
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
+  website?: string;
+  logoUrl?: string;
+  isActive?: boolean;
+}

@@ -79,12 +79,6 @@
               required
             />
 
-            <!-- Error Message -->
-            <AppAlert
-              v-if="errorMessage"
-              variant="error"
-              :message="errorMessage"
-            />
 
             <AppButton
               type="submit"
@@ -114,7 +108,7 @@ import { reactive, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAuth } from '../stores/auth';
 import { LoginCredentials } from '@ekklesia/shared';
-import { AppCard, AppInput, AppButton, AppAlert } from '@ekklesia/ui';
+import { AppCard, AppInput, AppButton, AppAlert, useToast } from '@ekklesia/ui';
 import EkklesiaLogo from '../assets/ekklesia-logo.png';
 import EkklesiaLogoDark from '../assets/ekklesia-logo-dark.png';
 
@@ -125,6 +119,7 @@ interface FormErrors {
 
 const { t } = useI18n();
 const auth = useAuth();
+const toast = useToast();
 
 const formData = reactive<LoginCredentials>({
   email: '',
@@ -179,14 +174,31 @@ const validateForm = (): boolean => {
 const handleLogin = async () => {
   // Validate form first
   if (!validateForm()) {
+    // Show validation errors as toast
+    const firstError = Object.values(errors)[0];
+    if (firstError) {
+      toast.error(firstError);
+    }
     return;
   }
 
   try {
     // Use auth store to login and redirect
     await auth.loginAndRedirect(formData);
+    // Show success message
+    toast.success(t('auth.login_success', 'Login successful!'));
   } catch (error) {
-    // Error is handled by the auth store
+    // Show error toast
+    const errorMessage = authError.value || t('auth.login_failed', 'Login failed. Please try again.');
+    const translatedError = errorMessage.startsWith('errors.') || errorMessage.startsWith('validation.') 
+      ? t(errorMessage)
+      : errorMessage;
+    
+    toast.error(translatedError, {
+      title: t('auth.login_error', 'Login Error'),
+      duration: 5000,
+    });
+    
     console.error('Login failed:', error);
   }
 };

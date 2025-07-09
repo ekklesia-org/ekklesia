@@ -4,9 +4,16 @@
   },
   "auth": {
     "admin_portal": "Portal Administrativo",
+    "email": "E-mail",
+    "password": "Senha",
+    "login": "Entrar",
+    "logout": "Sair",
     "email_placeholder": "Digite seu endereço de e-mail",
     "password_placeholder": "Digite sua senha",
     "logging_in": "Entrando...",
+    "login_success": "Login realizado com sucesso!",
+    "login_failed": "Falha no login. Tente novamente.",
+    "login_error": "Erro de Login",
     "need_help": "Precisa de ajuda? Entre em contato com o administrador do sistema",
     "ekklesia_logo": "Logo Ekklesia"
   },
@@ -46,6 +53,8 @@
     "new_announcement": "Novo Anúncio"
   },
   "validation": {
+    "required": "{field} é obrigatório",
+    "email_invalid": "Por favor insira um endereço de e-mail válido",
     "min_length": "{field} deve ter pelo menos {min} caracteres"
   },
   "admin": {
@@ -67,6 +76,47 @@
       "general": "Configurações Gerais",
       "modules": "Módulos Habilitados",
       "integrations": "Integrações"
+    }
+  },
+  "tenants": {
+    "title": "Gerenciamento de Tenants",
+    "subtitle": "Gerencie tenants de igrejas e suas configurações",
+    "active_tenants": "Tenants Ativos",
+    "total_users": "Total de Usuários",
+    "add_tenant": "Adicionar Novo Tenant",
+    "edit_tenant": "Editar Tenant",
+    "view_tenant": "Ver Detalhes do Tenant",
+    "manage_users": "Gerenciar Usuários",
+    "tenant_settings": "Configurações do Tenant",
+    "create_tenant": {
+      "title": "Criar Novo Tenant",
+      "church_info": "Informações da Igreja",
+      "admin_info": "Informações do Usuário Administrador",
+      "church_name": "Nome da Igreja",
+      "church_email": "E-mail da Igreja",
+      "church_phone": "Telefone da Igreja",
+      "church_address": "Endereço da Igreja",
+      "church_city": "Cidade",
+      "church_state": "Estado",
+      "church_zip": "CEP",
+      "admin_first_name": "Nome do Administrador",
+      "admin_last_name": "Sobrenome do Administrador",
+      "admin_email": "E-mail do Administrador",
+      "admin_password": "Senha do Administrador",
+      "create_button": "Criar Tenant",
+      "cancel_button": "Cancelar"
+    },
+    "list": {
+      "name": "Nome da Igreja",
+      "email": "E-mail",
+      "users": "Usuários",
+      "status": "Status",
+      "created": "Criado",
+      "actions": "Ações"
+    },
+    "status": {
+      "active": "Ativo",
+      "inactive": "Inativo"
     }
   }
 }

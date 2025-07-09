@@ -22,8 +22,53 @@
 
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Stats Grid -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+      <!-- Super Admin Tenant Management -->
+      <div
+        v-if="isSuperAdmin"
+        class="mb-8"
+      >
+        <AppCard :title="$t('tenants.title')">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+            <AppStatsCard
+              :title="$t('tenants.active_tenants')"
+              :value="tenantCount"
+              color="indigo"
+            >
+              <template #icon>
+                <BuildingOfficeIcon />
+              </template>
+            </AppStatsCard>
+
+            <AppStatsCard
+              :title="$t('tenants.total_users')"
+              :value="totalTenantUsers"
+              color="blue"
+            >
+              <template #icon>
+                <UsersIcon />
+              </template>
+            </AppStatsCard>
+
+            <AppStatsCard
+              :title="$t('dashboard.events')"
+              :value="eventCount"
+              color="green"
+            >
+              <template #icon>
+                <CalendarIcon />
+              </template>
+            </AppStatsCard>
+          </div>
+
+          <TenantManagement />
+        </AppCard>
+      </div>
+
+      <!-- Regular Dashboard Stats (shown for non-super admins) -->
+      <div
+        v-if="!isSuperAdmin"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+      >
         <AppStatsCard
           :title="$t('dashboard.members')"
           :value="memberCount"
@@ -67,7 +112,10 @@
       </div>
 
       <!-- Quick Actions -->
-      <AppCard :title="$t('dashboard.quick_actions')">
+      <AppCard
+        v-if="!isSuperAdmin"
+        :title="$t('dashboard.quick_actions')"
+      >
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <AppButton
             variant="ghost"
@@ -117,6 +165,9 @@ import {
   AppCard,
   AppButton,
 } from '@ekklesia/ui';
+import { UserRole } from '@ekklesia/shared';
+import TenantManagement from '../components/TenantManagement.vue';
+import { useTenantService } from '../composables/useTenantService';
 
 // Heroicons
 import {
@@ -128,6 +179,7 @@ import {
   UserPlusIcon,
   PlusIcon,
   PencilIcon,
+  BuildingOfficeIcon,
 } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
@@ -141,18 +193,29 @@ const announcementCount = ref(0);
 
 // User data from auth store
 const user = computed(() => auth.user || undefined);
+const isSuperAdmin = computed(() => user.value?.role === UserRole.SUPER_ADMIN);
+
+// Tenant service for super admin
+const { tenants, activeTenants, totalUsers, loadTenants } = useTenantService();
+const tenantCount = computed(() => activeTenants.value.length);
+const totalTenantUsers = computed(() => totalUsers.value);
 
 onMounted(() => {
   // Load dashboard data (mock data for now)
   loadDashboardData();
 });
 
-const loadDashboardData = () => {
+const loadDashboardData = async () => {
   // Mock data - replace with actual API calls
   memberCount.value = 125;
   eventCount.value = 8;
   donationAmount.value = 15420;
   announcementCount.value = 3;
+
+  // Super admin specific data
+  if (isSuperAdmin.value) {
+    await loadTenants();
+  }
 };
 
 const logout = () => {

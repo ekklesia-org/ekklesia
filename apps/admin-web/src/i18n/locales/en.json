@@ -4,9 +4,16 @@
   },
   "auth": {
     "admin_portal": "Administrative Portal",
+    "email": "Email",
+    "password": "Password",
+    "login": "Sign In",
+    "logout": "Sign Out",
     "email_placeholder": "Enter your email address",
     "password_placeholder": "Enter your password",
     "logging_in": "Signing in...",
+    "login_success": "Login successful!",
+    "login_failed": "Login failed. Please try again.",
+    "login_error": "Login Error",
     "need_help": "Need help? Contact your system administrator",
     "ekklesia_logo": "Ekklesia Logo"
   },
@@ -46,6 +53,8 @@
     "new_announcement": "New Announcement"
   },
   "validation": {
+    "required": "{field} is required",
+    "email_invalid": "Please enter a valid email address",
     "min_length": "{field} must be at least {min} characters"
   },
   "admin": {
@@ -67,6 +76,47 @@
       "general": "General Settings",
       "modules": "Enabled Modules",
       "integrations": "Integrations"
+    }
+  },
+  "tenants": {
+    "title": "Tenant Management",
+    "subtitle": "Manage church tenants and their settings",
+    "active_tenants": "Active Tenants",
+    "total_users": "Total Users",
+    "add_tenant": "Add New Tenant",
+    "edit_tenant": "Edit Tenant",
+    "view_tenant": "View Tenant Details",
+    "manage_users": "Manage Users",
+    "tenant_settings": "Tenant Settings",
+    "create_tenant": {
+      "title": "Create New Tenant",
+      "church_info": "Church Information",
+      "admin_info": "Admin User Information",
+      "church_name": "Church Name",
+      "church_email": "Church Email",
+      "church_phone": "Church Phone",
+      "church_address": "Church Address",
+      "church_city": "City",
+      "church_state": "State",
+      "church_zip": "ZIP Code",
+      "admin_first_name": "Admin First Name",
+      "admin_last_name": "Admin Last Name",
+      "admin_email": "Admin Email",
+      "admin_password": "Admin Password",
+      "create_button": "Create Tenant",
+      "cancel_button": "Cancel"
+    },
+    "list": {
+      "name": "Church Name",
+      "email": "Email",
+      "users": "Users",
+      "status": "Status",
+      "created": "Created",
+      "actions": "Actions"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
     }
   }
 }

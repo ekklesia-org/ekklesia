@@ -14,6 +14,12 @@ export { default as AppHeader } from './components/layout/AppHeader.vue';
 
 // Feedback Components
 export { default as AppAlert } from './components/feedback/AppAlert.vue';
+export { default as AppToast } from './lib/components/AppToast.vue';
+export { default as AppToastContainer } from './lib/components/AppToastContainer.vue';
+
+// Composables
+export { useToast } from './lib/composables/useToast';
+export type { Toast } from './lib/composables/useToast';
 
 // Export types from shared library
 export type { User } from '@ekklesia/shared';
