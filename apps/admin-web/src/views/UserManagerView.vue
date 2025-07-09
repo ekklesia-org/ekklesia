@@ -126,6 +126,7 @@
                     v-if="user.isActive"
                     variant="primary"
                     size="sm"
+                    :disabled="isLastSuperAdmin(user)"
                     @click="deactivateUser(user.id)"
                   >
                     {{ $t('users.deactivate') }}
@@ -141,6 +142,7 @@
                   <AppButton
                     variant="danger"
                     size="sm"
+                    :disabled="isLastSuperAdmin(user)"
                     @click="deleteUser(user.id)"
                   >
                     {{ $t('common.delete') }}
@@ -204,6 +206,7 @@
       class="py-8"
       :user="selectedUser || undefined"
       :is-submitting="isSubmitting"
+      :is-last-super-admin="isLastSuperAdminForForm"
       @submit="handleFormSubmit"
       @cancel="cancelForm"
     />
@@ -259,6 +262,12 @@ const activateUser = async (id: string) => {
 };
 
 const deactivateUser = async (id: string) => {
+  const user = users.value.find(u => u.id === id);
+  if (user && isLastSuperAdmin(user)) {
+    alert(t('users.manager.cannot_deactivate_last_super_admin'));
+    return;
+  }
+
   if (confirm(t('users.manager.confirm_deactivate'))) {
     try {
       await usersStore.deactivateUser(id);
@@ -269,6 +278,12 @@ const deactivateUser = async (id: string) => {
 };
 
 const deleteUser = async (id: string) => {
+  const user = users.value.find(u => u.id === id);
+  if (user && isLastSuperAdmin(user)) {
+    alert(t('users.manager.cannot_delete_last_super_admin'));
+    return;
+  }
+
   if (confirm(t('users.manager.confirm_delete'))) {
     try {
       await usersStore.deleteUser(id);
@@ -323,6 +338,16 @@ const getRoleColor = (role: string) => {
 const formatDate = (date: Date) => {
   return new Date(date).toLocaleDateString();
 };
+
+const isLastSuperAdmin = (user: User) => {
+  const superAdmins = users.value.filter(u => u.role === 'SUPER_ADMIN' && u.isActive);
+  return user.role === 'SUPER_ADMIN' && superAdmins.length === 1;
+};
+
+const isLastSuperAdminForForm = computed(() => {
+  if (!selectedUser.value) return false;
+  return isLastSuperAdmin(selectedUser.value);
+});
 
 onMounted(() => {
   usersStore.fetchUsers();

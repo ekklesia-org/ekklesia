@@ -124,6 +124,7 @@
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             :class="{ 'border-red-500': errors.role }"
             required
+            :disabled="isLastSuperAdmin"
           >
             <option value="">
               {{ $t('users.select_role') }}
@@ -200,6 +201,7 @@ const { t } = useI18n();
 interface Props {
   user?: User;
   isSubmitting?: boolean;
+  isLastSuperAdmin?: boolean;
 }
 
 const props = defineProps<Props>();

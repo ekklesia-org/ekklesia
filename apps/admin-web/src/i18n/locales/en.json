@@ -161,7 +161,9 @@
       "create_first_user": "Create First User",
       "no_users": "No users found",
       "confirm_delete": "Are you sure you want to delete this user?",
-      "confirm_deactivate": "Are you sure you want to deactivate this user?"
+      "confirm_deactivate": "Are you sure you want to deactivate this user?",
+      "cannot_delete_last_super_admin": "Cannot delete the last super admin. There must be at least one active super admin in the system.",
+      "cannot_deactivate_last_super_admin": "Cannot deactivate the last super admin. There must be at least one active super admin in the system."
     },
     "create_user": "Create User",
     "edit_user": "Edit User",
