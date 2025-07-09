@@ -14,6 +14,9 @@
         :subtitle="pageSubtitle"
         :user="user"
       >
+        <template #actions>
+          <ChurchSelector v-if="user?.role === 'SUPER_ADMIN' && shouldShowChurchSelector" />
+        </template>
         <template #userActions>
           <AppButton
             variant="danger"
@@ -38,10 +41,12 @@
 
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 import { useAuth } from '../stores/auth';
 import { AppSidebar, AppHeader, AppButton } from '@ekklesia/ui';
 import { ArrowRightOnRectangleIcon } from '@heroicons/vue/24/outline';
 import { useAdminMenu } from '../composables/useAdminMenu';
+import ChurchSelector from './ChurchSelector.vue';
 import logo from '../assets/ekklesia-logo.png';
 
 interface Props {
@@ -55,10 +60,20 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const auth = useAuth();
+const route = useRoute();
 
 const user = computed(() => auth.user || undefined);
 const pageTitle = computed(() => props.title || '');
 const pageSubtitle = computed(() => props.subtitle || '');
+
+// Determine if church selector should be shown
+const shouldShowChurchSelector = computed(() => {
+  if (!user.value || user.value.role !== 'SUPER_ADMIN') return false;
+  
+  // Exclude church selector from specific routes
+  const excludedRoutes = ['/churches', '/dashboard'];
+  return !excludedRoutes.includes(route.path);
+});
 
 // Generate menu items based on user role
 const { menuItems } = useAdminMenu(user.value ?? null);

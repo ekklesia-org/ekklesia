@@ -150,6 +150,7 @@
     "view_church": "Ver Detalles de la Iglesia",
     "manage_users": "Gestionar Usuarios",
     "church_settings": "Configuración de la Iglesia",
+    "select_church": "Seleccionar Iglesia",
     "create_church": {
       "title": "Crear Nueva Iglesia",
       "church_info": "Información de la Iglesia",

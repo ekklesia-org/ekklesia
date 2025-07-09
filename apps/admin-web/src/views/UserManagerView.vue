@@ -214,16 +214,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import UserForm from '../components/UserForm.vue';
 import { User, CreateUserDto, UpdateUserDto } from '../services/userService';
 import { useUsersStore } from '../stores/users';
+import { useSelectedChurch } from '../stores/selectedChurch';
+import { useAuth } from '../stores/auth';
 
 const { t } = useI18n();
 const usersStore = useUsersStore();
+const selectedChurchStore = useSelectedChurch();
+const auth = useAuth();
 
 const selectedUser = ref<User | null>(null);
 const showForm = ref(false);
@@ -250,7 +254,12 @@ const editUser = (user: User) => {
 
 const toggleIncludeInactive = () => {
   includeInactive.value = !includeInactive.value;
-  usersStore.fetchUsers(1, includeInactive.value);
+  fetchUsersWithContext();
+};
+
+const fetchUsersWithContext = (page = 1) => {
+  const churchId = auth.user?.role === 'SUPER_ADMIN' ? selectedChurchStore.selectedChurchId ?? undefined : undefined;
+  usersStore.fetchUsers(page, includeInactive.value, churchId);
 };
 
 const activateUser = async (id: string) => {
@@ -313,13 +322,13 @@ const cancelForm = () => {
 
 const previousPage = () => {
   if (currentPage.value > 1) {
-    usersStore.fetchUsers(currentPage.value - 1, includeInactive.value);
+    fetchUsersWithContext(currentPage.value - 1);
   }
 };
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
-    usersStore.fetchUsers(currentPage.value + 1, includeInactive.value);
+    fetchUsersWithContext(currentPage.value + 1);
   }
 };
 
@@ -349,7 +358,17 @@ const isLastSuperAdminForForm = computed(() => {
   return isLastSuperAdmin(selectedUser.value);
 });
 
+// Watch for changes in selected church
+watch(
+  () => selectedChurchStore.selectedChurchId,
+  (newChurchId) => {
+    if (auth.user?.role === 'SUPER_ADMIN' && newChurchId) {
+      fetchUsersWithContext();
+    }
+  }
+);
+
 onMounted(() => {
-  usersStore.fetchUsers();
+  fetchUsersWithContext();
 });
 </script>

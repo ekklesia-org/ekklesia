@@ -110,6 +110,7 @@
     "view_church": "View Church Details",
     "manage_users": "Manage Users",
     "church_settings": "Church Settings",
+    "select_church": "Select Church",
     "create_church": {
       "title": "Create New Church",
       "church_info": "Church Information",

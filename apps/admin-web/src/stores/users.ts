@@ -37,12 +37,12 @@ export const useUsersStore = defineStore('users', () => {
   const hasError = computed(() => !!error.value);
 
   // Actions
-  const fetchUsers = async (page = 1, includeInactive = false) => {
+  const fetchUsers = async (page = 1, includeInactive = false, churchId?: string) => {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await userService.getUsers(page, limit.value, includeInactive);
+      const response = await userService.getUsers(page, limit.value, includeInactive, churchId);
       users.value = response.users;
       currentPage.value = response.page;
       totalPages.value = response.totalPages;

@@ -45,10 +45,11 @@ export class UserService {
   async getUsers(
     page = 1,
     limit = 10,
-    includeInactive = false
+    includeInactive = false,
+    churchId?: string
   ): Promise<UserListResponse> {
     const response = await axios.get<UserListResponse>(this.baseUrl, {
-      params: { page, limit, includeInactive }
+      params: { page, limit, includeInactive, churchId }
     });
     return response.data;
   }
