@@ -279,7 +279,20 @@
     "actions": "Ações",
     "previous": "Anterior",
     "next": "Próximo",
-    "page_of": "Página {current} de {total}"
+    "page_of": "Página {current} de {total}",
+    "email": "E-mail",
+    "phone": "Telefone",
+    "address": "Endereço",
+    "name": "Nome",
+    "status": "Status",
+    "created": "Criado",
+    "updated": "Atualizado",
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "yes": "Sim",
+    "no": "Não",
+    "confirm": "Confirmar",
+    "close": "Fechar"
   },
   "coming_soon": {
     "title": "Em Desenvolvimento",

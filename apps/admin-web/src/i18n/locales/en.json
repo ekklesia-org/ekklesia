@@ -270,6 +270,19 @@
     "actions": "Actions",
     "previous": "Previous",
     "next": "Next",
-    "page_of": "Page {current} of {total}"
+    "page_of": "Page {current} of {total}",
+    "email": "Email",
+    "phone": "Phone",
+    "address": "Address",
+    "name": "Name",
+    "status": "Status",
+    "created": "Created",
+    "updated": "Updated",
+    "active": "Active",
+    "inactive": "Inactive",
+    "yes": "Yes",
+    "no": "No",
+    "confirm": "Confirm",
+    "close": "Close"
   }
 }
