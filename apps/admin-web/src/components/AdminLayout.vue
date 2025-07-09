@@ -1,19 +1,19 @@
 <template>
-  <div class="admin-layout">
+  <div class="flex h-screen bg-gray-50">
     <!-- Sidebar -->
     <AppSidebar
       :title="$t('app.title')"
       :menu-items="menuItems"
+      :logo-src="logo"
     />
 
     <!-- Main Content Area -->
-    <div class="main-content">
+    <div class="flex-1 flex flex-col overflow-hidden">
       <!-- Header -->
       <AppHeader
         :title="pageTitle"
         :subtitle="pageSubtitle"
         :user="user"
-        logo-src="@/assets/ekklesia-logo.png"
       >
         <template #userActions>
           <AppButton
@@ -30,7 +30,7 @@
       </AppHeader>
 
       <!-- Page Content -->
-      <main class="page-content">
+      <main class="flex-1 overflow-y-auto">
         <slot />
       </main>
     </div>
@@ -43,6 +43,7 @@ import { useAuth } from '../stores/auth';
 import { AppSidebar, AppHeader, AppButton } from '@ekklesia/ui';
 import { ArrowRightOnRectangleIcon } from '@heroicons/vue/24/outline';
 import { useAdminMenu } from '../composables/useAdminMenu';
+import logo from '../assets/ekklesia-logo.png';
 
 interface Props {
   title?: string;
@@ -68,22 +69,3 @@ const logout = () => {
 };
 </script>
 
-<style scoped>
-.admin-layout {
-  display: flex;
-  height: 100vh;
-  background-color: #f9fafb; /* bg-gray-50 */
-}
-
-.main-content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.page-content {
-  flex: 1;
-  overflow-y: auto;
-}
-</style>

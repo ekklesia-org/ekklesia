@@ -133,7 +133,7 @@
       "slug_placeholder": "igreja-batista-central",
       "slug_help": "URL amigável (será gerada automaticamente se não preenchida)",
       "email": "E-mail",
-      "email_placeholder": "contato@igreja.com",
+      "email_placeholder": "Digite o e-mail da igreja",
       "phone": "Telefone",
       "phone_placeholder": "(11) 99999-9999",
       "website": "Site",
