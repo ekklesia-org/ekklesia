@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from '@ekklesia/api/lib/auth.module';
 import { DatabaseModule } from '@ekklesia/database/lib/database.module';
+import { ChurchModule } from '@ekklesia/api/church';
 
 @Module({
   imports: [
@@ -11,8 +12,9 @@ import { DatabaseModule } from '@ekklesia/database/lib/database.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    DatabaseModule, 
-    AuthModule
+    DatabaseModule,
+    AuthModule,
+    ChurchModule
   ],
   controllers: [AppController],
   providers: [AppService],
