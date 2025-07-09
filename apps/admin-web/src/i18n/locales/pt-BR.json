@@ -69,9 +69,7 @@
     "new_announcement": "Novo Anúncio",
     "create_church": "Criar Nova Igreja",
     "manage_users": "Gerenciar Usuários",
-    "system_settings": "Configurações do Sistema",
-    "toast_demo": "Demonstração de Notificações",
-    "toast_demo_description": "Teste os diferentes tipos de notificações toast com animações suaves e barra de progresso."
+    "system_settings": "Configurações do Sistema"
   },
   "validation": {
     "required": "{field} é obrigatório",

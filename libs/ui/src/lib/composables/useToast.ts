@@ -30,11 +30,12 @@ export const useToast = () => {
     toasts.value = [];
   };
 
-  // Convenience methods
+// Convenience methods
   const success = (message: string, options?: Partial<Omit<Toast, 'id' | 'message' | 'type'>>) => {
     return addToast({
       type: 'success',
       message,
+      showCountdown: true,
       ...options,
     });
   };
@@ -43,6 +44,7 @@ export const useToast = () => {
     return addToast({
       type: 'error',
       message,
+      showCountdown: true,
       ...options,
     });
   };
@@ -51,6 +53,7 @@ export const useToast = () => {
     return addToast({
       type: 'warning',
       message,
+      showCountdown: true,
       ...options,
     });
   };
@@ -59,6 +62,7 @@ export const useToast = () => {
     return addToast({
       type: 'info',
       message,
+      showCountdown: true,
       ...options,
     });
   };

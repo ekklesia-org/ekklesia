@@ -178,6 +178,7 @@
           </AppButton>
         </div>
       </AppCard>
+
     </div>
   </AdminLayout>
 </template>
@@ -277,4 +278,5 @@ const manageUsers = () => {
 const systemSettings = () => {
   router.push('/church-settings');
 };
+
 </script>

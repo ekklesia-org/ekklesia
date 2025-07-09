@@ -69,9 +69,7 @@
     "new_announcement": "New Announcement",
     "create_church": "Create New Church",
     "manage_users": "Manage Users",
-    "system_settings": "System Settings",
-    "toast_demo": "Toast Notifications Demo",
-    "toast_demo_description": "Test the different types of toast notifications with smooth animations and progress bar."
+    "system_settings": "System Settings"
   },
   "validation": {
     "required": "{field} is required",

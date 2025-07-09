@@ -1,7 +1,7 @@
 <template>
   <div>
     <AppToast
-      v-for="toast in toasts"
+      v-for="(toast, index) in toasts"
       :key="toast.id"
       :type="toast.type"
       :title="toast.title"
@@ -9,6 +9,8 @@
       :duration="toast.duration"
       :dismissible="toast.dismissible"
       :position="toast.position"
+      :show-countdown="toast.showCountdown"
+      :stack-index="index"
       @dismiss="removeToast(toast.id)"
     />
   </div>
