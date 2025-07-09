@@ -85,6 +85,7 @@ import { AppButton, useToast } from '@ekklesia/ui';
 import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
 import { Church } from '@ekklesia/shared';
 import { ChurchService } from '../services/churchService';
+import { useErrorHandler } from '../utils/errorHandler';
 
 interface SuperAdmin {
   id: string;
@@ -108,6 +109,7 @@ const emit = defineEmits<{
 const { t } = useI18n();
 const toast = useToast();
 const churchService = new ChurchService();
+const { handleError, handleSuccess } = useErrorHandler();
 
 const selectedChurchId = ref<string>('');
 const availableChurches = ref<Church[]>([]);
@@ -117,8 +119,7 @@ onMounted(async () => {
   try {
     availableChurches.value = await churchService.getTransferOptions(props.churchId);
   } catch (error) {
-    console.error('Error fetching transfer options:', error);
-    toast.error(t('churches.super_admin_transfer.fetch_options_error'));
+    handleError(error, t('churches.super_admin_transfer.fetch_options_error'));
   }
 });
 
@@ -129,11 +130,10 @@ const handleTransfer = async () => {
 
   try {
     await churchService.transferSuperAdmins(props.churchId, selectedChurchId.value);
-    toast.success(t('churches.super_admin_transfer.transfer_success'));
+    handleSuccess(t('churches.super_admin_transfer.transfer_success'));
     emit('transfer', selectedChurchId.value);
   } catch (error) {
-    console.error('Error transferring Super Admins:', error);
-    toast.error(t('churches.super_admin_transfer.transfer_error'));
+    handleError(error, t('churches.super_admin_transfer.transfer_error'));
   } finally {
     isTransferring.value = false;
   }

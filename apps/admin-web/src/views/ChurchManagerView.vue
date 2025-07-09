@@ -98,10 +98,12 @@ import { ChurchWithUsers, CreateChurchDto } from '../services/churchService';
 import ChurchForm from '../components/ChurchForm.vue';
 import SuperAdminTransferDialog from '../components/SuperAdminTransferDialog.vue';
 import { useChurchesStore } from '../stores/churches';
+import { useErrorHandler } from '../utils/errorHandler';
 
 const { t } = useI18n();
 const toast = useToast();
 const churchesStore = useChurchesStore();
+const { handleError, handleSuccess } = useErrorHandler();
 
 const selectedChurch = ref<ChurchWithUsers | null>(null);
 const showForm = ref(false);
@@ -138,14 +140,9 @@ const deleteChurch = async (id: string) => {
     if (confirm(t('churches.manager.confirm_delete'))) {
       try {
         await churchesStore.deleteChurch(id);
-        toast.success(t('churches.delete_success'));
+        handleSuccess(t('churches.delete_success'));
       } catch (error: any) {
-        // Handle API errors
-        if (error.response?.status === 400) {
-          toast.error(error.response.data.message || t('churches.super_admin_transfer.cannot_delete_last_church'));
-        } else {
-          toast.error(t('churches.delete_error'));
-        }
+        handleError(error, t('churches.delete_error'));
       }
     }
   }
@@ -155,15 +152,14 @@ const handleFormSubmit = async (data: CreateChurchDto) => {
   try {
     if (selectedChurch.value) {
       await churchesStore.updateChurch(selectedChurch.value.id, data);
-      toast.success(t('churches.update_success'));
+      handleSuccess(t('churches.update_success'));
     } else {
       await churchesStore.createChurch(data);
-      toast.success(t('churches.create_success'));
+      handleSuccess(t('churches.create_success'));
     }
   } catch (error) {
-    console.error('Error saving church:', error);
     const errorMessage = selectedChurch.value ? t('churches.update_error') : t('churches.create_error');
-    toast.error(errorMessage);
+    handleError(error, errorMessage);
   } finally {
     showForm.value = false;
   }
@@ -179,12 +175,11 @@ const handleTransfer = async (toChurchId: string) => {
   try {
     // After transfer, proceed with deletion
     await churchesStore.deleteChurch(churchToDelete.value.id);
-    toast.success(t('churches.transfer_delete_success'));
+    handleSuccess(t('churches.transfer_delete_success'));
     showTransferDialog.value = false;
     churchToDelete.value = null;
   } catch (error) {
-    console.error('Error deleting church after transfer:', error);
-    toast.error(t('churches.transfer_delete_error'));
+    handleError(error, t('churches.transfer_delete_error'));
   }
 };
 

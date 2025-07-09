@@ -279,7 +279,7 @@ const deactivateUser = async (id: string) => {
     handleError(new Error(t('users.manager.cannot_deactivate_last_super_admin')));
     return;
   }
-  
+
   if (confirm(t('users.manager.confirm_deactivate'))) {
     try {
       await usersStore.deactivateUser(id);
@@ -296,7 +296,7 @@ const deleteUser = async (id: string) => {
     handleError(new Error(t('users.manager.cannot_delete_last_super_admin')));
     return;
   }
-  
+
   if (confirm(t('users.manager.confirm_delete'))) {
     try {
       await usersStore.deleteUser(id);
@@ -318,6 +318,7 @@ const handleFormSubmit = async (data: CreateUserDto | UpdateUserDto) => {
     }
     showForm.value = false;
   } catch (error) {
+    console.log('Error in handleFormSubmit:', error);
     const errorMessage = selectedUser.value ? t('users.update_error') : t('users.create_error');
     handleError(error, errorMessage);
   }

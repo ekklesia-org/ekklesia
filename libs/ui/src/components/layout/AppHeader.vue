@@ -1,7 +1,7 @@
 <template>
   <header class="bg-white shadow">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex justify-between items-center py-6">
+      <div class="flex justify-between items-center py-4">
         <!-- Left side - Logo and Title -->
         <div class="flex items-center space-x-4">
           <div

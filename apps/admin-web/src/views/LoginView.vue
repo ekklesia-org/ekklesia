@@ -111,6 +111,7 @@ import { LoginCredentials } from '@ekklesia/shared';
 import { AppCard, AppInput, AppButton, AppAlert, useToast } from '@ekklesia/ui';
 import EkklesiaLogo from '../assets/ekklesia-logo.png';
 import EkklesiaLogoDark from '../assets/ekklesia-logo-dark.png';
+import { useErrorHandler } from '../utils/errorHandler';
 
 interface FormErrors {
   email?: string;
@@ -120,6 +121,7 @@ interface FormErrors {
 const { t } = useI18n();
 const auth = useAuth();
 const toast = useToast();
+const { handleError, handleSuccess } = useErrorHandler();
 
 const formData = reactive<LoginCredentials>({
   email: '',
@@ -186,20 +188,10 @@ const handleLogin = async () => {
     // Use auth store to login and redirect
     await auth.loginAndRedirect(formData);
     // Show success message
-    toast.success(t('auth.login_success', 'Login successful!'));
+    handleSuccess(t('auth.login_success', 'Login successful!'));
   } catch (error) {
-    // Show error toast
-    const errorMessage = authError.value || t('auth.login_failed', 'Login failed. Please try again.');
-    const translatedError = errorMessage.startsWith('errors.') || errorMessage.startsWith('validation.')
-      ? t(errorMessage)
-      : errorMessage;
-
-    toast.error(translatedError, {
-      title: t('auth.login_error', 'Login Error'),
-      duration: 5000,
-    });
-
-    console.error('Login failed:', error);
+    // Use centralized error handler
+    handleError(error, t('auth.login_failed', 'Login failed. Please try again.'));
   }
 };
 </script>
