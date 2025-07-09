@@ -25,7 +25,13 @@ model Church {
   updatedAt DateTime        @updatedAt
   settings  ChurchSettings?
   users     User[]
+  members   Member[]
+  transactions Transaction[]
+  auditLogs AuditLog[]
 
+  @@index([isActive])
+  @@index([createdAt])
+  @@index([name])
   @@map("churches")
 }
 
@@ -93,11 +99,15 @@ model Member {
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   userId        String?       @unique
+  church        Church        @relation(fields: [churchId], references: [id], onDelete: Cascade)
   spouse        Member?       @relation("Spouse", fields: [spouseId], references: [id])
   spouseOf      Member?       @relation("Spouse")
   user          User?         @relation(fields: [userId], references: [id])
   transactions  Transaction[]
 
+  @@index([churchId])
+  @@index([status])
+  @@index([email])
   @@map("members")
 }
 
@@ -119,8 +129,13 @@ model Transaction {
   attachments     String[]
   createdAt       DateTime            @default(now())
   updatedAt       DateTime            @updatedAt
+  church          Church              @relation(fields: [churchId], references: [id], onDelete: Cascade)
   member          Member?             @relation(fields: [memberId], references: [id])
 
+  @@index([churchId])
+  @@index([type])
+  @@index([status])
+  @@index([transactionDate])
   @@map("transactions")
 }
 
@@ -136,8 +151,12 @@ model AuditLog {
   ipAddress  String?
   userAgent  String?
   createdAt  DateTime @default(now())
+  church     Church   @relation(fields: [churchId], references: [id], onDelete: Cascade)
   user       User     @relation(fields: [userId], references: [id])
 
+  @@index([churchId])
+  @@index([userId])
+  @@index([createdAt])
   @@map("audit_logs")
 }
 
