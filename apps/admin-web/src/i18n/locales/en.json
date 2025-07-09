@@ -78,6 +78,16 @@
       "integrations": "Integrations"
     }
   },
+  "error": {
+    "title": "Server Error",
+    "server_unavailable": "The server is currently unavailable",
+    "description": "We're unable to connect to the server. This could be due to network issues, server maintenance, or a temporary outage.",
+    "technical_details": "Technical Details",
+    "retry": "Try Again",
+    "refresh_page": "Refresh Page",
+    "checking": "Checking...",
+    "status_offline": "Server Offline"
+  },
   "churches": {
     "title": "Church Management",
     "subtitle": "Manage churches and their settings",

@@ -3,6 +3,7 @@ import { useAuthStore } from '../stores/auth';
 import LoginView from '../views/LoginView.vue';
 import DashboardView from '../views/DashboardView.vue';
 import SetupView from '../views/SetupView.vue';
+import ErrorView from '../views/ErrorView.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,6 +17,12 @@ const router = createRouter({
       name: 'setup',
       component: SetupView,
       meta: { requiresSetup: true }
+    },
+    {
+      path: '/error',
+      name: 'error',
+      component: ErrorView,
+      meta: { allowAll: true }
     },
     {
       path: '/login',
@@ -36,37 +43,64 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
   
+  // Skip status check for error page
+  if (to.path === '/error') {
+    next();
+    return;
+  }
+  
   // Check if system needs setup (except for setup route itself)
   if (to.path !== '/setup') {
-    const systemStatus = await authStore.checkSystemStatus();
-    if (systemStatus.needsSetup) {
-      next('/setup');
+    try {
+      const systemStatus = await authStore.checkSystemStatus();
+      if (systemStatus.needsSetup) {
+        next('/setup');
+        return;
+      }
+    } catch (error) {
+      // Server error - redirect to error page
+      console.error('Server error during status check:', error);
+      next(`/error?error=${encodeURIComponent(error.message || 'Server error')}`);
       return;
     }
   }
   
   // For setup route, check if system already initialized
   if (to.meta.requiresSetup) {
-    const systemStatus = await authStore.checkSystemStatus();
-    if (systemStatus.isInitialized) {
-      next('/login');
+    try {
+      const systemStatus = await authStore.checkSystemStatus();
+      if (systemStatus.isInitialized) {
+        next('/login');
+        return;
+      }
+    } catch (error) {
+      // Server error - redirect to error page
+      console.error('Server error during setup route check:', error);
+      next(`/error?error=${encodeURIComponent(error.message || 'Server error')}`);
       return;
     }
   }
   
   // Handle root path redirect based on auth status
   if (to.path === '/') {
-    const systemStatus = await authStore.checkSystemStatus();
-    if (systemStatus.needsSetup) {
-      next('/setup');
-      return;
-    }
-    
-    if (authStore.isAuthenticated) {
-      next('/dashboard');
-      return;
-    } else {
-      next('/login');
+    try {
+      const systemStatus = await authStore.checkSystemStatus();
+      if (systemStatus.needsSetup) {
+        next('/setup');
+        return;
+      }
+      
+      if (authStore.isAuthenticated) {
+        next('/dashboard');
+        return;
+      } else {
+        next('/login');
+        return;
+      }
+    } catch (error) {
+      // Server error - redirect to error page
+      console.error('Server error during root path redirect:', error);
+      next(`/error?error=${encodeURIComponent(error.message || 'Server error')}`);
       return;
     }
   }

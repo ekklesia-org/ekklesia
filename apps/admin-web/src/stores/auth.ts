@@ -130,7 +130,37 @@ export const useAuthStore = defineStore('auth', () => {
       return response.data;
     } catch (err) {
       console.error('Failed to check system status:', err);
-      return { isInitialized: false, needsSetup: true };
+      
+      // Create a more descriptive error to throw
+      let errorMessage = 'Server is not responding';
+      
+      if (axios.isAxiosError(err)) {
+        if (err.code === 'ECONNREFUSED' || err.code === 'ENOTFOUND') {
+          errorMessage = 'Cannot connect to server';
+        } else if (err.response?.status === 500) {
+          errorMessage = 'Server internal error';
+        } else if (err.response?.status === 503) {
+          errorMessage = 'Service unavailable';
+        } else if (err.response?.data?.message) {
+          errorMessage = err.response.data.message;
+        }
+      }
+      
+      // Throw the error so it can be caught by the router
+      const serverError = new Error(errorMessage);
+      serverError.name = 'ServerError';
+      throw serverError;
+    }
+  };
+
+  // Safe status check for error view - returns null on error instead of throwing
+  const safeCheckSystemStatus = async (): Promise<{ isInitialized: boolean; needsSetup: boolean } | null> => {
+    try {
+      const response = await axios.get('/api/setup/status');
+      return response.data;
+    } catch (err) {
+      console.error('Safe status check failed:', err);
+      return null;
     }
   };
 
@@ -186,6 +216,7 @@ export const useAuthStore = defineStore('auth', () => {
     updateUser,
     clearError,
     checkSystemStatus,
+    safeCheckSystemStatus,
     initializeSystem
   };
 });

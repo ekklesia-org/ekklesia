@@ -78,6 +78,16 @@
       "integrations": "Integrações"
     }
   },
+  "error": {
+    "title": "Erro do Servidor",
+    "server_unavailable": "O servidor não está disponível no momento",
+    "description": "Não conseguimos nos conectar ao servidor. Isso pode ser devido a problemas de rede, manutenção do servidor ou uma interrupção temporária.",
+    "technical_details": "Detalhes Técnicos",
+    "retry": "Tentar Novamente",
+    "refresh_page": "Atualizar Página",
+    "checking": "Verificando...",
+    "status_offline": "Servidor Offline"
+  },
   "churches": {
     "title": "Gerenciamento de Igrejas",
     "subtitle": "Gerencie igrejas e suas configurações",
