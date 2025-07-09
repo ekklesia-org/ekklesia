@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Church, ChurchWithUsers, ChurchListResponse, CreateChurchDto, UpdateChurchDto } from '@ekklesia/shared';
+import { Church, ChurchWithUsers, ChurchListResponse, ICreateChurchDto, IUpdateChurchDto } from '@ekklesia/shared';
 
 export class ChurchService {
   private readonly baseUrl = '/api/churches';
@@ -37,7 +37,7 @@ export class ChurchService {
   /**
    * Create a new church
    */
-  async createChurch(data: CreateChurchDto): Promise<ChurchWithUsers> {
+  async createChurch(data: ICreateChurchDto): Promise<ChurchWithUsers> {
     const response = await axios.post<ChurchWithUsers>(this.baseUrl, data);
     return response.data;
   }
@@ -45,7 +45,7 @@ export class ChurchService {
   /**
    * Update an existing church
    */
-  async updateChurch(id: string, data: UpdateChurchDto): Promise<ChurchWithUsers> {
+  async updateChurch(id: string, data: IUpdateChurchDto): Promise<ChurchWithUsers> {
     const response = await axios.put<ChurchWithUsers>(`${this.baseUrl}/${id}`, data);
     return response.data;
   }

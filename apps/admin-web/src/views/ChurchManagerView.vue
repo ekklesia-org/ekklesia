@@ -95,7 +95,7 @@ import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton, useToast } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
-import { ChurchWithUsers, CreateChurchDto } from '@ekklesia/shared';
+import { ChurchWithUsers, ICreateChurchDto } from '@ekklesia/shared';
 import ChurchForm from '../components/ChurchForm.vue';
 import SuperAdminTransferDialog from '../components/SuperAdminTransferDialog.vue';
 import { useChurchesStore } from '../stores/churches';
@@ -149,7 +149,7 @@ const deleteChurch = async (id: string) => {
   }
 };
 
-const handleFormSubmit = async (data: CreateChurchDto) => {
+const handleFormSubmit = async (data: ICreateChurchDto) => {
   try {
     if (selectedChurch.value) {
       await churchesStore.updateChurch(selectedChurch.value.id, data);

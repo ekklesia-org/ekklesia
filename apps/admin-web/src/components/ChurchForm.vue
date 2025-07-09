@@ -162,7 +162,7 @@
 import { ref, reactive, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppInput, AppButton } from '@ekklesia/ui';
-import type { CreateChurchDto, ChurchWithUsers } from '@ekklesia/shared';
+import type { ICreateChurchDto, ChurchWithUsers } from '@ekklesia/shared';
 
 interface Props {
   church?: ChurchWithUsers;
@@ -170,7 +170,7 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'submit', data: CreateChurchDto): void;
+  (e: 'submit', data: ICreateChurchDto): void;
   (e: 'cancel'): void;
 }
 
@@ -185,7 +185,7 @@ const { t } = useI18n();
 const isEdit = computed(() => !!props.church);
 
 // Form data
-const formData = reactive<CreateChurchDto>({
+const formData = reactive<ICreateChurchDto>({
   name: '',
   slug: '',
   email: '',
@@ -201,7 +201,7 @@ const formData = reactive<CreateChurchDto>({
 });
 
 // Form errors
-const errors = reactive<Partial<Record<keyof CreateChurchDto, string>>>({});
+const errors = reactive<Partial<Record<keyof ICreateChurchDto, string>>>({});
 
 // Auto-generate slug when name changes
 watch(() => formData.name, (newName) => {
@@ -240,7 +240,7 @@ const generateSlug = (name: string): string => {
 const validateForm = (): boolean => {
   // Clear previous errors
   Object.keys(errors).forEach(key => {
-    delete errors[key as keyof CreateChurchDto];
+    delete errors[key as keyof ICreateChurchDto];
   });
 
   let isValid = true;
@@ -296,7 +296,7 @@ const handleSubmit = () => {
     return;
   }
 
-  const submitData: CreateChurchDto = {
+  const submitData: ICreateChurchDto = {
     ...formData,
     // Clean up empty strings
     slug: formData.slug?.trim() || undefined,
