@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { User, UserListResponse, CreateUserDto, UpdateUserDto } from '@ekklesia/shared';
+import { User, UserListResponse, ICreateUserDto, IUpdateUserDto } from '@ekklesia/shared';
 
 export class UserService {
   private readonly baseUrl = '/api/users';
@@ -30,7 +30,7 @@ export class UserService {
   /**
    * Create a new user
    */
-  async createUser(data: CreateUserDto): Promise<User> {
+  async createUser(data: ICreateUserDto): Promise<User> {
     const response = await axios.post<User>(this.baseUrl, data);
     return response.data;
   }
@@ -38,7 +38,7 @@ export class UserService {
   /**
    * Update an existing user
    */
-  async updateUser(id: string, data: UpdateUserDto): Promise<User> {
+  async updateUser(id: string, data: IUpdateUserDto): Promise<User> {
     const response = await axios.put<User>(`${this.baseUrl}/${id}`, data);
     return response.data;
   }

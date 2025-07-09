@@ -70,6 +70,7 @@
           <input
             id="email"
             v-model="form.email"
+            autocomplete="username"
             type="email"
             class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             :class="{ 'border-red-500': errors.email }"
@@ -195,7 +196,7 @@
 import { ref, reactive, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton } from '@ekklesia/ui';
-import { User, CreateUserDto, UpdateUserDto } from '../services/userService';
+import { User, ICreateUserDto, IUpdateUserDto } from '@ekklesia/shared';
 
 const { t } = useI18n();
 
@@ -207,7 +208,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const emit = defineEmits<{
-  submit: [data: CreateUserDto | UpdateUserDto];
+  submit: [data: ICreateUserDto | IUpdateUserDto];
   cancel: [];
 }>();
 
@@ -259,7 +260,7 @@ const handleSubmit = () => {
 
   if (props.user) {
     // Editing existing user
-    const updateData: UpdateUserDto = {
+    const updateData: IUpdateUserDto = {
       firstName: form.firstName,
       lastName: form.lastName,
       role: form.role,
@@ -268,7 +269,7 @@ const handleSubmit = () => {
     emit('submit', updateData);
   } else {
     // Creating new user
-    const createData: CreateUserDto = {
+    const createData: ICreateUserDto = {
       firstName: form.firstName,
       lastName: form.lastName,
       email: form.email,
