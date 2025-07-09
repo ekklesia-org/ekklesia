@@ -61,10 +61,17 @@
     "events": "Eventos Próximos",
     "donations": "Donaciones Mensuales",
     "announcements": "Anuncios Activos",
+    "total_events": "Total de Eventos",
+    "system_health": "Salud del Sistema",
     "quick_actions": "Acciones Rápidas",
     "add_member": "Agregar Nuevo Miembro",
     "create_event": "Crear Evento",
-    "new_announcement": "Nuevo Anuncio"
+    "new_announcement": "Nuevo Anuncio",
+    "create_church": "Crear Nueva Iglesia",
+    "manage_users": "Gestionar Usuarios",
+    "system_settings": "Configuración del Sistema",
+    "toast_demo": "Demostración de Notificaciones Toast",
+    "toast_demo_description": "Prueba los diferentes tipos de notificaciones toast con animaciones suaves y barra de progreso."
   },
   "validation": {
     "required": "{field} es obligatorio",

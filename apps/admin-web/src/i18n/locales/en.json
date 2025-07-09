@@ -61,10 +61,17 @@
     "events": "Upcoming Events",
     "donations": "Monthly Donations",
     "announcements": "Active Announcements",
+    "total_events": "Total Events",
+    "system_health": "System Health",
     "quick_actions": "Quick Actions",
     "add_member": "Add New Member",
     "create_event": "Create Event",
-    "new_announcement": "New Announcement"
+    "new_announcement": "New Announcement",
+    "create_church": "Create New Church",
+    "manage_users": "Manage Users",
+    "system_settings": "System Settings",
+    "toast_demo": "Toast Notifications Demo",
+    "toast_demo_description": "Test the different types of toast notifications with smooth animations and progress bar."
   },
   "validation": {
     "required": "{field} is required",
