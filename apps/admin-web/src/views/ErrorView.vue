@@ -6,7 +6,7 @@
           <img
             :src="EkklesiaLogo"
             alt="Ekklesia"
-            class="h-12 w-auto mx-auto"
+            class="h-18 w-auto mx-auto"
           >
         </div>
 
