@@ -23,13 +23,16 @@
     <!-- Main Content -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Super Admin Church Management -->
-      <div v-if="isSuperAdmin" class="mb-8">
+      <div
+        v-if="isSuperAdmin"
+        class="mb-8"
+      >
         <AppCard :title="$t('churches.title')">
           <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <AppStatsCard
               :title="$t('churches.active_churches')"
               :value="churchCount"
-              color="indigo"
+              color="blue"
             >
               <template #icon>
                 <BuildingOfficeIcon />
