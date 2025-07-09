@@ -4,51 +4,55 @@
     :subtitle="$t('dashboard.welcome', { name: user?.firstName })"
   >
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- Super Admin Church Management -->
+      <!-- Super Admin Stats -->
       <div
         v-if="isSuperAdmin"
-        class="mb-8"
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
       >
-        <AppCard :title="$t('churches.title')">
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-            <AppStatsCard
-              :title="$t('churches.active_churches')"
-              :value="churchCount"
-              color="blue"
-            >
-              <template #icon>
-                <BuildingOfficeIcon />
-              </template>
-            </AppStatsCard>
+        <AppStatsCard
+          :title="$t('churches.active_churches')"
+          :value="churchCount"
+          color="blue"
+        >
+          <template #icon>
+            <BuildingOfficeIcon />
+          </template>
+        </AppStatsCard>
 
-            <AppStatsCard
-              :title="$t('churches.total_users')"
-              :value="totalChurchUsers"
-              color="blue"
-            >
-              <template #icon>
-                <UsersIcon />
-              </template>
-            </AppStatsCard>
+        <AppStatsCard
+          :title="$t('churches.total_users')"
+          :value="totalChurchUsers"
+          color="green"
+        >
+          <template #icon>
+            <UsersIcon />
+          </template>
+        </AppStatsCard>
 
-            <AppStatsCard
-              :title="$t('dashboard.events')"
-              :value="eventCount"
-              color="green"
-            >
-              <template #icon>
-                <CalendarIcon />
-              </template>
-            </AppStatsCard>
-          </div>
+        <AppStatsCard
+          :title="$t('dashboard.total_events')"
+          :value="totalEvents"
+          color="yellow"
+        >
+          <template #icon>
+            <CalendarIcon />
+          </template>
+        </AppStatsCard>
 
-          <ChurchManagement />
-        </AppCard>
+        <AppStatsCard
+          :title="$t('dashboard.system_health')"
+          :value="systemHealth"
+          color="purple"
+        >
+          <template #icon>
+            <CpuChipIcon />
+          </template>
+        </AppStatsCard>
       </div>
 
-      <!-- Regular Dashboard Stats (shown for non-super admins) -->
+      <!-- Church Admin Stats -->
       <div
-        v-if="!isSuperAdmin"
+        v-else
         class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
       >
         <AppStatsCard
@@ -93,9 +97,50 @@
         </AppStatsCard>
       </div>
 
-      <!-- Quick Actions -->
+      <!-- Super Admin Quick Actions -->
       <AppCard
-        v-if="!isSuperAdmin"
+        v-if="isSuperAdmin"
+        :title="$t('dashboard.quick_actions')"
+      >
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <AppButton
+            variant="ghost"
+            class="flex items-center p-4 justify-start"
+            @click="createChurch"
+          >
+            <template #icon>
+              <BuildingOfficeIcon class="h-6 w-6 text-blue-600 mr-3" />
+            </template>
+            {{ $t('dashboard.create_church') }}
+          </AppButton>
+
+          <AppButton
+            variant="ghost"
+            class="flex items-center p-4 justify-start"
+            @click="manageUsers"
+          >
+            <template #icon>
+              <UsersIcon class="h-6 w-6 text-green-600 mr-3" />
+            </template>
+            {{ $t('dashboard.manage_users') }}
+          </AppButton>
+
+          <AppButton
+            variant="ghost"
+            class="flex items-center p-4 justify-start"
+            @click="systemSettings"
+          >
+            <template #icon>
+              <CogIcon class="h-6 w-6 text-purple-600 mr-3" />
+            </template>
+            {{ $t('dashboard.system_settings') }}
+          </AppButton>
+        </div>
+      </AppCard>
+
+      <!-- Church Admin Quick Actions -->
+      <AppCard
+        v-else
         :title="$t('dashboard.quick_actions')"
       >
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -148,7 +193,6 @@ import {
 } from '@ekklesia/ui';
 import { UserRole } from '@ekklesia/shared';
 import AdminLayout from '../components/AdminLayout.vue';
-import ChurchManagement from '../components/ChurchManagement.vue';
 import { useChurchService } from '../composables/useChurchService';
 
 // Heroicons
@@ -161,6 +205,8 @@ import {
   PlusIcon,
   PencilIcon,
   BuildingOfficeIcon,
+  CpuChipIcon,
+  CogIcon,
 } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
@@ -171,6 +217,10 @@ const memberCount = ref(0);
 const eventCount = ref(0);
 const donationAmount = ref(0);
 const announcementCount = ref(0);
+
+// Super Admin specific stats
+const totalEvents = ref(0);
+const systemHealth = ref('Good');
 
 // User data from auth store
 const user = computed(() => auth.user || undefined);
@@ -193,8 +243,10 @@ const loadDashboardData = async () => {
   donationAmount.value = 15420;
   announcementCount.value = 3;
 
-  // Super admin specific data
+  // Super Admin specific data
   if (isSuperAdmin.value) {
+    totalEvents.value = 45;
+    systemHealth.value = 'Good';
     await loadChurches();
   }
 };
@@ -212,5 +264,21 @@ const createEvent = () => {
 const newAnnouncement = () => {
   // Navigate to new announcement page
   console.log('New announcement clicked');
+};
+
+// Super Admin actions
+const createChurch = () => {
+  // Navigate to create church page
+  console.log('Create church clicked');
+};
+
+const manageUsers = () => {
+  // Navigate to manage users page
+  console.log('Manage users clicked');
+};
+
+const systemSettings = () => {
+  // Navigate to system settings page
+  console.log('System settings clicked');
 };
 </script>

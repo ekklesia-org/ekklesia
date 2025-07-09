@@ -52,13 +52,13 @@
               </td>
               <td class="py-2">
                 <AppButton
-                  variant="text"
+                  variant="primary"
                   @click="editChurch(church)"
                 >
                   {{ $t('churches.edit_church') }}
                 </AppButton>
                 <AppButton
-                  variant="text"
+                  variant="primary"
                   @click="viewChurch(church)"
                 >
                   {{ $t('churches.view_church') }}

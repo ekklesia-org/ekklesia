@@ -59,10 +59,15 @@
     "events": "Eventos Próximos",
     "donations": "Doações Mensais",
     "announcements": "Anúncios Ativos",
+    "total_events": "Total de Eventos",
+    "system_health": "Saúde do Sistema",
     "quick_actions": "Ações Rápidas",
     "add_member": "Adicionar Novo Membro",
     "create_event": "Criar Evento",
-    "new_announcement": "Novo Anúncio"
+    "new_announcement": "Novo Anúncio",
+    "create_church": "Criar Nova Igreja",
+    "manage_users": "Gerenciar Usuários",
+    "system_settings": "Configurações do Sistema"
   },
   "validation": {
     "required": "{field} é obrigatório",
