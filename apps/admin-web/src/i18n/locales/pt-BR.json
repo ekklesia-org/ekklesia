@@ -38,7 +38,9 @@
       "password_required": "A senha é obrigatória",
       "password_min_length": "A senha deve ter pelo menos 6 caracteres",
       "church_name_required": "O nome da igreja é obrigatório"
-    }
+    },
+    "setup_success": "Sistema inicializado com sucesso! Faça login com suas credenciais.",
+    "setup_error": "Falha ao inicializar sistema. Tente novamente."
   },
   "sidebar": {
     "dashboard": "Painel de Controle",
@@ -133,7 +135,17 @@
       "treasurer": "Tesoureiro",
       "secretary": "Secretário",
       "member": "Membro"
-    }
+    },
+    "create_success": "Usuário criado com sucesso!",
+    "create_error": "Falha ao criar usuário. Tente novamente.",
+    "update_success": "Usuário atualizado com sucesso!",
+    "update_error": "Falha ao atualizar usuário. Tente novamente.",
+    "activate_success": "Usuário ativado com sucesso!",
+    "activate_error": "Falha ao ativar usuário. Tente novamente.",
+    "deactivate_success": "Usuário desativado com sucesso!",
+    "deactivate_error": "Falha ao desativar usuário. Tente novamente.",
+    "delete_success": "Usuário deletado com sucesso!",
+    "delete_error": "Falha ao deletar usuário. Tente novamente."
   },
   "error": {
     "title": "Erro do Servidor",
@@ -241,8 +253,18 @@
       "transfer_and_delete": "Transferir e Deletar",
       "cannot_delete_with_super_admins": "Não é possível deletar uma igreja com Super Administradores. Transfira-os primeiro.",
       "cannot_delete_last_church": "Não é possível deletar a última igreja do sistema.",
-      "transfer_success": "Super Administradores transferidos com sucesso!"
-    }
+      "transfer_success": "Super Administradores transferidos com sucesso!",
+      "transfer_error": "Falha ao transferir Super Administradores. Tente novamente.",
+      "fetch_options_error": "Falha ao carregar igrejas disponíveis. Tente novamente."
+    },
+    "create_success": "Igreja criada com sucesso!",
+    "create_error": "Falha ao criar igreja. Tente novamente.",
+    "update_success": "Igreja atualizada com sucesso!",
+    "update_error": "Falha ao atualizar igreja. Tente novamente.",
+    "delete_success": "Igreja deletada com sucesso!",
+    "delete_error": "Falha ao deletar igreja. Tente novamente.",
+    "transfer_delete_success": "Super administradores transferidos e igreja deletada com sucesso!",
+    "transfer_delete_error": "Falha ao transferir e deletar igreja. Tente novamente."
   },
   "common": {
     "loading": "Carregando...",

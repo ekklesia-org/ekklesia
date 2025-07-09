@@ -92,7 +92,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AppButton } from '@ekklesia/ui';
+import { AppButton, useToast } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import { ChurchWithUsers, CreateChurchDto } from '../services/churchService';
 import ChurchForm from '../components/ChurchForm.vue';
@@ -100,6 +100,7 @@ import SuperAdminTransferDialog from '../components/SuperAdminTransferDialog.vue
 import { useChurchesStore } from '../stores/churches';
 
 const { t } = useI18n();
+const toast = useToast();
 const churchesStore = useChurchesStore();
 
 const selectedChurch = ref<ChurchWithUsers | null>(null);
@@ -137,12 +138,13 @@ const deleteChurch = async (id: string) => {
     if (confirm(t('churches.manager.confirm_delete'))) {
       try {
         await churchesStore.deleteChurch(id);
+        toast.success(t('churches.delete_success'));
       } catch (error: any) {
         // Handle API errors
         if (error.response?.status === 400) {
-          alert(error.response.data.message || t('churches.super_admin_transfer.cannot_delete_last_church'));
+          toast.error(error.response.data.message || t('churches.super_admin_transfer.cannot_delete_last_church'));
         } else {
-          alert('Erro ao deletar igreja. Tente novamente.');
+          toast.error(t('churches.delete_error'));
         }
       }
     }
@@ -153,11 +155,15 @@ const handleFormSubmit = async (data: CreateChurchDto) => {
   try {
     if (selectedChurch.value) {
       await churchesStore.updateChurch(selectedChurch.value.id, data);
+      toast.success(t('churches.update_success'));
     } else {
       await churchesStore.createChurch(data);
+      toast.success(t('churches.create_success'));
     }
   } catch (error) {
     console.error('Error saving church:', error);
+    const errorMessage = selectedChurch.value ? t('churches.update_error') : t('churches.create_error');
+    toast.error(errorMessage);
   } finally {
     showForm.value = false;
   }
@@ -173,10 +179,12 @@ const handleTransfer = async (toChurchId: string) => {
   try {
     // After transfer, proceed with deletion
     await churchesStore.deleteChurch(churchToDelete.value.id);
+    toast.success(t('churches.transfer_delete_success'));
     showTransferDialog.value = false;
     churchToDelete.value = null;
   } catch (error) {
     console.error('Error deleting church after transfer:', error);
+    toast.error(t('churches.transfer_delete_error'));
   }
 };
 

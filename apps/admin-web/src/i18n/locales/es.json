@@ -38,7 +38,9 @@
       "password_required": "La contraseña es obligatoria",
       "password_min_length": "La contraseña debe tener al menos 6 caracteres",
       "church_name_required": "El nombre de la iglesia es obligatorio"
-    }
+    },
+    "setup_success": "¡Sistema inicializado exitosamente! Inicia sesión con tus credenciales.",
+    "setup_error": "Error al inicializar sistema. Inténtalo de nuevo."
   },
   "sidebar": {
     "dashboard": "Panel de Control",
@@ -128,7 +130,17 @@
       "treasurer": "Tesorero",
       "secretary": "Secretario",
       "member": "Miembro"
-    }
+    },
+    "create_success": "¡Usuario creado exitosamente!",
+    "create_error": "Error al crear usuario. Inténtalo de nuevo.",
+    "update_success": "¡Usuario actualizado exitosamente!",
+    "update_error": "Error al actualizar usuario. Inténtalo de nuevo.",
+    "activate_success": "¡Usuario activado exitosamente!",
+    "activate_error": "Error al activar usuario. Inténtalo de nuevo.",
+    "deactivate_success": "¡Usuario desactivado exitosamente!",
+    "deactivate_error": "Error al desactivar usuario. Inténtalo de nuevo.",
+    "delete_success": "¡Usuario eliminado exitosamente!",
+    "delete_error": "Error al eliminar usuario. Inténtalo de nuevo."
   },
   "error": {
     "title": "Error del Servidor",
@@ -190,8 +202,18 @@
       "transfer_and_delete": "Transferir y Eliminar",
       "cannot_delete_with_super_admins": "No se puede eliminar una iglesia con Super Administradores. Transfiéralos primero.",
       "cannot_delete_last_church": "No se puede eliminar la última iglesia del sistema.",
-      "transfer_success": "¡Super Administradores transferidos exitosamente!"
-    }
+      "transfer_success": "¡Super Administradores transferidos exitosamente!",
+      "transfer_error": "Error al transferir Super Administradores. Inténtalo de nuevo.",
+      "fetch_options_error": "Error al cargar iglesias disponibles. Inténtalo de nuevo."
+    },
+    "create_success": "¡Iglesia creada exitosamente!",
+    "create_error": "Error al crear iglesia. Inténtalo de nuevo.",
+    "update_success": "¡Iglesia actualizada exitosamente!",
+    "update_error": "Error al actualizar iglesia. Inténtalo de nuevo.",
+    "delete_success": "¡Iglesia eliminada exitosamente!",
+    "delete_error": "Error al eliminar iglesia. Inténtalo de nuevo.",
+    "transfer_delete_success": "¡Super administradores transferidos e iglesia eliminada exitosamente!",
+    "transfer_delete_error": "Error al transferir y eliminar iglesia. Inténtalo de nuevo."
   },
   "common": {
     "loading": "Cargando...",

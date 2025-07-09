@@ -38,7 +38,9 @@
       "password_required": "Password is required",
       "password_min_length": "Password must be at least 6 characters",
       "church_name_required": "Church name is required"
-    }
+    },
+    "setup_success": "System initialized successfully! Please login with your credentials.",
+    "setup_error": "Failed to initialize system. Please try again."
   },
   "sidebar": {
     "dashboard": "Dashboard",
@@ -150,8 +152,18 @@
       "transfer_and_delete": "Transfer and Delete",
       "cannot_delete_with_super_admins": "Cannot delete a church with Super Administrators. Transfer them first.",
       "cannot_delete_last_church": "Cannot delete the last church in the system.",
-      "transfer_success": "Super Administrators transferred successfully!"
-    }
+      "transfer_success": "Super Administrators transferred successfully!",
+      "transfer_error": "Failed to transfer Super Administrators. Please try again.",
+      "fetch_options_error": "Failed to load available churches. Please try again."
+    },
+    "create_success": "Church created successfully!",
+    "create_error": "Failed to create church. Please try again.",
+    "update_success": "Church updated successfully!",
+    "update_error": "Failed to update church. Please try again.",
+    "delete_success": "Church deleted successfully!",
+    "delete_error": "Failed to delete church. Please try again.",
+    "transfer_delete_success": "Super administrators transferred and church deleted successfully!",
+    "transfer_delete_error": "Failed to transfer and delete church. Please try again."
   },
   "users": {
     "title": "User Management",
@@ -191,7 +203,17 @@
       "treasurer": "Treasurer",
       "secretary": "Secretary",
       "member": "Member"
-    }
+    },
+    "create_success": "User created successfully!",
+    "create_error": "Failed to create user. Please try again.",
+    "update_success": "User updated successfully!",
+    "update_error": "Failed to update user. Please try again.",
+    "activate_success": "User activated successfully!",
+    "activate_error": "Failed to activate user. Please try again.",
+    "deactivate_success": "User deactivated successfully!",
+    "deactivate_error": "Failed to deactivate user. Please try again.",
+    "delete_success": "User deleted successfully!",
+    "delete_error": "Failed to delete user. Please try again."
   },
   "common": {
     "loading": "Loading...",

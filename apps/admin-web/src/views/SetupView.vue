@@ -114,12 +114,13 @@ import { reactive, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useAuthStore } from '../stores/auth';
-import { AppCard, AppInput, AppButton, AppAlert } from '@ekklesia/ui';
+import { AppCard, AppInput, AppButton, AppAlert, useToast } from '@ekklesia/ui';
 import EkklesiaLogo from '../assets/ekklesia-logo.png';
 
 const router = useRouter();
 const authStore = useAuthStore();
 const { t } = useI18n();
+const toast = useToast();
 
 const form = reactive({
   firstName: '',
@@ -167,14 +168,21 @@ const validateForm = (): boolean => {
 
 const handleSetup = async () => {
   if (!validateForm()) {
+    // Show validation errors as toast
+    const firstError = Object.values(errors)[0];
+    if (firstError) {
+      toast.error(firstError);
+    }
     return;
   }
 
   try {
     await authStore.initializeSystem(form);
+    toast.success(t('setup.setup_success'));
     router.push('/login');
   } catch (error) {
     console.error('Setup failed', error);
+    toast.error(t('setup.setup_error'));
   }
 };
 </script>
