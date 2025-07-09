@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, ClassSerializerInterceptor, ParseIntPipe, ParseBoolPipe } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { ChurchService } from './church.service';
 import { CreateChurchDto } from './dto/create-church.dto';
@@ -25,9 +25,14 @@ export class ChurchController {
   @ApiQuery({ name: 'limit', required: false, description: 'Limit number of churches', example: 10 })
   @ApiQuery({ name: 'includeInactive', required: false, description: 'Include inactive churches', example: false })
   @ApiResponse({ status: 200, description: 'Success' })
-  findAll(@Query('page') page = 1, @Query('limit') limit = 10, @Query('includeInactive') includeInactive = false) {
+  findAll(
+    @Query('page', ParseIntPipe) page = 1,
+    @Query('limit', ParseIntPipe) limit = 10,
+    @Query('includeInactive', ParseBoolPipe) includeInactive = false
+  ) {
     return this.churchService.findAll(page, limit, includeInactive);
   }
+
 
   @Get('slug/:slug')
   @ApiOperation({ summary: 'Get a church by slug' })
