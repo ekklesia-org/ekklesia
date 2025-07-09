@@ -42,13 +42,13 @@ const router = createRouter({
 // Navigation guard to check authentication and setup
 router.beforeEach(async (to, from, next) => {
   const authStore = useAuthStore();
-  
+
   // Skip status check for error page
   if (to.path === '/error') {
     next();
     return;
   }
-  
+
   // Check if system needs setup (except for setup route itself)
   if (to.path !== '/setup') {
     try {
@@ -60,11 +60,12 @@ router.beforeEach(async (to, from, next) => {
     } catch (error) {
       // Server error - redirect to error page
       console.error('Server error during status check:', error);
-      next(`/error?error=${encodeURIComponent(error.message || 'Server error')}`);
+      const errorMessage = error instanceof Error ? error.message : 'Server error';
+      next(`/error?error=${encodeURIComponent(errorMessage)}`);
       return;
     }
   }
-  
+
   // For setup route, check if system already initialized
   if (to.meta.requiresSetup) {
     try {
@@ -76,11 +77,12 @@ router.beforeEach(async (to, from, next) => {
     } catch (error) {
       // Server error - redirect to error page
       console.error('Server error during setup route check:', error);
-      next(`/error?error=${encodeURIComponent(error.message || 'Server error')}`);
+      const errorMessage = error instanceof Error ? error.message : 'Server error';
+      next(`/error?error=${encodeURIComponent(errorMessage)}`);
       return;
     }
   }
-  
+
   // Handle root path redirect based on auth status
   if (to.path === '/') {
     try {
@@ -89,22 +91,22 @@ router.beforeEach(async (to, from, next) => {
         next('/setup');
         return;
       }
-      
+
       if (authStore.isAuthenticated) {
         next('/dashboard');
         return;
       } else {
         next('/login');
-        return;
       }
     } catch (error) {
       // Server error - redirect to error page
       console.error('Server error during root path redirect:', error);
-      next(`/error?error=${encodeURIComponent(error.message || 'Server error')}`);
+      const errorMessage = error instanceof Error ? error.message : 'Server error';
+      next(`/error?error=${encodeURIComponent(errorMessage)}`);
       return;
     }
   }
-  
+
   // For routes that require authentication
   if (to.meta.requiresAuth) {
     if (!authStore.isAuthenticated) {
@@ -112,7 +114,7 @@ router.beforeEach(async (to, from, next) => {
       next('/login');
       return;
     }
-    
+
     // Validate token if we have one
     if (authStore.token) {
       const isValid = await authStore.validateToken();
@@ -123,14 +125,14 @@ router.beforeEach(async (to, from, next) => {
       }
     }
   }
-  
+
   // For routes that require guest (unauthenticated) status
   if (to.meta.requiresGuest && authStore.isAuthenticated) {
     // User is authenticated but trying to access guest route
     next('/dashboard');
     return;
   }
-  
+
   // All good, proceed
   next();
 });
