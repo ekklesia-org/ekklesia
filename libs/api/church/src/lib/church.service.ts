@@ -12,7 +12,7 @@ export class ChurchService {
   /**
    * Create a new church
    */
-  async create(createChurchDto: CreateChurchDto): Promise<Church> {
+  async create(createChurchDto: CreateChurchDto): Promise<Church & { userCount: number }> {
     const { slug, ...churchData } = createChurchDto;
 
     // Generate slug if not provided
@@ -59,7 +59,10 @@ export class ChurchService {
         }
       });
 
-      return church;
+      return {
+        ...church,
+        userCount: church.users.length
+      } as Church & { userCount: number };
     } catch (error) {
       throw new BadRequestException(`Failed to create church: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
@@ -69,7 +72,7 @@ export class ChurchService {
    * Get all churches with pagination
    */
   async findAll(page = 1, limit = 10, includeInactive = false): Promise<{
-    churches: Church[];
+    churches: (Church & { userCount: number })[];
     total: number;
     page: number;
     limit: number;
@@ -105,8 +108,14 @@ export class ChurchService {
       this.prisma.church.count({ where })
     ]);
 
+    // Add userCount as a computed field
+    const churchesWithUserCount = churches.map(church => ({
+      ...church,
+      userCount: church.users.length
+    }));
+
     return {
-      churches,
+      churches: churchesWithUserCount,
       total,
       page,
       limit,
@@ -117,7 +126,7 @@ export class ChurchService {
   /**
    * Get a church by ID
    */
-  async findOne(id: string): Promise<Church> {
+  async findOne(id: string): Promise<Church & { userCount: number }> {
     const church = await this.prisma.church.findUnique({
       where: { id },
       include: {
@@ -140,13 +149,16 @@ export class ChurchService {
       throw new NotFoundException(`Church with ID "${id}" not found`);
     }
 
-    return church;
+    return {
+      ...church,
+      userCount: church.users.length
+    } as Church & { userCount: number };
   }
 
   /**
    * Get a church by slug
    */
-  async findBySlug(slug: string): Promise<Church> {
+  async findBySlug(slug: string): Promise<Church & { userCount: number }> {
     const church = await this.prisma.church.findUnique({
       where: { slug },
       include: {
@@ -169,13 +181,16 @@ export class ChurchService {
       throw new NotFoundException(`Church with slug "${slug}" not found`);
     }
 
-    return church;
+    return {
+      ...church,
+      userCount: church.users.length
+    } as Church & { userCount: number };
   }
 
   /**
    * Update a church
    */
-  async update(id: string, updateChurchDto: UpdateChurchDto): Promise<Church> {
+  async update(id: string, updateChurchDto: UpdateChurchDto): Promise<Church & { userCount: number }> {
     const existingChurch = await this.findOne(id);
 
     const { slug, ...churchData } = updateChurchDto;
@@ -225,7 +240,10 @@ export class ChurchService {
         }
       });
 
-      return church;
+      return {
+        ...church,
+        userCount: church.users.length
+      } as Church & { userCount: number };
     } catch (error) {
       throw new BadRequestException(`Failed to update church: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
@@ -234,7 +252,7 @@ export class ChurchService {
   /**
    * Delete a church (soft delete by setting isActive to false)
    */
-  async remove(id: string): Promise<Church> {
+  async remove(id: string): Promise<Church & { userCount: number }> {
     try {
       const church = await this.prisma.church.update({
         where: { id },
@@ -255,7 +273,10 @@ export class ChurchService {
         }
       });
 
-      return church;
+      return {
+        ...church,
+        userCount: church.users.length
+      } as Church & { userCount: number };
     } catch (error) {
       throw new BadRequestException(`Failed to delete church: ${error instanceof Error ? error.message : 'Unknown error'}`);
     }
