@@ -76,6 +76,16 @@
       @submit="handleFormSubmit"
       @cancel="cancelForm"
     />
+    
+    <!-- Super Admin Transfer Dialog -->
+    <SuperAdminTransferDialog
+      v-if="showTransferDialog && churchToDelete"
+      :church-id="churchToDelete.id"
+      :church-name="churchToDelete.name"
+      :super-admins="churchToDelete.users.filter(u => u.role === 'SUPER_ADMIN' && u.isActive)"
+      @transfer="handleTransfer"
+      @cancel="cancelTransfer"
+    />
   </AdminLayout>
 </template>
 
@@ -86,6 +96,7 @@ import { AppButton } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import { ChurchWithUsers, CreateChurchDto } from '../services/churchService';
 import ChurchForm from '../components/ChurchForm.vue';
+import SuperAdminTransferDialog from '../components/SuperAdminTransferDialog.vue';
 import { useChurchesStore } from '../stores/churches';
 
 const { t } = useI18n();
@@ -93,6 +104,8 @@ const churchesStore = useChurchesStore();
 
 const selectedChurch = ref<ChurchWithUsers | null>(null);
 const showForm = ref(false);
+const showTransferDialog = ref(false);
+const churchToDelete = ref<ChurchWithUsers | null>(null);
 
 // Use store getters and state
 const churches = computed(() => churchesStore.churches);
@@ -109,8 +122,30 @@ const editChurch = (church: ChurchWithUsers) => {
 };
 
 const deleteChurch = async (id: string) => {
-  if (confirm(t('churches.manager.confirm_delete'))) {
-    await churchesStore.deleteChurch(id);
+  const church = churches.value.find(c => c.id === id);
+  if (!church) return;
+  
+  // Check if church has Super Admin users
+  const superAdmins = church.users.filter(user => user.role === 'SUPER_ADMIN' && user.isActive);
+  
+  if (superAdmins.length > 0) {
+    // Show transfer dialog for Super Admins
+    churchToDelete.value = church;
+    showTransferDialog.value = true;
+  } else {
+    // Normal deletion flow
+    if (confirm(t('churches.manager.confirm_delete'))) {
+      try {
+        await churchesStore.deleteChurch(id);
+      } catch (error: any) {
+        // Handle API errors
+        if (error.response?.status === 400) {
+          alert(error.response.data.message || t('churches.super_admin_transfer.cannot_delete_last_church'));
+        } else {
+          alert('Erro ao deletar igreja. Tente novamente.');
+        }
+      }
+    }
   }
 };
 
@@ -130,6 +165,24 @@ const handleFormSubmit = async (data: CreateChurchDto) => {
 
 const cancelForm = () => {
   showForm.value = false;
+};
+
+const handleTransfer = async (toChurchId: string) => {
+  if (!churchToDelete.value) return;
+  
+  try {
+    // After transfer, proceed with deletion
+    await churchesStore.deleteChurch(churchToDelete.value.id);
+    showTransferDialog.value = false;
+    churchToDelete.value = null;
+  } catch (error) {
+    console.error('Error deleting church after transfer:', error);
+  }
+};
+
+const cancelTransfer = () => {
+  showTransferDialog.value = false;
+  churchToDelete.value = null;
 };
 
 onMounted(() => {

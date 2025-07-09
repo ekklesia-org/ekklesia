@@ -139,6 +139,17 @@
     "status": {
       "active": "Active",
       "inactive": "Inactive"
+    },
+    "super_admin_transfer": {
+      "title": "Transfer Super Administrators",
+      "warning": "This church has Super Administrators. They must be transferred to another church before deletion.",
+      "affected_users": "Affected Users",
+      "select_destination": "Select Destination Church",
+      "select_church": "Select a church...",
+      "transfer_and_delete": "Transfer and Delete",
+      "cannot_delete_with_super_admins": "Cannot delete a church with Super Administrators. Transfer them first.",
+      "cannot_delete_last_church": "Cannot delete the last church in the system.",
+      "transfer_success": "Super Administrators transferred successfully!"
     }
   }
 }

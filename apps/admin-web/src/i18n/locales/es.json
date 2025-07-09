@@ -139,6 +139,17 @@
     "status": {
       "active": "Activo",
       "inactive": "Inactivo"
+    },
+    "super_admin_transfer": {
+      "title": "Transferir Super Administradores",
+      "warning": "Esta iglesia tiene Super Administradores. Deben ser transferidos a otra iglesia antes de la eliminación.",
+      "affected_users": "Usuarios Afectados",
+      "select_destination": "Seleccionar Iglesia de Destino",
+      "select_church": "Seleccione una iglesia...",
+      "transfer_and_delete": "Transferir y Eliminar",
+      "cannot_delete_with_super_admins": "No se puede eliminar una iglesia con Super Administradores. Transfiéralos primero.",
+      "cannot_delete_last_church": "No se puede eliminar la última iglesia del sistema.",
+      "transfer_success": "¡Super Administradores transferidos exitosamente!"
     }
   }
 }

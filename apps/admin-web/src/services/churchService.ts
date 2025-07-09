@@ -101,6 +101,24 @@ export class ChurchService {
   }
 
   /**
+   * Transfer Super Admin users from one church to another
+   */
+  async transferSuperAdmins(fromChurchId: string, toChurchId: string): Promise<{ message: string }> {
+    const response = await axios.post<{ message: string }>(
+      `${this.baseUrl}/${fromChurchId}/transfer-super-admins/${toChurchId}`
+    );
+    return response.data;
+  }
+
+  /**
+   * Get available churches for Super Admin transfer
+   */
+  async getTransferOptions(churchId: string): Promise<Church[]> {
+    const response = await axios.get<Church[]>(`${this.baseUrl}/${churchId}/transfer-options`);
+    return response.data;
+  }
+
+  /**
    * Generate slug from church name
    */
   generateSlug(name: string): string {
