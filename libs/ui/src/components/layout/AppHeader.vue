@@ -55,7 +55,7 @@
             </div>
             <div
               v-if="showUserInfo"
-              class="hidden sm:block"
+              class="block"
             >
               <p class="text-sm font-medium text-gray-900">
                 {{ userFullName }}
