@@ -83,7 +83,9 @@ export function setValue(obj: Record<string, unknown>, path: string, value: unkn
  */
 export function removeEmptyValues(obj: unknown): unknown {
   if (Array.isArray(obj)) {
-    return obj.map(removeEmptyValues).filter(Boolean);
+    return obj
+      .map(removeEmptyValues)
+      .filter((item) => item !== undefined && item !== null);
   }
 
   if (isObject(obj)) {
