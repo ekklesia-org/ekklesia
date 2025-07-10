@@ -4,17 +4,6 @@
   "sourceRoot": "libs/api/users/src",
   "projectType": "library",
   "tags": [],
-  "targets": {
-    "build": {
-      "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/libs/api/users",
-        "tsConfig": "libs/api/users/tsconfig.lib.json",
-        "packageJson": "libs/api/users/package.json",
-        "main": "libs/api/users/src/index.ts",
-        "assets": ["libs/api/users/*.md"]
-      }
-    }
-  }
+  "// targets": "to see all targets run: nx show project church --web",
+  "targets": {}
 }
