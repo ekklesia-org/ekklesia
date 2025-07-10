@@ -1,5 +1,5 @@
 import './main.css';
-import '../../../dist/libs/ui/index.css';
+import '@ekklesia/ui';
 import router from './router';
 
 // Import UI library components
