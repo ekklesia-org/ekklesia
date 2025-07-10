@@ -13,10 +13,14 @@ export class UsersController {
 
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
+  @ApiQuery({ name: 'currentUserId', required: false, description: 'Current user ID for permission filtering' })
   @ApiResponse({ status: 201, description: 'The user has been successfully created.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(
+    @Body() createUserDto: CreateUserDto,
+    @Query('currentUserId') currentUserId?: string
+  ) {
+    return this.usersService.create(createUserDto, currentUserId);
   }
 
   @Get()
@@ -24,17 +28,19 @@ export class UsersController {
   @ApiQuery({ name: 'page', required: false, description: 'Page number', example: 1 })
   @ApiQuery({ name: 'limit', required: false, description: 'Limit number of users', example: 10 })
   @ApiQuery({ name: 'includeInactive', required: false, description: 'Include inactive users', example: false })
-  @ApiQuery({ name: 'churchId', required: false, description: 'Filter by church ID' })
+  @ApiQuery({ name: 'churchId', required: false, description: 'Filter by church ID (only for super admins)' })
   @ApiQuery({ name: 'role', required: false, description: 'Filter by user role' })
+  @ApiQuery({ name: 'currentUserId', required: false, description: 'Current user ID for permission filtering' })
   @ApiResponse({ status: 200, description: 'Success' })
   findAll(
     @Query('page', ParseIntPipe) page = 1,
     @Query('limit', ParseIntPipe) limit = 10,
     @Query('includeInactive', ParseBoolPipe) includeInactive = false,
     @Query('churchId') churchId?: string,
-    @Query('role') role?: string
+    @Query('role') role?: string,
+    @Query('currentUserId') currentUserId?: string
   ) {
-    return this.usersService.findAll(page, limit, includeInactive, churchId, role);
+    return this.usersService.findAll(page, limit, includeInactive, churchId, role, currentUserId);
   }
 
   @Get('email/:email')
@@ -101,14 +107,16 @@ export class UsersController {
   @ApiQuery({ name: 'page', required: false, description: 'Page number', example: 1 })
   @ApiQuery({ name: 'limit', required: false, description: 'Limit number of users', example: 10 })
   @ApiQuery({ name: 'includeInactive', required: false, description: 'Include inactive users', example: false })
+  @ApiQuery({ name: 'currentUserId', required: false, description: 'Current user ID for permission filtering' })
   @ApiResponse({ status: 200, description: 'Success' })
   findByChurch(
     @Param('churchId') churchId: string,
     @Query('page', ParseIntPipe) page = 1,
     @Query('limit', ParseIntPipe) limit = 10,
-    @Query('includeInactive', ParseBoolPipe) includeInactive = false
+    @Query('includeInactive', ParseBoolPipe) includeInactive = false,
+    @Query('currentUserId') currentUserId?: string
   ) {
-    return this.usersService.findByChurch(churchId, page, limit, includeInactive);
+    return this.usersService.findByChurch(churchId, page, limit, includeInactive, currentUserId);
   }
 
   @Put(':id/activate')

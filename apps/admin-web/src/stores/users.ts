@@ -38,12 +38,12 @@ export const useUsersStore = defineStore('users', () => {
   const hasError = computed(() => !!error.value);
 
   // Actions
-  const fetchUsers = async (page = 1, includeInactive = false, churchId?: string) => {
+  const fetchUsers = async (page = 1, includeInactive = false, churchId?: string, currentUserId?: string) => {
     loading.value = true;
     error.value = null;
 
     try {
-      const response = await userService.getUsers(page, limit.value, includeInactive, churchId);
+      const response = await userService.getUsers(page, limit.value, includeInactive, churchId, currentUserId);
       users.value = response.users;
       currentPage.value = response.page;
       totalPages.value = response.totalPages;
@@ -74,12 +74,12 @@ export const useUsersStore = defineStore('users', () => {
     }
   };
 
-  const createUser = async (data: CreateUserDto): Promise<User | null> => {
+  const createUser = async (data: CreateUserDto, currentUserId?: string): Promise<User | null> => {
     loading.value = true;
     error.value = null;
 
     try {
-      const newUser = await userService.createUser(data);
+      const newUser = await userService.createUser(data, currentUserId);
 
       // Add to our local store
       users.value.unshift(newUser);

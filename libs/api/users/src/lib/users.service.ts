@@ -12,7 +12,7 @@ export class UsersService {
   /**
    * Create a new user
    */
-  async create(createUserDto: CreateUserDto): Promise<User> {
+  async create(createUserDto: CreateUserDto, currentUserId?: string): Promise<User> {
     // Check if user with email already exists
     const existingUser = await this.prisma.user.findUnique({
       where: { email: createUserDto.email }
@@ -25,15 +25,42 @@ export class UsersService {
       });
     }
 
+    let finalUserData = { ...createUserDto };
+    
+    // If a current user ID is provided, check if they are not a super admin
+    // and automatically set the churchId to their church
+    if (currentUserId) {
+      const currentUser = await this.prisma.user.findUnique({
+        where: { id: currentUserId },
+        select: { role: true, churchId: true }
+      });
+      
+      if (currentUser) {
+        // Non-super admins cannot create super admin users
+        if (currentUser.role !== 'SUPER_ADMIN' && finalUserData.role === 'SUPER_ADMIN') {
+          throw new BadRequestException({
+            message: 'You do not have permission to create super admin users',
+            translationKey: 'errors.user.cannot_create_super_admin'
+          });
+        }
+        
+        // Non-super admins can only create users in their own church
+        if (currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
+          // Override any provided churchId with the current user's church
+          finalUserData.churchId = currentUser.churchId;
+        }
+      }
+    }
+
     // Hash password
-    const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+    const hashedPassword = await bcrypt.hash(finalUserData.password, 10);
 
     try {
       const user = await this.prisma.user.create({
         data: {
-          ...createUserDto,
+          ...finalUserData,
           password: hashedPassword,
-          isActive: createUserDto.isActive ?? true,
+          isActive: finalUserData.isActive ?? true,
         },
         include: {
           church: true,
@@ -55,7 +82,7 @@ export class UsersService {
   /**
    * Retrieve all users
    */
-  async findAll(page = 1, limit = 10, includeInactive = false, churchId?: string, role?: string): Promise<{
+  async findAll(page = 1, limit = 10, includeInactive = false, churchId?: string, role?: string, currentUserId?: string): Promise<{
     users: Omit<User, 'password'>[];
     total: number;
     page: number;
@@ -70,6 +97,20 @@ export class UsersService {
     }
     if (churchId) where.churchId = churchId;
     if (role) where.role = role;
+    
+    // If a current user ID is provided, check if they are not a super admin
+    // and automatically filter by their church
+    if (currentUserId) {
+      const currentUser = await this.prisma.user.findUnique({
+        where: { id: currentUserId },
+        select: { role: true, churchId: true }
+      });
+      
+      if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
+        // Override any provided churchId with the current user's church
+        where.churchId = currentUser.churchId;
+      }
+    }
 
     try {
       const [users, total] = await Promise.all([
@@ -372,9 +413,25 @@ export class UsersService {
   /**
    * Get users by church
    */
-  async findByChurch(churchId: string, page = 1, limit = 10, includeInactive = false) {
+  async findByChurch(churchId: string, page = 1, limit = 10, includeInactive = false, currentUserId?: string) {
     const skip = (page - 1) * limit;
-    const where = { churchId, isActive: includeInactive ? undefined : true };
+    let finalChurchId = churchId;
+    
+    // If a current user ID is provided, check if they are not a super admin
+    // and automatically filter by their church
+    if (currentUserId) {
+      const currentUser = await this.prisma.user.findUnique({
+        where: { id: currentUserId },
+        select: { role: true, churchId: true }
+      });
+      
+      if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
+        // Override any provided churchId with the current user's church
+        finalChurchId = currentUser.churchId;
+      }
+    }
+    
+    const where = { churchId: finalChurchId, isActive: includeInactive ? undefined : true };
 
     try {
       const [users, total] = await Promise.all([
@@ -382,6 +439,38 @@ export class UsersService {
           where,
           skip,
           take: limit,
+          select: {
+            id: true,
+            email: true,
+            firstName: true,
+            lastName: true,
+            phone: true,
+            avatar: true,
+            isActive: true,
+            role: true,
+            churchId: true,
+            createdAt: true,
+            updatedAt: true,
+            lastLogin: true,
+            church: {
+              select: {
+                id: true,
+                name: true,
+                slug: true,
+              }
+            },
+            member: {
+              select: {
+                id: true,
+                firstName: true,
+                lastName: true,
+                status: true,
+              }
+            }
+          },
+          orderBy: {
+            createdAt: 'desc'
+          }
         }),
         this.prisma.user.count({ where })
       ]);

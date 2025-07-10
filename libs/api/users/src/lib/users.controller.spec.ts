@@ -73,7 +73,7 @@ describe('UsersController', () => {
 
       const result = await controller.findAll(1, 10, false);
       
-      expect(service.findAll).toHaveBeenCalledWith(1, 10, false, undefined, undefined);
+      expect(service.findAll).toHaveBeenCalledWith(1, 10, false, undefined, undefined, undefined);
       expect(result).toEqual(expectedResult);
     });
   });

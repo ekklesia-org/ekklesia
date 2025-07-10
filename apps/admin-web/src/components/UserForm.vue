@@ -131,23 +131,12 @@
             <option value="">
               {{ $t('users.select_role') }}
             </option>
-            <option value="SUPER_ADMIN">
-              {{ $t('users.roles.super_admin') }}
-            </option>
-            <option value="CHURCH_ADMIN">
-              {{ $t('users.roles.church_admin') }}
-            </option>
-            <option value="PASTOR">
-              {{ $t('users.roles.pastor') }}
-            </option>
-            <option value="TREASURER">
-              {{ $t('users.roles.treasurer') }}
-            </option>
-            <option value="SECRETARY">
-              {{ $t('users.roles.secretary') }}
-            </option>
-            <option value="MEMBER">
-              {{ $t('users.roles.member') }}
+            <option
+              v-for="role in availableRoles"
+              :key="role.value"
+              :value="role.value"
+            >
+              {{ role.label }}
             </option>
           </select>
           <p
@@ -193,12 +182,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton } from '@ekklesia/ui';
 import { User, ICreateUserDto, IUpdateUserDto } from '@ekklesia/shared';
+import { useAuth } from '../stores/auth';
 
 const { t } = useI18n();
+const auth = useAuth();
 
 interface Props {
   user?: User;
@@ -222,6 +213,32 @@ const form = reactive({
 });
 
 const errors = ref<Record<string, string>>({});
+
+// Available roles based on current user's role
+const availableRoles = computed(() => {
+  const currentUserRole = auth.user?.role;
+  
+  // Super admins can assign any role
+  if (currentUserRole === 'SUPER_ADMIN') {
+    return [
+      { value: 'SUPER_ADMIN', label: t('users.roles.super_admin') },
+      { value: 'CHURCH_ADMIN', label: t('users.roles.church_admin') },
+      { value: 'PASTOR', label: t('users.roles.pastor') },
+      { value: 'TREASURER', label: t('users.roles.treasurer') },
+      { value: 'SECRETARY', label: t('users.roles.secretary') },
+      { value: 'MEMBER', label: t('users.roles.member') }
+    ];
+  }
+  
+  // Non-super admins cannot create super admin users
+  return [
+    { value: 'CHURCH_ADMIN', label: t('users.roles.church_admin') },
+    { value: 'PASTOR', label: t('users.roles.pastor') },
+    { value: 'TREASURER', label: t('users.roles.treasurer') },
+    { value: 'SECRETARY', label: t('users.roles.secretary') },
+    { value: 'MEMBER', label: t('users.roles.member') }
+  ];
+});
 
 const validateForm = () => {
   errors.value = {};

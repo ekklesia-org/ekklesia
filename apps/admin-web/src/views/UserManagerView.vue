@@ -261,7 +261,8 @@ const toggleIncludeInactive = () => {
 
 const fetchUsersWithContext = (page = 1) => {
   const churchId = auth.user?.role === 'SUPER_ADMIN' ? selectedChurchStore.selectedChurchId ?? undefined : undefined;
-  usersStore.fetchUsers(page, includeInactive.value, churchId);
+  const currentUserId = auth.user?.id;
+  usersStore.fetchUsers(page, includeInactive.value, churchId, currentUserId);
 };
 
 const activateUser = async (id: string) => {
@@ -313,7 +314,8 @@ const handleFormSubmit = async (data: CreateUserDto | UpdateUserDto) => {
       await usersStore.updateUser(selectedUser.value.id, data as UpdateUserDto);
       handleSuccess(t('users.update_success'));
     } else {
-      await usersStore.createUser(data as CreateUserDto);
+      const currentUserId = auth.user?.id;
+      await usersStore.createUser(data as CreateUserDto, currentUserId);
       handleSuccess(t('users.create_success'));
     }
     showForm.value = false;

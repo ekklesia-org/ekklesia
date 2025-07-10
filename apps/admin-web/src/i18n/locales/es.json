@@ -145,7 +145,8 @@
     "deactivate_success": "¡Usuario desactivado exitosamente!",
     "deactivate_error": "Error al desactivar usuario. Inténtalo de nuevo.",
     "delete_success": "¡Usuario eliminado exitosamente!",
-    "delete_error": "Error al eliminar usuario. Inténtalo de nuevo."
+    "delete_error": "Error al eliminar usuario. Inténtalo de nuevo.",
+    "cannot_create_super_admin_error": "No tienes permiso para crear usuarios super administradores."
   },
   "error": {
     "title": "Error del Servidor",
