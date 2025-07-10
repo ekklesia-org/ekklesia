@@ -20,7 +20,7 @@ export default defineConfig(async () => {
       port: 4300,
       host: 'localhost',
     },
-    plugins: [vue(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md']), tailwindcss.default()],
+    plugins: [vue(), tailwindcss.default(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
     // Uncomment this if you are using workers.
     // worker: {
     //  plugins: [ nxViteTsPaths() ],
