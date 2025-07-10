@@ -9,7 +9,7 @@ export class AppController {
 
   @Get()
   @ApiOperation({ 
-    summary: 'API Health Check  Information',
+    summary: 'API Health Check Information',
     description: 'Returns API status, version, and basic statistics for health monitoring'
   })
   @ApiResponse({ 
