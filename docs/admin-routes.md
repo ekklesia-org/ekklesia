@@ -21,7 +21,7 @@
 ### Pastor, Treasurer, Church Admin Routes
 - `/finances` - Financial management page
 
-### Church Admin and up Routes
+### Church Admin Routes
 - `/users` - User management page
 
 ### Church Admin Only Routes
