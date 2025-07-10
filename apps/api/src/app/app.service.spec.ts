@@ -1,26 +1,20 @@
-// Mock the AppService for testing
-const mockAppService = {
-  getApiInfo: jest.fn(),
-};
+import 'ts-node/register/transpile-only';
 
 describe('AppService', () => {
-  describe('getApiInfo', () => {
-    it('should be defined as a method', () => {
-      // Simple test to ensure the method exists
-      // More complex tests will be added when we resolve the Prisma import issue
-      expect(typeof mockAppService.getApiInfo).toBe('function');
-    });
+  let AppService: any;
+  let appService: any;
+  let prisma: { $queryRaw: jest.Mock };
 
-    it('should be mockable', () => {
-      mockAppService.getApiInfo.mockReturnValue({
-        status: 'healthy',
-        service: 'Ekklesia API',
-        version: '1.0.0'
-      });
-      
-      const result = mockAppService.getApiInfo();
-      expect(result.status).toBe('healthy');
-      expect(result.service).toBe('Ekklesia API');
-    });
+  beforeEach(() => {
+    AppService = require('./app.service').AppService;
+    prisma = { $queryRaw: jest.fn().mockResolvedValue(1) } as any;
+    appService = new AppService(prisma);
+  });
+
+  it('getApiInfo should report healthy status and connected database', async () => {
+    const result = await appService.getApiInfo();
+    expect(result.status).toBe('healthy');
+    expect(result.service).toBe('Ekklesia API');
+    expect(result.database.status).toBe('connected');
   });
 });
