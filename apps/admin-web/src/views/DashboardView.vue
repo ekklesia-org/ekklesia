@@ -178,7 +178,6 @@
           </AppButton>
         </div>
       </AppCard>
-
     </div>
   </AdminLayout>
 </template>

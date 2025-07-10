@@ -1,26 +1,29 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, ClassSerializerInterceptor, ParseIntPipe, ParseBoolPipe, HttpCode, HttpStatus } from '@nestjs/common';
-import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiQuery } from '@nestjs/swagger';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, ClassSerializerInterceptor, ParseIntPipe, ParseBoolPipe, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
+import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
 import { UserRole } from '@ekklesia/prisma';
+import { CurrentUser, CurrentUserData } from '../../../src/lib/decorators/current-user.decorator';
 
 @ApiTags('users')
 @Controller('users')
+@UseGuards(AuthGuard('jwt'))
+@ApiBearerAuth('JWT-auth')
 @UseInterceptors(ClassSerializerInterceptor)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
   @ApiOperation({ summary: 'Create a new user' })
-  @ApiQuery({ name: 'currentUserId', required: false, description: 'Current user ID for permission filtering' })
   @ApiResponse({ status: 201, description: 'The user has been successfully created.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   create(
     @Body() createUserDto: CreateUserDto,
-    @Query('currentUserId') currentUserId?: string
+    @CurrentUser() currentUser: CurrentUserData
   ) {
-    return this.usersService.create(createUserDto, currentUserId);
+    return this.usersService.create(createUserDto, currentUser);
   }
 
   @Get()
@@ -30,17 +33,16 @@ export class UsersController {
   @ApiQuery({ name: 'includeInactive', required: false, description: 'Include inactive users', example: false })
   @ApiQuery({ name: 'churchId', required: false, description: 'Filter by church ID (only for super admins)' })
   @ApiQuery({ name: 'role', required: false, description: 'Filter by user role' })
-  @ApiQuery({ name: 'currentUserId', required: false, description: 'Current user ID for permission filtering' })
   @ApiResponse({ status: 200, description: 'Success' })
   findAll(
+    @CurrentUser() currentUser: CurrentUserData,
     @Query('page', ParseIntPipe) page = 1,
     @Query('limit', ParseIntPipe) limit = 10,
     @Query('includeInactive', ParseBoolPipe) includeInactive = false,
     @Query('churchId') churchId?: string,
-    @Query('role') role?: string,
-    @Query('currentUserId') currentUserId?: string
+    @Query('role') role?: string
   ) {
-    return this.usersService.findAll(page, limit, includeInactive, churchId, role, currentUserId);
+    return this.usersService.findAll(page, limit, includeInactive, churchId, role, currentUser);
   }
 
   @Get('email/:email')
@@ -107,16 +109,15 @@ export class UsersController {
   @ApiQuery({ name: 'page', required: false, description: 'Page number', example: 1 })
   @ApiQuery({ name: 'limit', required: false, description: 'Limit number of users', example: 10 })
   @ApiQuery({ name: 'includeInactive', required: false, description: 'Include inactive users', example: false })
-  @ApiQuery({ name: 'currentUserId', required: false, description: 'Current user ID for permission filtering' })
   @ApiResponse({ status: 200, description: 'Success' })
   findByChurch(
+    @CurrentUser() currentUser: CurrentUserData,
     @Param('churchId') churchId: string,
     @Query('page', ParseIntPipe) page = 1,
     @Query('limit', ParseIntPipe) limit = 10,
-    @Query('includeInactive', ParseBoolPipe) includeInactive = false,
-    @Query('currentUserId') currentUserId?: string
+    @Query('includeInactive', ParseBoolPipe) includeInactive = false
   ) {
-    return this.usersService.findByChurch(churchId, page, limit, includeInactive, currentUserId);
+    return this.usersService.findByChurch(churchId, page, limit, includeInactive, currentUser);
   }
 
   @Put(':id/activate')

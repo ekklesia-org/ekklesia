@@ -3,6 +3,7 @@ import { PrismaService } from '@ekklesia/database/lib/database.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
 import { User, UserRole } from '@ekklesia/prisma';
+import { CurrentUserData } from '../../../src/lib/decorators/current-user.decorator';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class UsersService {
   /**
    * Create a new user
    */
-  async create(createUserDto: CreateUserDto, currentUserId?: string): Promise<User> {
+  async create(createUserDto: CreateUserDto, currentUser?: CurrentUserData): Promise<User> {
     // Check if user with email already exists
     const existingUser = await this.prisma.user.findUnique({
       where: { email: createUserDto.email }
@@ -27,28 +28,20 @@ export class UsersService {
 
     let finalUserData = { ...createUserDto };
     
-    // If a current user ID is provided, check if they are not a super admin
-    // and automatically set the churchId to their church
-    if (currentUserId) {
-      const currentUser = await this.prisma.user.findUnique({
-        where: { id: currentUserId },
-        select: { role: true, churchId: true }
-      });
+    // If current user data is provided, apply restrictions based on their role
+    if (currentUser) {
+      // Non-super admins cannot create super admin users
+      if (currentUser.role !== 'SUPER_ADMIN' && finalUserData.role === 'SUPER_ADMIN') {
+        throw new BadRequestException({
+          message: 'You do not have permission to create super admin users',
+          translationKey: 'errors.user.cannot_create_super_admin'
+        });
+      }
       
-      if (currentUser) {
-        // Non-super admins cannot create super admin users
-        if (currentUser.role !== 'SUPER_ADMIN' && finalUserData.role === 'SUPER_ADMIN') {
-          throw new BadRequestException({
-            message: 'You do not have permission to create super admin users',
-            translationKey: 'errors.user.cannot_create_super_admin'
-          });
-        }
-        
-        // Non-super admins can only create users in their own church
-        if (currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
-          // Override any provided churchId with the current user's church
-          finalUserData.churchId = currentUser.churchId;
-        }
+      // Non-super admins can only create users in their own church
+      if (currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
+        // Override any provided churchId with the current user's church
+        finalUserData.churchId = currentUser.churchId;
       }
     }
 
@@ -82,7 +75,7 @@ export class UsersService {
   /**
    * Retrieve all users
    */
-  async findAll(page = 1, limit = 10, includeInactive = false, churchId?: string, role?: string, currentUserId?: string): Promise<{
+  async findAll(page = 1, limit = 10, includeInactive = false, churchId?: string, role?: string, currentUser?: CurrentUserData): Promise<{
     users: Omit<User, 'password'>[];
     total: number;
     page: number;
@@ -98,18 +91,10 @@ export class UsersService {
     if (churchId) where.churchId = churchId;
     if (role) where.role = role;
     
-    // If a current user ID is provided, check if they are not a super admin
-    // and automatically filter by their church
-    if (currentUserId) {
-      const currentUser = await this.prisma.user.findUnique({
-        where: { id: currentUserId },
-        select: { role: true, churchId: true }
-      });
-      
-      if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
-        // Override any provided churchId with the current user's church
-        where.churchId = currentUser.churchId;
-      }
+    // If current user is not a super admin, automatically filter by their church
+    if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
+      // Override any provided churchId with the current user's church
+      where.churchId = currentUser.churchId;
     }
 
     try {
@@ -413,22 +398,14 @@ export class UsersService {
   /**
    * Get users by church
    */
-  async findByChurch(churchId: string, page = 1, limit = 10, includeInactive = false, currentUserId?: string) {
+  async findByChurch(churchId: string, page = 1, limit = 10, includeInactive = false, currentUser?: CurrentUserData) {
     const skip = (page - 1) * limit;
     let finalChurchId = churchId;
     
-    // If a current user ID is provided, check if they are not a super admin
-    // and automatically filter by their church
-    if (currentUserId) {
-      const currentUser = await this.prisma.user.findUnique({
-        where: { id: currentUserId },
-        select: { role: true, churchId: true }
-      });
-      
-      if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
-        // Override any provided churchId with the current user's church
-        finalChurchId = currentUser.churchId;
-      }
+    // If current user is not a super admin, automatically filter by their church
+    if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
+      // Override any provided churchId with the current user's church
+      finalChurchId = currentUser.churchId;
     }
     
     const where = { churchId: finalChurchId, isActive: includeInactive ? undefined : true };

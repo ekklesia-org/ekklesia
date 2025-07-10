@@ -11,11 +11,10 @@ export class UserService {
     page = 1,
     limit = 10,
     includeInactive = false,
-    churchId?: string,
-    currentUserId?: string
+    churchId?: string
   ): Promise<UserListResponse> {
     const response = await axios.get<UserListResponse>(this.baseUrl, {
-      params: { page, limit, includeInactive, churchId, currentUserId }
+      params: { page, limit, includeInactive, churchId }
     });
     return response.data;
   }
@@ -31,10 +30,8 @@ export class UserService {
   /**
    * Create a new user
    */
-  async createUser(data: ICreateUserDto, currentUserId?: string): Promise<User> {
-    const response = await axios.post<User>(this.baseUrl, data, {
-      params: currentUserId ? { currentUserId } : {}
-    });
+  async createUser(data: ICreateUserDto): Promise<User> {
+    const response = await axios.post<User>(this.baseUrl, data);
     return response.data;
   }
 

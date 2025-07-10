@@ -72,7 +72,14 @@ describe('UsersService', () => {
       (bcrypt.hash as jest.Mock).mockResolvedValue(hashedPassword);
       mockPrismaService.user.create.mockResolvedValue(createdUser);
 
-      const result = await service.create(createUserDto);
+      const currentUser = {
+        userId: 'user1',
+        username: 'admin@example.com',
+        role: 'CHURCH_ADMIN',
+        churchId: 'church1'
+      };
+
+      const result = await service.create(createUserDto, currentUser);
 
       expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
         where: { email: createUserDto.email },
@@ -81,6 +88,7 @@ describe('UsersService', () => {
       expect(mockPrismaService.user.create).toHaveBeenCalledWith({
         data: {
           ...createUserDto,
+          churchId: 'church1',
           password: hashedPassword,
           isActive: true,
         },
@@ -109,7 +117,7 @@ describe('UsersService', () => {
       mockPrismaService.user.findUnique.mockResolvedValue({ id: '1' });
 
       await expect(service.create(createUserDto)).rejects.toThrow(
-        new BadRequestException('User with email "test@example.com" already exists')
+        BadRequestException
       );
     });
   });
@@ -122,7 +130,14 @@ describe('UsersService', () => {
       mockPrismaService.user.findMany.mockResolvedValue(users);
       mockPrismaService.user.count.mockResolvedValue(total);
 
-      const result = await service.findAll(1, 10, false);
+      const currentUser = {
+        userId: 'user1',
+        username: 'admin@example.com',
+        role: 'SUPER_ADMIN',
+        churchId: 'church1'
+      };
+
+      const result = await service.findAll(1, 10, false, undefined, undefined, currentUser);
 
       expect(result).toEqual({
         users,

@@ -49,13 +49,20 @@ describe('UsersController', () => {
         lastName: 'Doe',
         role: 'MEMBER' as any,
       };
-      
+
+      const currentUser = {
+        userId: 'user1',
+        username: 'test@example.com',
+        role: 'CHURCH_ADMIN',
+        churchId: 'church1'
+      };
+
       const expectedResult = { id: '1', ...createUserDto };
       mockUsersService.create.mockResolvedValue(expectedResult);
 
-      const result = await controller.create(createUserDto);
-      
-      expect(service.create).toHaveBeenCalledWith(createUserDto);
+      const result = await controller.create(createUserDto, currentUser);
+
+      expect(service.create).toHaveBeenCalledWith(createUserDto, currentUser);
       expect(result).toEqual(expectedResult);
     });
   });
@@ -71,9 +78,16 @@ describe('UsersController', () => {
       };
       mockUsersService.findAll.mockResolvedValue(expectedResult);
 
-      const result = await controller.findAll(1, 10, false);
-      
-      expect(service.findAll).toHaveBeenCalledWith(1, 10, false, undefined, undefined, undefined);
+      const currentUser = {
+        userId: 'user1',
+        username: 'test@example.com',
+        role: 'CHURCH_ADMIN',
+        churchId: 'church1'
+      };
+
+      const result = await controller.findAll(currentUser, 1, 10, false);
+
+      expect(service.findAll).toHaveBeenCalledWith(1, 10, false, undefined, undefined, currentUser);
       expect(result).toEqual(expectedResult);
     });
   });
@@ -84,7 +98,7 @@ describe('UsersController', () => {
       mockUsersService.findOne.mockResolvedValue(expectedResult);
 
       const result = await controller.findOne('1');
-      
+
       expect(service.findOne).toHaveBeenCalledWith('1');
       expect(result).toEqual(expectedResult);
     });
@@ -97,7 +111,7 @@ describe('UsersController', () => {
       mockUsersService.update.mockResolvedValue(expectedResult);
 
       const result = await controller.update('1', updateUserDto);
-      
+
       expect(service.update).toHaveBeenCalledWith('1', updateUserDto);
       expect(result).toEqual(expectedResult);
     });
@@ -109,7 +123,7 @@ describe('UsersController', () => {
       mockUsersService.remove.mockResolvedValue(expectedResult);
 
       const result = await controller.remove('1');
-      
+
       expect(service.remove).toHaveBeenCalledWith('1');
       expect(result).toEqual(expectedResult);
     });

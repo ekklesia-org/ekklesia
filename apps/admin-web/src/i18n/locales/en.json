@@ -223,7 +223,8 @@
     "deactivate_success": "User deactivated successfully!",
     "deactivate_error": "Failed to deactivate user. Please try again.",
     "delete_success": "User deleted successfully!",
-    "delete_error": "Failed to delete user. Please try again."
+    "delete_error": "Failed to delete user. Please try again.",
+    "cannot_create_super_admin_error": "Cannot create a Super Admin user. Please create a Church Admin first."
   },
   "errors": {
     "generic": {
