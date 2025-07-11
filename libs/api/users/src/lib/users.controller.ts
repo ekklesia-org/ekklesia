@@ -4,7 +4,7 @@ import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
-import { UserRole } from '@ekklesia/prisma';
+import { UserRole } from '@ekklesia/drizzle';
 import { CurrentUser, CurrentUserData } from '../../../src/lib/decorators/current-user.decorator';
 
 @ApiTags('users')

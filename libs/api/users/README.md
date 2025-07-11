@@ -154,7 +154,7 @@ The module includes comprehensive tests for both the controller and service laye
 - `@nestjs/common`: NestJS core functionality
 - `@nestjs/swagger`: API documentation
 - `@ekklesia/database`: Database service and Prisma client
-- `@ekklesia/prisma`: Generated Prisma types
+- `@ekklesia/drizzle`: Generated Drizzle types
 - `bcryptjs`: Password hashing
 - `class-validator`: Input validation
 - `class-transformer`: Data transformation

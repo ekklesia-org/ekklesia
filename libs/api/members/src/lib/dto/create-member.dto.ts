@@ -1,6 +1,6 @@
 import { IsString, IsEmail, IsOptional, IsEnum, IsDateString, Length, IsUUID } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { MemberStatus, MaritalStatus } from '@ekklesia/prisma';
+import { MemberStatus, MaritalStatus } from '@ekklesia/drizzle';
 import { ICreateMemberDto } from '@ekklesia/shared';
 
 export class CreateMemberDto implements ICreateMemberDto {

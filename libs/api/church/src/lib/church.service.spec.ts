@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ChurchService } from './church.service';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DatabaseService } from '@ekklesia/database/lib/database.service';
 
-// Mock PrismaService
-const mockPrismaService = {
+// Mock DatabaseService
+const mockDatabaseService = {
   church: {
     create: jest.fn(),
     findMany: jest.fn(),
@@ -27,8 +27,8 @@ describe('ChurchService', () => {
       providers: [
         ChurchService,
         {
-          provide: PrismaService,
-          useValue: mockPrismaService,
+          provide: DatabaseService,
+          useValue: mockDatabaseService,
         },
       ],
     }).compile();
@@ -68,13 +68,13 @@ const mockChurch = {
       users: [],
     };
 
-    mockPrismaService.church.findUnique.mockResolvedValueOnce(null);
-    mockPrismaService.church.create.mockResolvedValueOnce(mockChurch);
+    mockDatabaseService.church.findUnique.mockResolvedValueOnce(null);
+    mockDatabaseService.church.create.mockResolvedValueOnce(mockChurch);
 
     const result = await service.create(createChurchDto);
 
     expect(result).toEqual(mockChurch);
-    expect(mockPrismaService.church.create).toHaveBeenCalledWith({
+    expect(mockDatabaseService.church.create).toHaveBeenCalledWith({
       data: {
         name: 'Test Church',
         email: 'test@church.com',
@@ -120,8 +120,8 @@ const mockChurches = [
       },
     ];
 
-    mockPrismaService.church.findMany.mockResolvedValueOnce(mockChurches);
-    mockPrismaService.church.count.mockResolvedValueOnce(1);
+    mockDatabaseService.church.findMany.mockResolvedValueOnce(mockChurches);
+    mockDatabaseService.church.count.mockResolvedValueOnce(1);
 
     const result = await service.findAll(1, 10, false);
 

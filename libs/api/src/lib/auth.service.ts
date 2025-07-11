@@ -1,14 +1,14 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
-import { User } from '@ekklesia/prisma';
+import { DatabaseService } from '@ekklesia/database/lib/database.service';
+import { User } from '@ekklesia/drizzle';
 import { LoginDto, RegisterDto, AuthResponseDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: PrismaService,
+    private prisma: DatabaseService,
     private jwtService: JwtService
   ) {}
 
