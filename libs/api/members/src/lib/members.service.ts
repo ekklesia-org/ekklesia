@@ -1,12 +1,12 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DatabaseService } from '@ekklesia/database/lib/database.service';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-import { Member } from '@ekklesia/prisma';
+import { Member } from '@ekklesia/drizzle';
 
 @Injectable()
 export class MembersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: DatabaseService) {}
 
   /**
    * Create a new member

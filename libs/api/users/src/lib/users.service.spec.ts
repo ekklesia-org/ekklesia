@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DatabaseService } from '@ekklesia/database/lib/database.service';
 import * as bcrypt from 'bcryptjs';
 
 // Mock bcrypt
@@ -12,9 +12,9 @@ jest.mock('bcryptjs', () => ({
 
 describe('UsersService', () => {
   let service: UsersService;
-  let prisma: PrismaService;
+  let prisma: DatabaseService;
 
-  const mockPrismaService = {
+  const mockDatabaseService = {
     user: {
       create: jest.fn(),
       findMany: jest.fn(),
@@ -30,14 +30,14 @@ describe('UsersService', () => {
       providers: [
         UsersService,
         {
-          provide: PrismaService,
-          useValue: mockPrismaService,
+          provide: DatabaseService,
+          useValue: mockDatabaseService,
         },
       ],
     }).compile();
 
     service = module.get<UsersService>(UsersService);
-    prisma = module.get<PrismaService>(PrismaService);
+    prisma = module.get<DatabaseService>(DatabaseService);
   });
 
   afterEach(() => {
@@ -68,9 +68,9 @@ describe('UsersService', () => {
         member: null,
       };
 
-      mockPrismaService.user.findUnique.mockResolvedValue(null);
+      mockDatabaseService.user.findUnique.mockResolvedValue(null);
       (bcrypt.hash as jest.Mock).mockResolvedValue(hashedPassword);
-      mockPrismaService.user.create.mockResolvedValue(createdUser);
+      mockDatabaseService.user.create.mockResolvedValue(createdUser);
 
       const currentUser = {
         userId: 'user1',
@@ -81,11 +81,11 @@ describe('UsersService', () => {
 
       const result = await service.create(createUserDto, currentUser);
 
-      expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
+      expect(mockDatabaseService.user.findUnique).toHaveBeenCalledWith({
         where: { email: createUserDto.email },
       });
       expect(bcrypt.hash).toHaveBeenCalledWith(createUserDto.password, 10);
-      expect(mockPrismaService.user.create).toHaveBeenCalledWith({
+      expect(mockDatabaseService.user.create).toHaveBeenCalledWith({
         data: {
           ...createUserDto,
           churchId: 'church1',
@@ -114,7 +114,7 @@ describe('UsersService', () => {
         role: 'MEMBER' as any,
       };
 
-      mockPrismaService.user.findUnique.mockResolvedValue({ id: '1' });
+      mockDatabaseService.user.findUnique.mockResolvedValue({ id: '1' });
 
       await expect(service.create(createUserDto)).rejects.toThrow(
         BadRequestException
@@ -127,8 +127,8 @@ describe('UsersService', () => {
       const users = [{ id: '1', email: 'test@example.com' }];
       const total = 1;
 
-      mockPrismaService.user.findMany.mockResolvedValue(users);
-      mockPrismaService.user.count.mockResolvedValue(total);
+      mockDatabaseService.user.findMany.mockResolvedValue(users);
+      mockDatabaseService.user.count.mockResolvedValue(total);
 
       const currentUser = {
         userId: 'user1',
@@ -152,11 +152,11 @@ describe('UsersService', () => {
   describe('findOne', () => {
     it('should return a user by id', async () => {
       const user = { id: '1', email: 'test@example.com' };
-      mockPrismaService.user.findUnique.mockResolvedValue(user);
+      mockDatabaseService.user.findUnique.mockResolvedValue(user);
 
       const result = await service.findOne('1');
 
-      expect(mockPrismaService.user.findUnique).toHaveBeenCalledWith({
+      expect(mockDatabaseService.user.findUnique).toHaveBeenCalledWith({
         where: { id: '1' },
         include: {
           church: {
@@ -180,7 +180,7 @@ describe('UsersService', () => {
     });
 
     it('should throw NotFoundException if user not found', async () => {
-      mockPrismaService.user.findUnique.mockResolvedValue(null);
+      mockDatabaseService.user.findUnique.mockResolvedValue(null);
 
       await expect(service.findOne('1')).rejects.toThrow(
         new NotFoundException('User with ID "1" not found')
@@ -201,10 +201,10 @@ describe('UsersService', () => {
       };
       const newHashedPassword = 'newHashedPassword';
 
-      mockPrismaService.user.findUnique.mockResolvedValue(user);
+      mockDatabaseService.user.findUnique.mockResolvedValue(user);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
       (bcrypt.hash as jest.Mock).mockResolvedValue(newHashedPassword);
-      mockPrismaService.user.update.mockResolvedValue(user);
+      mockDatabaseService.user.update.mockResolvedValue(user);
 
       const result = await service.updatePassword('1', updatePasswordDto);
 
@@ -213,7 +213,7 @@ describe('UsersService', () => {
         user.password
       );
       expect(bcrypt.hash).toHaveBeenCalledWith(updatePasswordDto.newPassword, 10);
-      expect(mockPrismaService.user.update).toHaveBeenCalledWith({
+      expect(mockDatabaseService.user.update).toHaveBeenCalledWith({
         where: { id: '1' },
         data: {
           password: newHashedPassword,
@@ -234,7 +234,7 @@ describe('UsersService', () => {
         newPassword: 'newPassword',
       };
 
-      mockPrismaService.user.findUnique.mockResolvedValue(user);
+      mockDatabaseService.user.findUnique.mockResolvedValue(user);
       (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
       await expect(service.updatePassword('1', updatePasswordDto)).rejects.toThrow(

@@ -21,7 +21,7 @@
       "@ekklesia/api/members": ["libs/api/members/src/index.ts"],
       "@ekklesia/api/users": ["libs/api/users/src/index.ts"],
       "@ekklesia/database/*": ["libs/database/src/*"],
-      "@ekklesia/prisma": ["generated/prisma"],
+      "@ekklesia/drizzle": ["generated/drizzle"],
       "@ekklesia/shared-utils/*": ["libs/shared-utils/src/*"],
       "@ekklesia/shared": ["libs/shared/src/index.ts"],
       "@ekklesia/shared/*": ["libs/shared/src/*"],

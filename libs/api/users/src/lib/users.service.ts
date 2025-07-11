@@ -1,14 +1,14 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DatabaseService } from '@ekklesia/database/lib/database.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
-import { User, UserRole } from '@ekklesia/prisma';
+import { User, UserRole } from '@ekklesia/drizzle';
 import { CurrentUserData } from '../../../src/lib/decorators/current-user.decorator';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: DatabaseService) {}
 
   /**
    * Create a new user

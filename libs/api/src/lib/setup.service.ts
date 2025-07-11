@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DatabaseService } from '@ekklesia/database/lib/database.service';
 import { SetupDto } from './dto/setup.dto';
 import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class SetupService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: DatabaseService) {}
 
   async isSystemInitialized(): Promise<boolean> {
     const adminCount = await this.prisma.user.count({

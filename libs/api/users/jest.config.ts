@@ -8,7 +8,7 @@ export default {
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../../coverage/libs/api/users',
   moduleNameMapper: {
-    '^@ekklesia/prisma$': '<rootDir>/../../../generated/prisma',
+    '^@ekklesia/drizzle$': '<rootDir>/../../../generated/drizzle',
     '^@ekklesia/database/(.*)$': '<rootDir>/../../database/src/$1',
   },
 };

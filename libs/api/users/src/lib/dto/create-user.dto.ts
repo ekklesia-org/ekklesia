@@ -1,6 +1,6 @@
 import { IsString, IsEmail, IsOptional, IsEnum, IsBoolean, IsUUID, Length, MinLength } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { UserRole } from '@ekklesia/prisma';
+import { UserRole } from '@ekklesia/drizzle';
 import { ICreateUserDto } from '@ekklesia/shared';
 
 export class CreateUserDto implements ICreateUserDto {

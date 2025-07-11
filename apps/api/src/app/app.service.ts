@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DatabaseService } from '@ekklesia/database/lib/database.service';
 
 @Injectable()
 export class AppService {
   private readonly startTime = Date.now();
   
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: DatabaseService) {}
 
   async getApiInfo() {
     const uptime = (Date.now() - this.startTime) / 1000; // uptime in seconds

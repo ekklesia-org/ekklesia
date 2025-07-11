@@ -1,18 +1,18 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MembersService } from './members.service';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DatabaseService } from '@ekklesia/database/lib/database.service';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 describe('MembersService', () => {
   let service: MembersService;
-  let prisma: PrismaService;
+  let prisma: DatabaseService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         MembersService,
         {
-          provide: PrismaService,
+          provide: DatabaseService,
           useValue: {
             member: {
               create: jest.fn(),
@@ -28,7 +28,7 @@ describe('MembersService', () => {
     }).compile();
 
     service = module.get<MembersService>(MembersService);
-    prisma = module.get<PrismaService>(PrismaService);
+    prisma = module.get<DatabaseService>(DatabaseService);
   });
 
   it('should be defined', () => {
