@@ -1,6 +1,6 @@
 <template>
   <div class="w-64 bg-white border-r border-gray-200 h-full flex flex-col">
-    <div class="px-6 py-4 border-b border-gray-200">
+    <div class="px-6 py-4">
       <div
         v-if="logoSrc"
         class="flex items-center mb-2 justify-center"
