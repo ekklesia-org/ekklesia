@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { DrizzleService } from '@ekklesia/database';
+import { DrizzleService, withTimestamps } from '@ekklesia/database';
 import { users, churches } from '@ekklesia/database';
 import { SetupDto } from './dto/setup.dto';
 import * as bcrypt from 'bcryptjs';
@@ -27,18 +27,18 @@ export class SetupService {
     // Create a new church
     const [church] = await this.drizzle.db
       .insert(churches)
-      .values({
+      .values(withTimestamps({
         name: churchName,
         slug: churchName.toLowerCase().replace(/\s+/g, '-'),
         email,
         isActive: true,
-      })
+      }))
       .returning();
 
     // Create the super admin user
     const [user] = await this.drizzle.db
       .insert(users)
-      .values({
+      .values(withTimestamps({
         email,
         password: hashedPassword,
         firstName,
@@ -46,7 +46,7 @@ export class SetupService {
         role: 'SUPER_ADMIN',
         churchId: church.id,
         isActive: true,
-      })
+      }))
       .returning();
 
     return { user, church };

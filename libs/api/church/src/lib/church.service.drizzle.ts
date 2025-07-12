@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { DrizzleService } from '@ekklesia/database';
+import { DrizzleService, withTimestamps, withUpdateTimestamp } from '@ekklesia/database';
 import { churches, churchSettings, users } from '@ekklesia/database';
 import { CreateChurchDto } from './dto/create-church.dto';
 import { UpdateChurchDto } from './dto/update-church.dto';
@@ -53,11 +53,11 @@ export class ChurchServiceDrizzle extends ChurchService {
     try {
       const [church] = await this.drizzle.db
         .insert(churches)
-        .values({
+        .values(withTimestamps({
           ...churchData,
           slug: finalSlug,
           isActive: churchData.isActive ?? true,
-        })
+        }))
         .returning();
 
       // Get church with relations
@@ -289,12 +289,11 @@ export class ChurchServiceDrizzle extends ChurchService {
     try {
       const [updatedChurch] = await this.drizzle.db
         .update(churches)
-        .set({
+        .set(withUpdateTimestamp({
           ...updateData,
           slug,
           email,
-          updatedAt: new Date()
-        })
+        }))
         .where(eq(churches.id, id))
         .returning();
 
@@ -342,10 +341,9 @@ export class ChurchServiceDrizzle extends ChurchService {
     try {
       const [updatedChurch] = await this.drizzle.db
         .update(churches)
-        .set({
+        .set(withUpdateTimestamp({
           isActive: false,
-          updatedAt: new Date()
-        })
+        }))
         .where(eq(churches.id, id))
         .returning();
 
@@ -455,7 +453,7 @@ export class ChurchServiceDrizzle extends ChurchService {
     try {
       const [settings] = await this.drizzle.db
         .insert(churchSettings)
-        .values(createSettingsDto)
+        .values(withTimestamps(createSettingsDto))
         .returning();
 
       return settings;
@@ -488,10 +486,7 @@ export class ChurchServiceDrizzle extends ChurchService {
     try {
       const [settings] = await this.drizzle.db
         .update(churchSettings)
-        .set({
-          ...updateSettingsDto,
-          updatedAt: new Date()
-        })
+        .set(withUpdateTimestamp(updateSettingsDto))
         .where(eq(churchSettings.churchId, churchId))
         .returning();
 
@@ -564,10 +559,9 @@ export class ChurchServiceDrizzle extends ChurchService {
     // Transfer all Super Admins to the destination church
     await this.drizzle.db
       .update(users)
-      .set({
+      .set(withUpdateTimestamp({
         churchId: toChurchId,
-        updatedAt: new Date()
-      })
+      }))
       .where(and(
         eq(users.churchId, fromChurchId),
         eq(users.role, 'SUPER_ADMIN'),
@@ -618,10 +612,9 @@ export class ChurchServiceDrizzle extends ChurchService {
     // Transfer all users
     await this.drizzle.db
       .update(users)
-      .set({
+      .set(withUpdateTimestamp({
         churchId: toChurchId,
-        updatedAt: new Date()
-      })
+      }))
       .where(eq(users.churchId, fromChurchId));
   }
 
