@@ -1,32 +1,37 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcryptjs';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
-import { User } from '@ekklesia/prisma';
+import { DrizzleService } from '@ekklesia/database';
+import { users, churches } from '@ekklesia/database';
 import { LoginDto, RegisterDto, AuthResponseDto } from './dto/auth.dto';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private prisma: PrismaService,
+    private drizzle: DrizzleService,
     private jwtService: JwtService
   ) {}
 
   async login(loginDto: LoginDto): Promise<AuthResponseDto> {
     const { email, password } = loginDto;
 
-    // Find user by email
-    const user = await this.prisma.user.findUnique({
-      where: { email },
-      include: { church: true }
-    });
+    // Find user by email with church
+    const userResult = await this.drizzle.db
+      .select()
+      .from(users)
+      .leftJoin(churches, eq(users.churchId, churches.id))
+      .where(eq(users.email, email))
+      .limit(1);
 
-    if (!user) {
+    if (!userResult.length) {
       throw new UnauthorizedException({
         message: 'Invalid credentials',
         translationKey: 'errors.auth.invalid_credentials'
       });
     }
+
+    const user = userResult[0].users;
 
     // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
@@ -46,19 +51,19 @@ export class AuthService {
     }
 
     // Update last login
-    await this.prisma.user.update({
-      where: { id: user.id },
-      data: { lastLogin: new Date() }
-    });
+    await this.drizzle.db
+      .update(users)
+      .set({ lastLogin: new Date() })
+      .where(eq(users.id, user.id));
 
     // Generate JWT token
-    const payload = { 
-      sub: user.id, 
+    const payload = {
+      sub: user.id,
       username: user.email,
       role: user.role,
-      churchId: user.churchId 
+      churchId: user.churchId
     };
-    
+
     const access_token = this.jwtService.sign(payload);
 
     return {
@@ -78,11 +83,13 @@ export class AuthService {
     const { email, password, firstName, lastName, churchId } = registerDto;
 
     // Check if user already exists
-    const existingUser = await this.prisma.user.findUnique({
-      where: { email }
-    });
+    const existingUser = await this.drizzle.db
+      .select()
+      .from(users)
+      .where(eq(users.email, email))
+      .limit(1);
 
-    if (existingUser) {
+    if (existingUser.length > 0) {
       throw new UnauthorizedException({
         message: 'User with this email already exists',
         translationKey: 'errors.auth.email_already_exists'
@@ -93,45 +100,59 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // Create user
-    const user = await this.prisma.user.create({
-      data: {
+    const [newUser] = await this.drizzle.db
+      .insert(users)
+      .values({
         email,
         password: hashedPassword,
         firstName,
         lastName,
         churchId,
         role: 'MEMBER' // Default role
-      },
-      include: { church: true }
-    });
+      })
+      .returning();
 
     // Generate JWT token
-    const payload = { 
-      sub: user.id, 
-      username: user.email,
-      role: user.role,
-      churchId: user.churchId 
+    const payload = {
+      sub: newUser.id,
+      username: newUser.email,
+      role: newUser.role,
+      churchId: newUser.churchId
     };
-    
+
     const access_token = this.jwtService.sign(payload);
 
     return {
       access_token,
       user: {
-        id: user.id,
-        email: user.email,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        role: user.role,
-        churchId: user.churchId || undefined
+        id: newUser.id,
+        email: newUser.email,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        role: newUser.role,
+        churchId: newUser.churchId || undefined
       }
     };
   }
 
-  async validateUser(userId: string): Promise<User | null> {
-    return this.prisma.user.findUnique({
-      where: { id: userId },
-      include: { church: true }
-    });
+  async validateUser(userId: string): Promise<any> {
+    const result = await this.drizzle.db
+      .select()
+      .from(users)
+      .leftJoin(churches, eq(users.churchId, churches.id))
+      .where(eq(users.id, userId))
+      .limit(1);
+
+    if (!result.length) {
+      return null;
+    }
+
+    const user = result[0].users;
+    const church = result[0].churches;
+
+    return {
+      ...user,
+      church
+    };
   }
 }

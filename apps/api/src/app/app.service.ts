@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DrizzleService } from '@ekklesia/database';
+import { sql } from 'drizzle-orm';
 
 @Injectable()
 export class AppService {
   private readonly startTime = Date.now();
   
-  constructor(private prisma: PrismaService) {}
+  constructor(private drizzle: DrizzleService) {}
 
   async getApiInfo() {
     const uptime = (Date.now() - this.startTime) / 1000; // uptime in seconds
@@ -13,7 +14,7 @@ export class AppService {
     // Check database connection
     let databaseStatus = 'connected';
     try {
-      await this.prisma.$queryRaw`SELECT 1`;
+      await this.drizzle.db.execute(sql`SELECT 1`);
     } catch (error) {
       databaseStatus = 'disconnected';
     }

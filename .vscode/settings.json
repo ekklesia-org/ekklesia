@@ -1,12 +1,13 @@
 {
     "nxConsole.generateAiAgentRules": true,
     "cSpell.words": [
+        "Descomente",
         "ekklesia",
+        "esnext",
         "initdb",
         "pgadmin",
         "postgres",
         "postgresql",
-        "esnext",
         "Segoe"
     ],
     "i18n-ally.localesPaths": [

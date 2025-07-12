@@ -1,7 +1,15 @@
 import { IsString, IsEmail, IsOptional, IsEnum, IsBoolean, IsUUID, Length, MinLength } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { UserRole } from '@ekklesia/prisma';
 import { ICreateUserDto } from '@ekklesia/shared';
+
+export enum UserRole {
+  SUPER_ADMIN = 'SUPER_ADMIN',
+  CHURCH_ADMIN = 'CHURCH_ADMIN',
+  PASTOR = 'PASTOR',
+  TREASURER = 'TREASURER',
+  SECRETARY = 'SECRETARY',
+  MEMBER = 'MEMBER'
+}
 
 export class CreateUserDto implements ICreateUserDto {
   @ApiProperty({

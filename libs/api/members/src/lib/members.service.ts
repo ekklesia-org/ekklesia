@@ -1,21 +1,31 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DrizzleService } from '@ekklesia/database';
+import { members } from '@ekklesia/database';
 import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
-import { Member } from '@ekklesia/prisma';
+import { eq, and, count } from 'drizzle-orm';
 
 @Injectable()
 export class MembersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private drizzle: DrizzleService) {}
 
   /**
    * Create a new member
    */
-  async create(createMemberDto: CreateMemberDto): Promise<Member> {
+  async create(createMemberDto: CreateMemberDto): Promise<any> {
     try {
-      const member = await this.prisma.member.create({
-        data: createMemberDto,
-      });
+      // Convert date strings to Date objects
+      const memberData: any = {
+        ...createMemberDto,
+        dateOfBirth: createMemberDto.dateOfBirth ? new Date(createMemberDto.dateOfBirth) : undefined,
+        baptismDate: createMemberDto.baptismDate ? new Date(createMemberDto.baptismDate) : undefined,
+        memberSince: createMemberDto.memberSince ? new Date(createMemberDto.memberSince) : undefined,
+      };
+      
+      const [member] = await this.drizzle.db
+        .insert(members)
+        .values(memberData)
+        .returning();
       return member;
     } catch (error) {
       throw new BadRequestException({
@@ -28,21 +38,33 @@ export class MembersService {
   /**
    * Get all members with pagination
    */
-  async findAll(page = 1, limit = 10, churchId: string | null = null): Promise<{ members: Member[]; total: number; page: number; limit: number; totalPages: number }> {
-    const skip = (page - 1) * limit;
-    const where = churchId ? { churchId } : {};
+  async findAll(page = 1, limit = 10, churchId: string | null = null): Promise<{ members: any[]; total: number; page: number; limit: number; totalPages: number }> {
+    const offset = (page - 1) * limit;
+    
+    // Build where conditions
+    const conditions = [];
+    if (churchId) {
+      conditions.push(eq(members.churchId, churchId));
+    }
 
-    const [members, total] = await Promise.all([
-      this.prisma.member.findMany({
-        where,
-        skip,
-        take: limit,
-      }),
-      this.prisma.member.count({ where }),
-    ]);
+    // Get members
+    const membersList = await this.drizzle.db
+      .select()
+      .from(members)
+      .where(conditions.length > 0 ? and(...conditions) : undefined)
+      .limit(limit)
+      .offset(offset);
+
+    // Get total count
+    const countResult = await this.drizzle.db
+      .select({ count: count() })
+      .from(members)
+      .where(conditions.length > 0 ? and(...conditions) : undefined);
+
+    const total = countResult[0]?.count || 0;
 
     return {
-      members,
+      members: membersList,
       total,
       page,
       limit,
@@ -53,32 +75,62 @@ export class MembersService {
   /**
    * Get a member by ID
    */
-  async findOne(id: string): Promise<Member> {
-    const member = await this.prisma.member.findUnique({
-      where: { id },
-    });
+  async findOne(id: string): Promise<any> {
+    const result = await this.drizzle.db
+      .select()
+      .from(members)
+      .where(eq(members.id, id))
+      .limit(1);
 
-    if (!member) {
+    if (!result.length) {
       throw new NotFoundException({
         message: `Member with ID "${id}" not found`,
         translationKey: 'errors.member.not_found'
       });
     }
 
-    return member;
+    return result[0];
   }
 
   /**
    * Update a member
    */
-  async update(id: string, updateMemberDto: UpdateMemberDto): Promise<Member> {
+  async update(id: string, updateMemberDto: UpdateMemberDto): Promise<any> {
     try {
-      const member = await this.prisma.member.update({
-        where: { id },
-        data: updateMemberDto,
-      });
-      return member;
+      // Convert date strings to Date objects if present
+      const updateData: any = {
+        ...updateMemberDto,
+        updatedAt: new Date()
+      };
+      
+      if (updateMemberDto.dateOfBirth !== undefined) {
+        updateData.dateOfBirth = updateMemberDto.dateOfBirth ? new Date(updateMemberDto.dateOfBirth) : undefined;
+      }
+      if (updateMemberDto.baptismDate !== undefined) {
+        updateData.baptismDate = updateMemberDto.baptismDate ? new Date(updateMemberDto.baptismDate) : undefined;
+      }
+      if (updateMemberDto.memberSince !== undefined) {
+        updateData.memberSince = updateMemberDto.memberSince ? new Date(updateMemberDto.memberSince) : undefined;
+      }
+      
+      const [updatedMember] = await this.drizzle.db
+        .update(members)
+        .set(updateData)
+        .where(eq(members.id, id))
+        .returning();
+      
+      if (!updatedMember) {
+        throw new NotFoundException({
+          message: `Member with ID "${id}" not found`,
+          translationKey: 'errors.member.not_found'
+        });
+      }
+      
+      return updatedMember;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException({
         message: `Failed to update member: ${error instanceof Error ? error.message : 'Unknown error'}`,
         translationKey: 'errors.member.update_failed'
@@ -89,14 +141,29 @@ export class MembersService {
   /**
    * Delete a member (soft delete by setting status to INACTIVE)
    */
-  async remove(id: string): Promise<Member> {
+  async remove(id: string): Promise<any> {
     try {
-      const member = await this.prisma.member.update({
-        where: { id },
-        data: { status: 'INACTIVE' },
-      });
-      return member;
+      const [updatedMember] = await this.drizzle.db
+        .update(members)
+        .set({ 
+          status: 'INACTIVE',
+          updatedAt: new Date()
+        })
+        .where(eq(members.id, id))
+        .returning();
+      
+      if (!updatedMember) {
+        throw new NotFoundException({
+          message: `Member with ID "${id}" not found`,
+          translationKey: 'errors.member.not_found'
+        });
+      }
+      
+      return updatedMember;
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException({
         message: `Failed to delete member: ${error instanceof Error ? error.message : 'Unknown error'}`,
         translationKey: 'errors.member.delete_failed'
@@ -109,10 +176,20 @@ export class MembersService {
    */
   async hardDelete(id: string): Promise<void> {
     try {
-      await this.prisma.member.delete({
-        where: { id },
-      });
+      const result = await this.drizzle.db
+        .delete(members)
+        .where(eq(members.id, id));
+      
+      if (!result.rowCount || result.rowCount === 0) {
+        throw new NotFoundException({
+          message: `Member with ID "${id}" not found`,
+          translationKey: 'errors.member.not_found'
+        });
+      }
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       throw new BadRequestException({
         message: `Failed to permanently delete member: ${error instanceof Error ? error.message : 'Unknown error'}`,
         translationKey: 'errors.member.delete_failed'

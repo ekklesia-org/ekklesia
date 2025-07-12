@@ -1,13 +1,19 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@ekklesia/prisma';
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { db } from './drizzle/db';
+import * as schema from './drizzle/schema';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
+export class DrizzleService implements OnModuleInit, OnModuleDestroy {
+  public db = db;
+  public schema = schema;
+
   async onModuleInit() {
-    await this['$connect']();
+    // Connection is managed by the Pool automatically
+    console.log('Database connected');
   }
 
   async onModuleDestroy() {
-    await this['$disconnect']();
+    // Pool will be closed when the application shuts down
+    console.log('Database disconnected');
   }
 }

@@ -1,7 +1,21 @@
 import { IsString, IsEmail, IsOptional, IsEnum, IsDateString, Length, IsUUID } from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { MemberStatus, MaritalStatus } from '@ekklesia/prisma';
 import { ICreateMemberDto } from '@ekklesia/shared';
+
+// Define enums locally
+export enum MemberStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  PENDING = 'PENDING',
+  SUSPENDED = 'SUSPENDED'
+}
+
+export enum MaritalStatus {
+  SINGLE = 'SINGLE',
+  MARRIED = 'MARRIED',
+  DIVORCED = 'DIVORCED',
+  WIDOWED = 'WIDOWED'
+}
 
 export class CreateMemberDto implements ICreateMemberDto {
   @ApiProperty({

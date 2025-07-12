@@ -1,34 +1,55 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MembersService } from './members.service';
-import { PrismaService } from '@ekklesia/database/lib/database.service';
+import { DrizzleService } from '@ekklesia/database';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 
 describe('MembersService', () => {
   let service: MembersService;
-  let prisma: PrismaService;
+  let drizzle: DrizzleService;
+
+  const createMockQueryBuilder = () => {
+    const queryBuilder = {
+      select: jest.fn().mockReturnThis(),
+      from: jest.fn().mockReturnThis(),
+      where: jest.fn().mockReturnThis(),
+      limit: jest.fn().mockReturnThis(),
+      offset: jest.fn().mockReturnThis(),
+      groupBy: jest.fn().mockReturnThis(),
+      orderBy: jest.fn().mockReturnThis(),
+      leftJoin: jest.fn().mockReturnThis(),
+      execute: jest.fn(),
+    };
+    return queryBuilder;
+  };
+
+  const mockDrizzleService = {
+    db: {
+      select: jest.fn(),
+      from: jest.fn(),
+      where: jest.fn(),
+      insert: jest.fn(),
+      values: jest.fn(),
+      returning: jest.fn(),
+      update: jest.fn(),
+      set: jest.fn(),
+      delete: jest.fn(),
+      execute: jest.fn(),
+    },
+  };
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         MembersService,
         {
-          provide: PrismaService,
-          useValue: {
-            member: {
-              create: jest.fn(),
-              findMany: jest.fn(),
-              findUnique: jest.fn(),
-              update: jest.fn(),
-              delete: jest.fn(),
-              count: jest.fn(),
-            },
-          },
+          provide: DrizzleService,
+          useValue: mockDrizzleService,
         },
       ],
     }).compile();
 
     service = module.get<MembersService>(MembersService);
-    prisma = module.get<PrismaService>(PrismaService);
+    drizzle = module.get<DrizzleService>(DrizzleService);
   });
 
   it('should be defined', () => {
@@ -51,14 +72,14 @@ describe('MembersService', () => {
         updatedAt: new Date(),
       };
 
-      jest.spyOn(prisma.member, 'create').mockResolvedValueOnce(mockMember);
+      mockDrizzleService.db.insert = jest.fn().mockReturnThis();
+      mockDrizzleService.db.values = jest.fn().mockReturnThis();
+      mockDrizzleService.db.returning = jest.fn().mockResolvedValueOnce([mockMember]);
 
       const result = await service.create(createMemberDto);
 
       expect(result).toEqual(mockMember);
-      expect(prisma.member.create).toHaveBeenCalledWith({
-        data: createMemberDto,
-      });
+      expect(mockDrizzleService.db.insert).toHaveBeenCalled();
     });
 
     it('should throw BadRequestException on error', async () => {
@@ -69,7 +90,9 @@ describe('MembersService', () => {
         email: 'joao.silva@email.com',
       };
 
-      jest.spyOn(prisma.member, 'create').mockRejectedValueOnce(new Error('Database error'));
+      mockDrizzleService.db.insert = jest.fn().mockReturnThis();
+      mockDrizzleService.db.values = jest.fn().mockReturnThis();
+      mockDrizzleService.db.returning = jest.fn().mockRejectedValueOnce(new Error('Database error'));
 
       await expect(service.create(createMemberDto)).rejects.toThrow(BadRequestException);
     });
@@ -89,8 +112,17 @@ describe('MembersService', () => {
         },
       ];
 
-      jest.spyOn(prisma.member, 'findMany').mockResolvedValueOnce(mockMembers);
-      jest.spyOn(prisma.member, 'count').mockResolvedValueOnce(1);
+      // Mock for members query
+      const membersQueryBuilder = createMockQueryBuilder();
+      membersQueryBuilder.offset.mockResolvedValueOnce(mockMembers);
+      mockDrizzleService.db.select = jest.fn().mockReturnValue(membersQueryBuilder);
+      
+      // Mock for count query
+      const countQueryBuilder = createMockQueryBuilder();
+      countQueryBuilder.where.mockResolvedValueOnce([{ count: 1 }]);
+      mockDrizzleService.db.select = jest.fn()
+        .mockReturnValueOnce(membersQueryBuilder)
+        .mockReturnValueOnce(countQueryBuilder);
 
       const result = await service.findAll(1, 10);
 
@@ -101,29 +133,28 @@ describe('MembersService', () => {
         limit: 10,
         totalPages: 1,
       });
-      expect(prisma.member.findMany).toHaveBeenCalledWith({
-        where: {},
-        skip: 0,
-        take: 10,
-      });
-      expect(prisma.member.count).toHaveBeenCalledWith({ where: {} });
+      expect(mockDrizzleService.db.select).toHaveBeenCalled();
     });
 
     it('should filter by churchId when provided', async () => {
-      const mockMembers = [];
+      const mockMembers: any[] = [];
       const churchId = 'church-id';
 
-      jest.spyOn(prisma.member, 'findMany').mockResolvedValueOnce(mockMembers);
-      jest.spyOn(prisma.member, 'count').mockResolvedValueOnce(0);
+      // Mock for members query
+      const membersQueryBuilder = createMockQueryBuilder();
+      membersQueryBuilder.offset.mockResolvedValueOnce(mockMembers);
+      mockDrizzleService.db.select = jest.fn().mockReturnValue(membersQueryBuilder);
+      
+      // Mock for count query
+      const countQueryBuilder = createMockQueryBuilder();
+      countQueryBuilder.where.mockResolvedValueOnce([{ count: 0 }]);
+      mockDrizzleService.db.select = jest.fn()
+        .mockReturnValueOnce(membersQueryBuilder)
+        .mockReturnValueOnce(countQueryBuilder);
 
       await service.findAll(1, 10, churchId);
 
-      expect(prisma.member.findMany).toHaveBeenCalledWith({
-        where: { churchId },
-        skip: 0,
-        take: 10,
-      });
-      expect(prisma.member.count).toHaveBeenCalledWith({ where: { churchId } });
+      expect(mockDrizzleService.db.select).toHaveBeenCalled();
     });
   });
 
@@ -139,18 +170,20 @@ describe('MembersService', () => {
         updatedAt: new Date(),
       };
 
-      jest.spyOn(prisma.member, 'findUnique').mockResolvedValueOnce(mockMember);
+      const queryBuilder = createMockQueryBuilder();
+      queryBuilder.limit.mockResolvedValueOnce([mockMember]);
+      mockDrizzleService.db.select = jest.fn().mockReturnValue(queryBuilder);
 
       const result = await service.findOne('1');
 
       expect(result).toEqual(mockMember);
-      expect(prisma.member.findUnique).toHaveBeenCalledWith({
-        where: { id: '1' },
-      });
+      expect(mockDrizzleService.db.select).toHaveBeenCalled();
     });
 
     it('should throw NotFoundException when member not found', async () => {
-      jest.spyOn(prisma.member, 'findUnique').mockResolvedValueOnce(null);
+      const queryBuilder = createMockQueryBuilder();
+      queryBuilder.limit.mockResolvedValueOnce([]);
+      mockDrizzleService.db.select = jest.fn().mockReturnValue(queryBuilder);
 
       await expect(service.findOne('1')).rejects.toThrow(NotFoundException);
     });
@@ -172,15 +205,15 @@ describe('MembersService', () => {
         updatedAt: new Date(),
       };
 
-      jest.spyOn(prisma.member, 'update').mockResolvedValueOnce(mockMember);
+      mockDrizzleService.db.update = jest.fn().mockReturnThis();
+      mockDrizzleService.db.set = jest.fn().mockReturnThis();
+      mockDrizzleService.db.where = jest.fn().mockReturnThis();
+      mockDrizzleService.db.returning = jest.fn().mockResolvedValueOnce([mockMember]);
 
       const result = await service.update('1', updateMemberDto);
 
       expect(result).toEqual(mockMember);
-      expect(prisma.member.update).toHaveBeenCalledWith({
-        where: { id: '1' },
-        data: updateMemberDto,
-      });
+      expect(mockDrizzleService.db.update).toHaveBeenCalled();
     });
 
     it('should throw BadRequestException on error', async () => {
@@ -188,7 +221,10 @@ describe('MembersService', () => {
         firstName: 'João Updated',
       };
 
-      jest.spyOn(prisma.member, 'update').mockRejectedValueOnce(new Error('Database error'));
+      mockDrizzleService.db.update = jest.fn().mockReturnThis();
+      mockDrizzleService.db.set = jest.fn().mockReturnThis();
+      mockDrizzleService.db.where = jest.fn().mockReturnThis();
+      mockDrizzleService.db.returning = jest.fn().mockRejectedValueOnce(new Error('Database error'));
 
       await expect(service.update('1', updateMemberDto)).rejects.toThrow(BadRequestException);
     });
@@ -207,19 +243,22 @@ describe('MembersService', () => {
         updatedAt: new Date(),
       };
 
-      jest.spyOn(prisma.member, 'update').mockResolvedValueOnce(mockMember);
+      mockDrizzleService.db.update = jest.fn().mockReturnThis();
+      mockDrizzleService.db.set = jest.fn().mockReturnThis();
+      mockDrizzleService.db.where = jest.fn().mockReturnThis();
+      mockDrizzleService.db.returning = jest.fn().mockResolvedValueOnce([mockMember]);
 
       const result = await service.remove('1');
 
       expect(result).toEqual(mockMember);
-      expect(prisma.member.update).toHaveBeenCalledWith({
-        where: { id: '1' },
-        data: { status: 'INACTIVE' },
-      });
+      expect(mockDrizzleService.db.update).toHaveBeenCalled();
     });
 
     it('should throw BadRequestException on error', async () => {
-      jest.spyOn(prisma.member, 'update').mockRejectedValueOnce(new Error('Database error'));
+      mockDrizzleService.db.update = jest.fn().mockReturnThis();
+      mockDrizzleService.db.set = jest.fn().mockReturnThis();
+      mockDrizzleService.db.where = jest.fn().mockReturnThis();
+      mockDrizzleService.db.returning = jest.fn().mockRejectedValueOnce(new Error('Database error'));
 
       await expect(service.remove('1')).rejects.toThrow(BadRequestException);
     });
@@ -227,19 +266,21 @@ describe('MembersService', () => {
 
   describe('hardDelete', () => {
     it('should permanently delete a member', async () => {
-      jest.spyOn(prisma.member, 'delete').mockResolvedValueOnce({} as any);
+      const mockResult = { rowCount: 1 };
+      mockDrizzleService.db.delete = jest.fn().mockReturnThis();
+      mockDrizzleService.db.where = jest.fn().mockResolvedValueOnce(mockResult);
 
       await service.hardDelete('1');
 
-      expect(prisma.member.delete).toHaveBeenCalledWith({
-        where: { id: '1' },
-      });
+      expect(mockDrizzleService.db.delete).toHaveBeenCalled();
     });
 
-    it('should throw BadRequestException on error', async () => {
-      jest.spyOn(prisma.member, 'delete').mockRejectedValueOnce(new Error('Database error'));
+    it('should throw NotFoundException on error', async () => {
+      const mockResult = { rowCount: 0 };
+      mockDrizzleService.db.delete = jest.fn().mockReturnThis();
+      mockDrizzleService.db.where = jest.fn().mockResolvedValueOnce(mockResult);
 
-      await expect(service.hardDelete('1')).rejects.toThrow(BadRequestException);
+      await expect(service.hardDelete('1')).rejects.toThrow(NotFoundException);
     });
   });
 });

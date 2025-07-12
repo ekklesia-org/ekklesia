@@ -2,9 +2,8 @@ import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors
 import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiQuery, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
+import { CreateUserDto, UserRole } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
-import { UserRole } from '@ekklesia/prisma';
 import { CurrentUser, CurrentUserData } from '../../../src/lib/decorators/current-user.decorator';
 
 @ApiTags('users')
