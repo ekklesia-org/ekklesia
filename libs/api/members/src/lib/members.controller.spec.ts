@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MembersController } from './members.controller';
-import { MembersService } from './members.service';
+import { MembersService, Member, PaginatedMembersResult } from './members.service';
 
 describe('MembersController', () => {
   let controller: MembersController;
@@ -40,7 +40,7 @@ describe('MembersController', () => {
       email: 'joao.silva@email.com',
     };
 
-    const mockMember = {
+    const mockMember: Member = {
       id: '1',
       churchId: 'church-id',
       firstName: 'João',
@@ -54,8 +54,8 @@ describe('MembersController', () => {
       city: null,
       state: null,
       zipCode: null,
-      status: 'ACTIVE',
-      maritalStatus: 'SINGLE',
+      status: 'ACTIVE' as const,
+      maritalStatus: 'SINGLE' as const,
       baptismDate: null,
       memberSince: new Date(),
       spouseId: null,
@@ -76,7 +76,7 @@ describe('MembersController', () => {
   });
 
   it('should get all members', async () => {
-    const mockResult = {
+    const mockResult: PaginatedMembersResult = {
       members: [
         {
           id: '1',
@@ -92,8 +92,8 @@ describe('MembersController', () => {
           city: null,
           state: null,
           zipCode: null,
-          status: 'ACTIVE',
-          maritalStatus: 'SINGLE',
+          status: 'ACTIVE' as const,
+          maritalStatus: 'SINGLE' as const,
           baptismDate: null,
           memberSince: new Date(),
           spouseId: null,
@@ -103,7 +103,7 @@ describe('MembersController', () => {
           createdAt: new Date(),
           updatedAt: new Date(),
           userId: null,
-        },
+        } as Member,
       ],
       total: 1,
       page: 1,
@@ -120,7 +120,7 @@ describe('MembersController', () => {
   });
 
   it('should get a member by id', async () => {
-    const mockMember = {
+    const mockMember: Member = {
       id: '1',
       churchId: 'church-id',
       firstName: 'João',
@@ -134,8 +134,8 @@ describe('MembersController', () => {
       city: null,
       state: null,
       zipCode: null,
-      status: 'ACTIVE',
-      maritalStatus: 'SINGLE',
+      status: 'ACTIVE' as const,
+      maritalStatus: 'SINGLE' as const,
       baptismDate: null,
       memberSince: new Date(),
       spouseId: null,
@@ -160,7 +160,7 @@ describe('MembersController', () => {
       firstName: 'João Updated',
     };
 
-    const mockMember = {
+    const mockMember: Member = {
       id: '1',
       churchId: 'church-id',
       firstName: 'João Updated',
@@ -174,8 +174,8 @@ describe('MembersController', () => {
       city: null,
       state: null,
       zipCode: null,
-      status: 'ACTIVE',
-      maritalStatus: 'SINGLE',
+      status: 'ACTIVE' as const,
+      maritalStatus: 'SINGLE' as const,
       baptismDate: null,
       memberSince: new Date(),
       spouseId: null,
@@ -196,7 +196,7 @@ describe('MembersController', () => {
   });
 
   it('should remove a member', async () => {
-    const mockMember = {
+    const mockMember: Member = {
       id: '1',
       churchId: 'church-id',
       firstName: 'João',
@@ -210,8 +210,8 @@ describe('MembersController', () => {
       city: null,
       state: null,
       zipCode: null,
-      status: 'INACTIVE',
-      maritalStatus: 'SINGLE',
+      status: 'INACTIVE' as const,
+      maritalStatus: 'SINGLE' as const,
       baptismDate: null,
       memberSince: new Date(),
       spouseId: null,

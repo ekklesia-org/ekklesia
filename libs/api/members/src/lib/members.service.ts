@@ -5,6 +5,18 @@ import { CreateMemberDto } from './dto/create-member.dto';
 import { UpdateMemberDto } from './dto/update-member.dto';
 import { eq, and, count } from 'drizzle-orm';
 
+// Type definitions
+export type Member = typeof members.$inferSelect;
+export type NewMember = typeof members.$inferInsert;
+
+export interface PaginatedMembersResult {
+  members: Member[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}
+
 @Injectable()
 export class MembersService {
   constructor(private drizzle: DrizzleService) {}
@@ -12,15 +24,15 @@ export class MembersService {
   /**
    * Create a new member
    */
-  async create(createMemberDto: CreateMemberDto): Promise<any> {
+  async create(createMemberDto: CreateMemberDto): Promise<Member> {
     try {
       // Convert date strings to Date objects
-      const memberData: any = {
+      const memberData = {
         ...createMemberDto,
-        dateOfBirth: createMemberDto.dateOfBirth ? new Date(createMemberDto.dateOfBirth) : undefined,
-        baptismDate: createMemberDto.baptismDate ? new Date(createMemberDto.baptismDate) : undefined,
-        memberSince: createMemberDto.memberSince ? new Date(createMemberDto.memberSince) : undefined,
-      };
+        dateOfBirth: createMemberDto.dateOfBirth ? new Date(createMemberDto.dateOfBirth) : null,
+        baptismDate: createMemberDto.baptismDate ? new Date(createMemberDto.baptismDate) : null,
+        memberSince: createMemberDto.memberSince ? new Date(createMemberDto.memberSince) : new Date(),
+      } as NewMember;
       
       const [member] = await this.drizzle.db
         .insert(members)
@@ -38,9 +50,9 @@ export class MembersService {
   /**
    * Get all members with pagination
    */
-  async findAll(page = 1, limit = 10, churchId: string | null = null): Promise<{ members: any[]; total: number; page: number; limit: number; totalPages: number }> {
+  async findAll(page = 1, limit = 10, churchId: string | null = null): Promise<PaginatedMembersResult> {
     const offset = (page - 1) * limit;
-    
+
     // Build where conditions
     const conditions = [];
     if (churchId) {
@@ -75,7 +87,7 @@ export class MembersService {
   /**
    * Get a member by ID
    */
-  async findOne(id: string): Promise<any> {
+  async findOne(id: string): Promise<Member> {
     const result = await this.drizzle.db
       .select()
       .from(members)
@@ -95,37 +107,41 @@ export class MembersService {
   /**
    * Update a member
    */
-  async update(id: string, updateMemberDto: UpdateMemberDto): Promise<any> {
+  async update(id: string, updateMemberDto: UpdateMemberDto): Promise<Member> {
     try {
       // Convert date strings to Date objects if present
-      const updateData: any = {
-        ...updateMemberDto,
+      const { dateOfBirth, baptismDate, memberSince, ...otherFields } = updateMemberDto;
+      const updateData = {
+        ...otherFields,
         updatedAt: new Date()
-      };
+      } as Partial<NewMember>;
       
-      if (updateMemberDto.dateOfBirth !== undefined) {
-        updateData.dateOfBirth = updateMemberDto.dateOfBirth ? new Date(updateMemberDto.dateOfBirth) : undefined;
+      // Handle date fields separately
+      if (dateOfBirth !== undefined) {
+        updateData.dateOfBirth = dateOfBirth ? new Date(dateOfBirth) : null;
       }
-      if (updateMemberDto.baptismDate !== undefined) {
-        updateData.baptismDate = updateMemberDto.baptismDate ? new Date(updateMemberDto.baptismDate) : undefined;
+
+      if (baptismDate !== undefined) {
+        updateData.baptismDate = baptismDate ? new Date(baptismDate) : null;
       }
-      if (updateMemberDto.memberSince !== undefined) {
-        updateData.memberSince = updateMemberDto.memberSince ? new Date(updateMemberDto.memberSince) : undefined;
+
+      if (memberSince !== undefined) {
+        updateData.memberSince = memberSince ? new Date(memberSince) : undefined;
       }
-      
+
       const [updatedMember] = await this.drizzle.db
         .update(members)
         .set(updateData)
         .where(eq(members.id, id))
         .returning();
-      
+
       if (!updatedMember) {
         throw new NotFoundException({
           message: `Member with ID "${id}" not found`,
           translationKey: 'errors.member.not_found'
         });
       }
-      
+
       return updatedMember;
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -141,24 +157,24 @@ export class MembersService {
   /**
    * Delete a member (soft delete by setting status to INACTIVE)
    */
-  async remove(id: string): Promise<any> {
+  async remove(id: string): Promise<Member> {
     try {
       const [updatedMember] = await this.drizzle.db
         .update(members)
-        .set({ 
+        .set({
           status: 'INACTIVE',
           updatedAt: new Date()
         })
         .where(eq(members.id, id))
         .returning();
-      
+
       if (!updatedMember) {
         throw new NotFoundException({
           message: `Member with ID "${id}" not found`,
           translationKey: 'errors.member.not_found'
         });
       }
-      
+
       return updatedMember;
     } catch (error) {
       if (error instanceof NotFoundException) {
@@ -179,7 +195,7 @@ export class MembersService {
       const result = await this.drizzle.db
         .delete(members)
         .where(eq(members.id, id));
-      
+
       if (!result.rowCount || result.rowCount === 0) {
         throw new NotFoundException({
           message: `Member with ID "${id}" not found`,
