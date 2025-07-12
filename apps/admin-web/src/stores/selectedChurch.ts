@@ -1,10 +1,10 @@
+import { Church } from '@ekklesia/shared';
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import { ChurchWithUsers } from '../services/churchService';
 
 export const useSelectedChurch = defineStore('selectedChurch', () => {
   // State
-  const selectedChurch = ref<ChurchWithUsers | null>(null);
+  const selectedChurch = ref<Church | null>(null);
 
   // Getters
   const isChurchSelected = computed(() => selectedChurch.value !== null);
@@ -12,7 +12,7 @@ export const useSelectedChurch = defineStore('selectedChurch', () => {
   const selectedChurchName = computed(() => selectedChurch.value?.name || '');
 
   // Actions
-  const setSelectedChurch = (church: ChurchWithUsers | null) => {
+  const setSelectedChurch = (church: Church | null) => {
     selectedChurch.value = church;
   };
 

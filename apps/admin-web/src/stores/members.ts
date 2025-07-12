@@ -1,27 +1,33 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { MemberService, Member } from './../services/memberService';
+import { ICreateMemberDto, IUpdateMemberDto } from '@ekklesia/shared';
+
+const memberService = new MemberService();
 
 export const useMembersStore = defineStore('members', () => {
   // State
-  const members = ref<any[]>([]);
+  const members = ref<Member[]>([]);
   const isLoading = ref(false);
   const error = ref('');
   const currentPage = ref(1);
   const totalPages = ref(1);
+  const total = ref(0);
+  const limit = ref(10);
 
   // Getters
   const hasError = computed(() => !!error.value);
 
   // Actions
-  const fetchMembers = async (page = 1, includeInactive = false) => {
+  const fetchMembers = async (page = 1, includeInactive = false, churchId?: string) => {
     isLoading.value = true;
     error.value = '';
     try {
-      // TODO: Implement actual API call
-      // Placeholder data for now
-      members.value = [];
-      currentPage.value = page;
-      totalPages.value = 1;
+      const response = await memberService.getMembers(page, limit.value, includeInactive, churchId);
+      members.value = response.members;
+      currentPage.value = response.page;
+      totalPages.value = response.totalPages;
+      total.value = response.total;
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to fetch members';
       throw err;
@@ -30,11 +36,11 @@ export const useMembersStore = defineStore('members', () => {
     }
   };
 
-  const createMember = async (data: any) => {
+  const createMember = async (data: ICreateMemberDto) => {
     isLoading.value = true;
     error.value = '';
     try {
-      // TODO: Implement actual API call
+      await memberService.createMember(data);
       await fetchMembers(currentPage.value);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to create member';
@@ -44,11 +50,11 @@ export const useMembersStore = defineStore('members', () => {
     }
   };
 
-  const updateMember = async (id: string, data: any) => {
+  const updateMember = async (id: string, data: IUpdateMemberDto) => {
     isLoading.value = true;
     error.value = '';
     try {
-      // TODO: Implement actual API call
+      await memberService.updateMember(id, data);
       await fetchMembers(currentPage.value);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to update member';
@@ -62,7 +68,7 @@ export const useMembersStore = defineStore('members', () => {
     isLoading.value = true;
     error.value = '';
     try {
-      // TODO: Implement actual API call
+      await memberService.deleteMember(id);
       await fetchMembers(currentPage.value);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to delete member';
@@ -76,7 +82,7 @@ export const useMembersStore = defineStore('members', () => {
     isLoading.value = true;
     error.value = '';
     try {
-      // TODO: Implement actual API call
+      await memberService.activateMember(id);
       await fetchMembers(currentPage.value);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to activate member';
@@ -90,7 +96,7 @@ export const useMembersStore = defineStore('members', () => {
     isLoading.value = true;
     error.value = '';
     try {
-      // TODO: Implement actual API call
+      await memberService.deactivateMember(id);
       await fetchMembers(currentPage.value);
     } catch (err) {
       error.value = err instanceof Error ? err.message : 'Failed to deactivate member';
@@ -108,6 +114,8 @@ export const useMembersStore = defineStore('members', () => {
     hasError,
     currentPage,
     totalPages,
+    total,
+    limit,
 
     // Actions
     fetchMembers,

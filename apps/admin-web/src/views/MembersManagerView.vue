@@ -177,33 +177,28 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton, AppTable, TableColumn } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import MemberForm from '../components/MemberForm.vue';
 import { useErrorHandler } from '../utils/errorHandler';
 import { useMembersStore } from '../stores/members';
+import { useSelectedChurch } from '../stores/selectedChurch';
+import { useAuth } from '../stores/auth';
+import { Member } from '../services/memberService';
+import { ICreateMemberDto, IUpdateMemberDto } from '@ekklesia/shared';
 
 const { t } = useI18n();
 const { handleError, handleSuccess } = useErrorHandler();
 const membersStore = useMembersStore();
-
-// Placeholder member interface until proper types are available
-interface Member {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone?: string;
-  baptismDate?: Date;
-  isActive: boolean;
-  createdAt: Date;
-}
+const selectedChurchStore = useSelectedChurch();
+const auth = useAuth();
 
 const selectedMember = ref<Member | null>(null);
 const showForm = ref(false);
 const includeInactive = ref(false);
+const currentPage = ref(1);
 
 // Use store getters and state
 const members = computed(() => membersStore.members || []);
@@ -211,7 +206,6 @@ const isLoading = computed(() => membersStore.isLoading);
 const hasError = computed(() => membersStore.hasError);
 const error = computed(() => membersStore.error);
 const isSubmitting = computed(() => membersStore.isLoading);
-const currentPage = computed(() => membersStore.currentPage || 1);
 const totalPages = computed(() => membersStore.totalPages || 1);
 
 // Table columns configuration
@@ -256,12 +250,18 @@ const editMember = (member: Member) => {
 
 const toggleIncludeInactive = () => {
   includeInactive.value = !includeInactive.value;
-  fetchMembers();
+  fetchMembersWithContext();
+};
+
+const fetchMembersWithContext = (page = 1) => {
+  const churchId = auth.user?.role === 'SUPER_ADMIN' ? selectedChurchStore.selectedChurchId ?? undefined : undefined;
+  currentPage.value = page;
+  membersStore.fetchMembers(page, includeInactive.value, churchId);
 };
 
 const fetchMembers = async (page = 1) => {
   try {
-    await membersStore.fetchMembers(page, includeInactive.value);
+    await fetchMembersWithContext(page);
   } catch (error) {
     handleError(error, t('members.fetch_error'));
   }
@@ -298,17 +298,18 @@ const deleteMember = async (id: string) => {
   }
 };
 
-const handleFormSubmit = async (data: any) => {
+const handleFormSubmit = async (data: ICreateMemberDto | IUpdateMemberDto) => {
   try {
     if (selectedMember.value) {
-      await membersStore.updateMember(selectedMember.value.id, data);
+      await membersStore.updateMember(selectedMember.value.id, data as IUpdateMemberDto);
       handleSuccess(t('members.update_success'));
     } else {
-      await membersStore.createMember(data);
+      await membersStore.createMember(data as ICreateMemberDto);
       handleSuccess(t('members.create_success'));
     }
     showForm.value = false;
   } catch (error) {
+    console.log('Error in handleFormSubmit:', error);
     const errorMessage = selectedMember.value ? t('members.update_error') : t('members.create_error');
     handleError(error, errorMessage);
   }
@@ -323,7 +324,21 @@ const formatDate = (date: Date) => {
   return new Date(date).toLocaleDateString();
 };
 
+// Watch for changes in selected church
+watch(
+  () => selectedChurchStore.selectedChurchId,
+  (newChurchId) => {
+    if (auth.user?.role === 'SUPER_ADMIN') {
+      // Reset to first page when church changes
+      currentPage.value = 1;
+      // Fetch members for the new church (or all members if no church selected)
+      fetchMembersWithContext(1);
+    }
+  }
+);
+
 onMounted(() => {
-  fetchMembers();
+  // Always fetch members on mount
+  fetchMembersWithContext();
 });
 </script>

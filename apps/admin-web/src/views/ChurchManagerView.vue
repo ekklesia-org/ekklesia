@@ -107,7 +107,6 @@ import { useChurchesStore } from '../stores/churches';
 import { useErrorHandler } from '../utils/errorHandler';
 
 const { t } = useI18n();
-const toast = useToast();
 const churchesStore = useChurchesStore();
 const { handleError, handleSuccess } = useErrorHandler();
 
