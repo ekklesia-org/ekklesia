@@ -108,6 +108,7 @@
     "status_offline": "Server Offline"
   },
   "churches": {
+    "name": "Church Name",
     "title": "Church Management",
     "subtitle": "Manage churches and their settings",
     "active_churches": "Active Churches",
@@ -118,6 +119,14 @@
     "manage_users": "Manage Users",
     "church_settings": "Church Settings",
     "select_church": "Select Church",
+    "manager": {
+      "title": "Church Management",
+      "all_churches": "All Churches",
+      "create_church": "Create Church",
+      "no_churches": "No churches found",
+      "users": "Users",
+      "confirm_delete": "Are you sure you want to delete this church?"
+    },
     "create_church": {
       "title": "Create New Church",
       "church_info": "Church Information",
@@ -295,6 +304,43 @@
     "no": "No",
     "confirm": "Confirm",
     "close": "Close",
-    "tax_id": "Tax ID"
+    "tax_id": "Tax ID",
+    "coming_soon": "Coming Soon"
+  },
+  "members": {
+    "name": "Name",
+    "email": "Email",
+    "phone": "Phone",
+    "baptism_date": "Baptism Date",
+    "status": "Status",
+    "joined": "Joined",
+    "active": "Active",
+    "inactive": "Inactive",
+    "activate": "Activate",
+    "deactivate": "Deactivate",
+    "show_inactive": "Show Inactive",
+    "hide_inactive": "Hide Inactive",
+    "create_member": "Create Member",
+    "edit_member": "Edit Member",
+    "manager": {
+      "title": "Member Management",
+      "all_members": "All Members",
+      "create_member": "Create Member",
+      "create_first_member": "Create First Member",
+      "no_members": "No members found",
+      "confirm_delete": "Are you sure you want to delete this member?",
+      "confirm_deactivate": "Are you sure you want to deactivate this member?"
+    },
+    "create_success": "Member created successfully!",
+    "create_error": "Failed to create member. Please try again.",
+    "update_success": "Member updated successfully!",
+    "update_error": "Failed to update member. Please try again.",
+    "activate_success": "Member activated successfully!",
+    "activate_error": "Failed to activate member. Please try again.",
+    "deactivate_success": "Member deactivated successfully!",
+    "deactivate_error": "Failed to deactivate member. Please try again.",
+    "delete_success": "Member deleted successfully!",
+    "delete_error": "Failed to delete member. Please try again.",
+    "fetch_error": "Failed to fetch members. Please try again."
   }
 }

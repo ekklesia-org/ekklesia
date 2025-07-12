@@ -3,69 +3,74 @@
     <!-- Church List -->
     <div
       v-if="!showForm"
-      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
+      class="container mx-auto mt-8 px-4 sm:px-6 lg:px-8"
     >
       <div class="flex justify-between mb-6">
-        <h2 class="text-lg font-semibold">
+        <h2 class="text-2xl font-bold leading-tight">
           {{ $t('churches.manager.all_churches') }}
         </h2>
         <AppButton
           variant="primary"
+          aria-label="Create Church"
           @click="showCreateForm"
         >
           {{ $t('churches.manager.create_church') }}
         </AppButton>
       </div>
 
-      <div
-        v-if="churches.length > 0"
-        class="grid grid-cols-1 gap-6"
+      <!-- Churches Table -->
+      <AppTable
+        :columns="tableColumns"
+        :data="churches"
+        :loading="churchesStore.isLoading"
+        :error="churchesStore.error"
+        :loading-text="$t('common.loading')"
+        :empty-text="$t('churches.manager.no_churches')"
+        :actions-label="$t('common.actions')"
+        row-key="id"
+        @retry="churchesStore.fetchChurches()"
       >
-        <div
-          v-for="church in churches"
-          :key="church.id"
-          class="p-4 bg-white shadow-md rounded-lg"
-        >
-          <h3 class="text-md font-semibold">
-            {{ church.name }}
-          </h3>
-          <p><strong>{{ $t('common.email') }}:</strong> {{ church.email }}</p>
-          <p><strong>{{ $t('common.phone') }}:</strong> {{ church.phone || '-' }}</p>
-          <p><strong>{{ $t('common.address') }}:</strong> {{ church.address || '-' }} </p>
-          <p><strong>{{ $t('common.tax_id') }}:</strong> {{ church.taxId || '-' }}</p>
-          <p>
-            <strong>{{ $t('churches.manager.users') }}:</strong>
-            <span
-              v-for="user in church.users"
-              :key="user.id"
-            >
-              {{ user.firstName }} {{ user.lastName }}{{ user !== church.users[church.users.length - 1] ? ',' : '' }}
+        <!-- Users column -->
+        <template #cell-users="{ row }">
+          <div class="text-sm text-gray-900">
+            <span v-if="!row.users || row.users.length === 0">-</span>
+            <span v-else>
+              {{ row.users.map(u => `${u.firstName} ${u.lastName}`).join(', ') }}
             </span>
-          </p>
+          </div>
+        </template>
 
-          <div class="flex justify-end mt-4 space-x-2">
+        <!-- Actions column -->
+        <template #actions="{ row }">
+          <div class="flex justify-end space-x-2">
             <AppButton
               variant="secondary"
-              @click="editChurch(church)"
+              size="sm"
+              @click="editChurch(row)"
             >
               {{ $t('common.edit') }}
             </AppButton>
             <AppButton
               variant="danger"
-              @click="deleteChurch(church.id)"
+              size="sm"
+              @click="deleteChurch(row.id)"
             >
               {{ $t('common.delete') }}
             </AppButton>
           </div>
-        </div>
-      </div>
+        </template>
 
-      <div
-        v-else
-        class="text-center"
-      >
-        <p>{{ $t('churches.manager.no_churches') }}</p>
-      </div>
+        <!-- Error action -->
+        <template #error-action="{ retry }">
+          <AppButton
+            variant="primary"
+            class="mt-4"
+            @click="retry"
+          >
+            {{ $t('common.retry') }}
+          </AppButton>
+        </template>
+      </AppTable>
     </div>
 
     <!-- Church Form Modal -->
@@ -77,7 +82,7 @@
       @submit="handleFormSubmit"
       @cancel="cancelForm"
     />
-    
+
     <!-- Super Admin Transfer Dialog -->
     <SuperAdminTransferDialog
       v-if="showTransferDialog && churchToDelete"
@@ -93,7 +98,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AppButton, useToast } from '@ekklesia/ui';
+import { AppButton, AppTable, TableColumn, useToast } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import { ChurchWithUsers, ICreateChurchDto } from '@ekklesia/shared';
 import ChurchForm from '../components/ChurchForm.vue';
@@ -128,10 +133,10 @@ const editChurch = (church: ChurchWithUsers) => {
 const deleteChurch = async (id: string) => {
   const church = churches.value.find(c => c.id === id);
   if (!church) return;
-  
+
   // Check if church has Super Admin users
   const superAdmins = church.users.filter(user => user.role === 'SUPER_ADMIN' && user.isActive);
-  
+
   if (superAdmins.length > 0) {
     // Show transfer dialog for Super Admins
     churchToDelete.value = church;
@@ -172,7 +177,7 @@ const cancelForm = () => {
 
 const handleTransfer = async (toChurchId: string) => {
   if (!churchToDelete.value) return;
-  
+
   try {
     // After transfer, proceed with deletion
     await churchesStore.deleteChurch(churchToDelete.value.id);
@@ -189,14 +194,60 @@ const cancelTransfer = () => {
   churchToDelete.value = null;
 };
 
+// Table columns configuration
+const tableColumns = computed<TableColumn[]>(() => [
+  {
+    key: 'name',
+    label: t('churches.name'),
+  },
+  {
+    key: 'email',
+    label: t('common.email'),
+  },
+  {
+    key: 'phone',
+    label: t('common.phone'),
+  },
+  {
+    key: 'address',
+    label: t('common.address'),
+  },
+  {
+    key: 'taxId',
+    label: t('common.tax_id'),
+  },
+  {
+    key: 'users',
+    label: t('churches.manager.users'),
+  },
+]);
+
 onMounted(() => {
   churchesStore.fetchChurches();
 });
 </script>
 
 <style scoped>
-.text-md {
-  font-size: 1rem;
+.text-lg {
+  font-size: 1.125rem;
+}
+
+.text-xl {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.text-2xl {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.hover\:shadow-lg:hover {
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.transition-shadow {
+  transition: box-shadow 0.3s ease-in-out;
 }
 </style>
 

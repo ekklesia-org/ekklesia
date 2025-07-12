@@ -9,6 +9,10 @@ export { default as AppStatsCard } from './components/common/AppStatsCard.vue';
 // Form Components
 export { default as AppInput } from './components/forms/AppInput.vue';
 
+// Data Components
+export { default as AppTable } from './components/data/AppTable.vue';
+export type { TableColumn, TableProps } from './components/data/AppTable.vue';
+
 // Layout Components
 export { default as AppHeader } from './components/layout/AppHeader.vue';
 export { default as AppSidebar } from './components/layout/AppSidebar.vue';

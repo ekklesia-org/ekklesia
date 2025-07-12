@@ -41,7 +41,7 @@
 		"i18n-ally.annotations": true,
 		"i18n-ally.refactor.templates": [
 			{
-				"source": "$t('{key}')",
+				"source": "js-string",
 				"target": "{{ $t('{key}') }}"
 			}
 		],

@@ -6,6 +6,7 @@ import SetupView from '../views/SetupView.vue';
 import ErrorView from '../views/ErrorView.vue';
 import ChurchManagerView from '../views/ChurchManagerView.vue';
 import UserManagerView from '../views/UserManagerView.vue';
+import MembersManagerView from '../views/MembersManagerView.vue';
 import ComingSoonView from '../views/ComingSoonView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 
@@ -52,11 +53,10 @@ const router = createRouter({
       component: ComingSoonView,
       meta: { requiresAuth: true }
     },
-    // Routes that redirect to coming soon page
     {
       path: '/members',
       name: 'members',
-      component: ComingSoonView,
+      component: MembersManagerView,
       meta: { requiresAuth: true }
     },
     {

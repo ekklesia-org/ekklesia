@@ -159,6 +159,7 @@
     "status_offline": "Servidor Offline"
   },
   "churches": {
+    "name": "Nome da Igreja",
     "title": "Gerenciamento de Igrejas",
     "subtitle": "Gerencie igrejas e suas configurações",
     "active_churches": "Igrejas Ativas",
@@ -269,7 +270,7 @@
     "transfer_delete_success": "Super administradores transferidos e igreja deletada com sucesso!",
     "transfer_delete_error": "Falha ao transferir e deletar igreja. Tente novamente."
   },
-    "common": {
+  "common": {
     "loading": "Carregando...",
     "saving": "Salvando...",
     "create": "Criar",

@@ -159,6 +159,7 @@
     "status_offline": "Servidor Desconectado"
   },
   "churches": {
+    "name": "Nombre de la Iglesia",
     "title": "Gestión de Iglesias",
     "subtitle": "Gestiona iglesias y sus configuraciones",
     "active_churches": "Iglesias Activas",

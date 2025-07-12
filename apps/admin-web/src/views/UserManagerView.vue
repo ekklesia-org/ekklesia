@@ -25,179 +25,141 @@
         </div>
       </div>
 
-      <!-- Loading State -->
-      <div
-        v-if="isLoading"
-        class="text-center py-8"
+      <!-- Users Table -->
+      <AppTable
+        :columns="tableColumns"
+        :data="users"
+        :loading="isLoading"
+        :error="error"
+        :loading-text="$t('common.loading')"
+        :empty-text="$t('users.manager.no_users')"
+        :actions-label="$t('common.actions')"
+        row-key="id"
+        :show-pagination="totalPages > 1"
+        :current-page="currentPage"
+        :total-pages="totalPages"
+        @retry="usersStore.fetchUsers()"
+        @update:current-page="fetchUsersWithContext"
       >
-        <p>{{ $t('common.loading') }}</p>
-      </div>
+        <!-- Name column -->
+        <template #cell-name="{ row }">
+          <div class="text-sm font-medium text-gray-900">
+            {{ row.firstName }} {{ row.lastName }}
+          </div>
+        </template>
 
-      <!-- Error State -->
-      <div
-        v-else-if="hasError"
-        class="text-center py-8"
-      >
-        <p class="text-red-600">
-          {{ error }}
-        </p>
-        <AppButton
-          variant="primary"
-          class="mt-4"
-          @click="usersStore.fetchUsers()"
-        >
-          {{ $t('common.retry') }}
-        </AppButton>
-      </div>
+        <!-- Email column -->
+        <template #cell-email="{ row }">
+          <div class="text-sm text-gray-900">
+            {{ row.email }}
+          </div>
+        </template>
 
-      <!-- Users List -->
-      <div
-        v-else-if="users.length > 0"
-        class="bg-white shadow-md rounded-lg overflow-hidden"
-      >
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {{ $t('users.name') }}
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {{ $t('users.email') }}
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {{ $t('users.role') }}
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {{ $t('users.status') }}
-              </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {{ $t('users.created') }}
-              </th>
-              <th class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                {{ $t('common.actions') }}
-              </th>
-            </tr>
-          </thead>
-          <tbody class="bg-white divide-y divide-gray-200">
-            <tr
-              v-for="user in users"
-              :key="user.id"
-              class="hover:bg-gray-50"
-            >
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm font-medium text-gray-900">
-                  {{ user.firstName }} {{ user.lastName }}
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">
-                  {{ user.email }}
-                </div>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-                  :class="getRoleColor(user.role)"
-                >
-                  {{ $t(`users.roles.${user.role.toLowerCase()}`) }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap">
-                <span
-                  class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-                  :class="user.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
-                >
-                  {{ user.isActive ? $t('users.active') : $t('users.inactive') }}
-                </span>
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {{ formatDate(user.createdAt) }}
-              </td>
-              <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <div class="flex justify-end space-x-2">
-                  <AppButton
-                    variant="secondary"
-                    size="sm"
-                    @click="editUser(user)"
-                  >
-                    {{ $t('common.edit') }}
-                  </AppButton>
-                  <AppButton
-                    v-if="user.isActive"
-                    variant="primary"
-                    size="sm"
-                    :disabled="isLastSuperAdmin(user)"
-                    @click="deactivateUser(user.id)"
-                  >
-                    {{ $t('users.deactivate') }}
-                  </AppButton>
-                  <AppButton
-                    v-else
-                    variant="success"
-                    size="sm"
-                    @click="activateUser(user.id)"
-                  >
-                    {{ $t('users.activate') }}
-                  </AppButton>
-                  <AppButton
-                    variant="danger"
-                    size="sm"
-                    :disabled="isLastSuperAdmin(user)"
-                    @click="deleteUser(user.id)"
-                  >
-                    {{ $t('common.delete') }}
-                  </AppButton>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <!-- Empty State -->
-      <div
-        v-else
-        class="text-center py-8"
-      >
-        <p class="text-gray-500">
-          {{ $t('users.manager.no_users') }}
-        </p>
-        <AppButton
-          variant="primary"
-          class="mt-4"
-          @click="showCreateForm"
-        >
-          {{ $t('users.manager.create_first_user') }}
-        </AppButton>
-      </div>
-
-      <!-- Pagination -->
-      <div
-        v-if="totalPages > 1"
-        class="flex justify-center mt-8"
-      >
-        <nav class="flex items-center space-x-1">
-          <AppButton
-            variant="secondary"
-            size="sm"
-            :disabled="currentPage === 1"
-            @click="previousPage"
+        <!-- Role column -->
+        <template #cell-role="{ row }">
+          <span
+            class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+            :class="getRoleColor(row.role)"
           >
-            {{ $t('common.previous') }}
-          </AppButton>
-          <span class="px-4 py-2 text-sm text-gray-700">
-            {{ $t('common.page_of', { current: currentPage, total: totalPages }) }}
+            {{ $t(`users.roles.${row.role.toLowerCase()}`) }}
           </span>
-          <AppButton
-            variant="secondary"
-            size="sm"
-            :disabled="currentPage === totalPages"
-            @click="nextPage"
+        </template>
+
+        <!-- Status column -->
+        <template #cell-status="{ row }">
+          <span
+            class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+            :class="row.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
           >
-            {{ $t('common.next') }}
+            {{ row.isActive ? $t('users.active') : $t('users.inactive') }}
+          </span>
+        </template>
+
+        <!-- Error action -->
+        <template #error-action="{ retry }">
+          <AppButton
+            variant="primary"
+            class="mt-4"
+            @click="retry"
+          >
+            {{ $t('common.retry') }}
           </AppButton>
-        </nav>
-      </div>
+        </template>
+
+        <!-- Empty action -->
+        <template #empty-action>
+          <AppButton
+            variant="primary"
+            class="mt-4"
+            @click="showCreateForm"
+          >
+            {{ $t('users.manager.create_first_user') }}
+          </AppButton>
+        </template>
+
+        <!-- Actions column -->
+        <template #actions="{ row }">
+          <div class="flex justify-end space-x-2">
+            <AppButton
+              variant="secondary"
+              size="sm"
+              @click="editUser(row)"
+            >
+              {{ $t('common.edit') }}
+            </AppButton>
+            <AppButton
+              v-if="row.isActive"
+              variant="primary"
+              size="sm"
+              :disabled="isLastSuperAdmin(row)"
+              @click="deactivateUser(row.id)"
+            >
+              {{ $t('users.deactivate') }}
+            </AppButton>
+            <AppButton
+              v-else
+              variant="success"
+              size="sm"
+              @click="activateUser(row.id)"
+            >
+              {{ $t('users.activate') }}
+            </AppButton>
+            <AppButton
+              variant="danger"
+              size="sm"
+              :disabled="isLastSuperAdmin(row)"
+              @click="deleteUser(row.id)"
+            >
+              {{ $t('common.delete') }}
+            </AppButton>
+          </div>
+        </template>
+
+        <!-- Pagination -->
+        <template #pagination="{ previousPage, nextPage, currentPage, totalPages }">
+          <nav class="flex items-center space-x-1">
+            <AppButton
+              variant="secondary"
+              size="sm"
+              :disabled="currentPage === 1"
+              @click="previousPage"
+            >
+              {{ $t('common.previous') }}
+            </AppButton>
+            <span class="px-4 py-2 text-sm text-gray-700">
+              {{ $t('common.page_of', { current: currentPage, total: totalPages }) }}
+            </span>
+            <AppButton
+              variant="secondary"
+              size="sm"
+              :disabled="currentPage === totalPages"
+              @click="nextPage"
+            >
+              {{ $t('common.next') }}
+            </AppButton>
+          </nav>
+        </template>
+      </AppTable>
     </div>
 
     <!-- User Form Modal -->
@@ -216,7 +178,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AppButton } from '@ekklesia/ui';
+import { AppButton, AppTable, TableColumn } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import UserForm from '../components/UserForm.vue';
 import { User, CreateUserDto, UpdateUserDto } from '../services/userService';
@@ -366,6 +328,32 @@ const isLastSuperAdminForForm = computed(() => {
   if (!selectedUser.value) return false;
   return isLastSuperAdmin(selectedUser.value);
 });
+
+// Table columns configuration
+const tableColumns = computed<TableColumn[]>(() => [
+  {
+    key: 'name',
+    label: t('users.name'),
+  },
+  {
+    key: 'email',
+    label: t('users.email'),
+  },
+  {
+    key: 'role',
+    label: t('users.role'),
+  },
+  {
+    key: 'status',
+    label: t('users.status'),
+  },
+  {
+    key: 'createdAt',
+    label: t('users.created'),
+    format: (value) => formatDate(value),
+    cellClass: 'text-sm text-gray-500',
+  },
+]);
 
 // Watch for changes in selected church
 watch(
