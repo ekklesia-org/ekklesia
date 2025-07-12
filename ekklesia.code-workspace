@@ -1,0 +1,58 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "apps/api"
+		},
+		{
+			"path": "apps/admin-web"
+		},
+		{
+			"path": "apps/client-app"
+		},
+		{
+			"path": "libs"
+		}
+	],
+	"settings": {
+		"nxConsole.generateAiAgentRules": true,
+		"i18n-ally.keystyle": "nested",
+		"i18n-ally.defaultNamespace": "translation",
+		"i18n-ally.displayLanguage": "en",
+		"i18n-ally.sourceLanguage": "en",
+		"i18n-ally.enabledFrameworks": [
+			"vue",
+			"vue-sfc"
+		],
+		"i18n-ally.pathMatcher": "{locale}.json",
+		"i18n-ally.sortKeys": true,
+		"i18n-ally.keepFulfilled": true,
+		"i18n-ally.namespace": false,
+		"i18n-ally.extract.keygenStyle": "camelCase",
+		"i18n-ally.extract.keyMaxLength": 30,
+		"i18n-ally.translate.engines": [
+			"google",
+			"deepl"
+		],
+		"i18n-ally.review.enabled": true,
+		"i18n-ally.review.gutters": true,
+		"i18n-ally.annotations": true,
+		"i18n-ally.refactor.templates": [
+			{
+				"source": "$t('{key}')",
+				"target": "{{ $t('{key}') }}"
+			}
+		],
+		"i18n-ally.localesPaths": [
+			"apps/admin-web/src/i18n",
+			"apps/client-app/src/i18n",
+			"libs/translations/src/locales",
+			"apps/admin-web/src/i18n/locales"
+		],
+		"cSpell.words": [
+			"ekklesia"
+		]
+	}
+}
