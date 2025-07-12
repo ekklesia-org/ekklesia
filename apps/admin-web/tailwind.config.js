@@ -6,6 +6,8 @@ module.exports = {
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
+  // TODO: Find another solution for dynamic classes or Find a better way to share the safelist across all apps
+  // This is a temporary solution to avoid issues with dynamic classes in Tailwind CSS
   safelist: [
     // AppCard component - rounded variants
     'rounded-none',
