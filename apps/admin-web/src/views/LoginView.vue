@@ -43,6 +43,7 @@
         <AppCard
           variant="elevated"
           rounded="xl"
+          class="login-card-x"
         >
           <div class="mb-8">
             <h2 class="text-2xl font-light text-gray-900 mb-2">
