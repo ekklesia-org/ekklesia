@@ -123,6 +123,7 @@
       "title": "Church Management",
       "users": "Users"
     },
+    "all_churches": "All Churches",
     "name": "Church Name",
     "select_church": "Select Church",
     "status": {
@@ -383,7 +384,7 @@
     "create_admin": "Create Admin Account",
     "email": "Email address",
     "first_name": "First Name",
-    "initialize_button": "🚀 Initialize System",
+    "initialize_button": "Initialize System",
     "last_name": "Last Name",
     "password": "Password",
     "password_hint": "Minimum 6 characters",
@@ -463,7 +464,9 @@
     "status": "Status",
     "title": "User Management",
     "update_error": "Failed to update user. Please try again.",
-    "update_success": "User updated successfully!"
+    "update_success": "User updated successfully!",
+    "showing_users_from": "Showing users from {church}",
+    "showing_all_users": "Showing all users"
   },
   "validation": {
     "email_invalid": "Please enter a valid email address",

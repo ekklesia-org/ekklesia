@@ -51,7 +51,7 @@
   },
   "setup": {
     "admin_description": "Set up your administrator account and church information",
-    "initialize_button": "🚀 Initialize System",
+    "initialize_button": "Initialize System",
     "setting_up": "Setting up...",
     "setup_success": "System initialized successfully! Please login with your credentials.",
     "setup_error": "Failed to initialize system. Please try again."

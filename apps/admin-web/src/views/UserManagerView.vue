@@ -6,9 +6,17 @@
       class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8"
     >
       <div class="flex justify-between items-center mb-6">
-        <h2 class="text-lg font-semibold">
-          {{ $t('users.manager.all_users') }}
-        </h2>
+        <div>
+          <h2 class="text-lg font-semibold">
+            {{ $t('users.manager.all_users') }}
+          </h2>
+          <p v-if="auth.user?.role === 'SUPER_ADMIN'" class="text-sm text-gray-600 mt-1">
+            {{ selectedChurchStore.selectedChurchId 
+              ? $t('users.showing_users_from', { church: selectedChurchStore.selectedChurchName }) 
+              : $t('users.showing_all_users') 
+            }}
+          </p>
+        </div>
         <div class="flex space-x-4">
           <AppButton
             variant="secondary"
@@ -222,6 +230,7 @@ const toggleIncludeInactive = () => {
 
 const fetchUsersWithContext = (page = 1) => {
   const churchId = auth.user?.role === 'SUPER_ADMIN' ? selectedChurchStore.selectedChurchId ?? undefined : undefined;
+  currentPage.value = page;
   usersStore.fetchUsers(page, includeInactive.value, churchId);
 };
 
@@ -346,22 +355,17 @@ const tableColumns = computed<TableColumn[]>(() => [
 watch(
   () => selectedChurchStore.selectedChurchId,
   (newChurchId) => {
-    if (auth.user?.role === 'SUPER_ADMIN' && newChurchId) {
-      fetchUsersWithContext();
+    if (auth.user?.role === 'SUPER_ADMIN') {
+      // Reset to first page when church changes
+      currentPage.value = 1;
+      // Fetch users for the new church (or all users if no church selected)
+      fetchUsersWithContext(1);
     }
   }
 );
 
 onMounted(() => {
-  // For SUPER_ADMIN users, wait for church selection to avoid duplicate requests
-  if (auth.user?.role === 'SUPER_ADMIN') {
-    // Only fetch if a church is already selected, otherwise let the watch handle it
-    if (selectedChurchStore.selectedChurchId) {
-      fetchUsersWithContext();
-    }
-  } else {
-    // For non-SUPER_ADMIN users, fetch immediately
-    fetchUsersWithContext();
-  }
+  // Always fetch users on mount
+  fetchUsersWithContext();
 });
 </script>

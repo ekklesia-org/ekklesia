@@ -1,6 +1,6 @@
 # Ekklesia Monorepo Overview
 
-Ekklesia is a comprehensive church management system organized as an Nx monorepo. It leverages modern technologies such as NestJS, Vue.js, and Prisma to provide robust solutions for managing church operations.
+Ekklesia is a comprehensive church management system organized as an Nx monorepo. It leverages modern technologies such as NestJS, Vue.js, and Drizzle to provide robust solutions for managing church operations.
 
 ## Structure
 
@@ -13,7 +13,7 @@ Ekklesia is a comprehensive church management system organized as an Nx monorepo
 ### Libraries
 
 - **api**: Houses feature modules such as authentication, financial, members, and church management.
-- **database**: Database layer with Prisma service.
+- **database**: Database layer with Drizzle service.
 - **shared**: Common types and interfaces used across apps.
 - **shared-utils**: General utility functions.
 - **ui**: UI components shared across applications.
@@ -21,7 +21,7 @@ Ekklesia is a comprehensive church management system organized as an Nx monorepo
 
 ## Technology Stack
 
-- **Backend**: Built with NestJS and Prisma ORM, running PostgreSQL 16 via Docker.
+- **Backend**: Built with NestJS and Drizzle ORM, running PostgreSQL 16 via Docker.
 - **Frontend**: Utilizes Vue 3 with Quasar for a responsive and modern UI.
 - **DevOps**: Docker is used for containerization; the system is pre-configured to run with Azure Database for PostgreSQL.
 

@@ -123,6 +123,7 @@
       "title": "Gestión de la iglesia",
       "users": "Usuarios"
     },
+    "all_churches": "Todas las Iglesias",
     "name": "Nombre de la Iglesia",
     "select_church": "Seleccionar Iglesia",
     "status": {
@@ -383,7 +384,7 @@
     "create_admin": "Crear Cuenta de Administrador",
     "email": "Correo electrónico",
     "first_name": "Nombre",
-    "initialize_button": "🚀 Inicializar Sistema",
+    "initialize_button": "Inicializar Sistema",
     "last_name": "Apellido",
     "password": "Contraseña",
     "password_hint": "Mínimo 6 caracteres",
@@ -463,7 +464,9 @@
     "status": "Estado",
     "title": "Gestión de Usuarios",
     "update_error": "Error al actualizar usuario. Inténtalo de nuevo.",
-    "update_success": "¡Usuario actualizado exitosamente!"
+    "update_success": "¡Usuario actualizado exitosamente!",
+    "showing_users_from": "Mostrando usuarios de {church}",
+    "showing_all_users": "Mostrando todos los usuarios"
   },
   "validation": {
     "email_invalid": "Por favor ingresa un correo electrónico válido",
