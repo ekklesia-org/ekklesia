@@ -30,7 +30,7 @@
         :columns="tableColumns"
         :data="users"
         :loading="isLoading"
-        :error="error"
+        :error="error || undefined"
         :loading-text="$t('common.loading')"
         :empty-text="$t('users.manager.no_users')"
         :actions-label="$t('common.actions')"
@@ -178,14 +178,14 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AppButton, AppTable, TableColumn } from '@ekklesia/ui';
+import { AppButton, AppTable, TableColumn, User } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import UserForm from '../components/UserForm.vue';
-import { User, CreateUserDto, UpdateUserDto } from '../services/userService';
 import { useUsersStore } from '../stores/users';
 import { useSelectedChurch } from '../stores/selectedChurch';
 import { useAuth } from '../stores/auth';
 import { useErrorHandler } from '../utils/errorHandler';
+import { ICreateUserDto, IUpdateUserDto } from '@ekklesia/shared';
 
 const { t } = useI18n();
 const { handleError, handleSuccess } = useErrorHandler();
@@ -203,8 +203,6 @@ const isLoading = computed(() => usersStore.isLoading);
 const hasError = computed(() => usersStore.hasError);
 const error = computed(() => usersStore.error);
 const isSubmitting = computed(() => usersStore.isLoading);
-const currentPage = computed(() => usersStore.currentPage);
-const totalPages = computed(() => usersStore.totalPages);
 
 const showCreateForm = () => {
   selectedUser.value = null;
@@ -269,13 +267,13 @@ const deleteUser = async (id: string) => {
   }
 };
 
-const handleFormSubmit = async (data: CreateUserDto | UpdateUserDto) => {
+const handleFormSubmit = async (data: ICreateUserDto | IUpdateUserDto) => {
   try {
     if (selectedUser.value) {
-      await usersStore.updateUser(selectedUser.value.id, data as UpdateUserDto);
+      await usersStore.updateUser(selectedUser.value.id, data as IUpdateUserDto);
       handleSuccess(t('users.update_success'));
     } else {
-      await usersStore.createUser(data as CreateUserDto);
+      await usersStore.createUser(data as ICreateUserDto);
       handleSuccess(t('users.create_success'));
     }
     showForm.value = false;
@@ -289,18 +287,6 @@ const handleFormSubmit = async (data: CreateUserDto | UpdateUserDto) => {
 const cancelForm = () => {
   showForm.value = false;
   selectedUser.value = null;
-};
-
-const previousPage = () => {
-  if (currentPage.value > 1) {
-    fetchUsersWithContext(currentPage.value - 1);
-  }
-};
-
-const nextPage = () => {
-  if (currentPage.value < totalPages.value) {
-    fetchUsersWithContext(currentPage.value + 1);
-  }
 };
 
 const getRoleColor = (role: string) => {
@@ -366,6 +352,15 @@ watch(
 );
 
 onMounted(() => {
-  fetchUsersWithContext();
+  // For SUPER_ADMIN users, wait for church selection to avoid duplicate requests
+  if (auth.user?.role === 'SUPER_ADMIN') {
+    // Only fetch if a church is already selected, otherwise let the watch handle it
+    if (selectedChurchStore.selectedChurchId) {
+      fetchUsersWithContext();
+    }
+  } else {
+    // For non-SUPER_ADMIN users, fetch immediately
+    fetchUsersWithContext();
+  }
 });
 </script>

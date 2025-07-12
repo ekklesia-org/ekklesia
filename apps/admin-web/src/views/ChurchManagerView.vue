@@ -23,7 +23,7 @@
         :columns="tableColumns"
         :data="churches"
         :loading="churchesStore.isLoading"
-        :error="churchesStore.error"
+        :error="churchesStore.error || undefined"
         :loading-text="$t('common.loading')"
         :empty-text="$t('churches.manager.no_churches')"
         :actions-label="$t('common.actions')"
@@ -31,11 +31,11 @@
         @retry="churchesStore.fetchChurches()"
       >
         <!-- Users column -->
-        <template #cell-users="{ row }">
+        <template #cell-users="{ row }: { row: ChurchWithUsers }">
           <div class="text-sm text-gray-900">
             <span v-if="!row.users || row.users.length === 0">-</span>
             <span v-else>
-              {{ row.users.map(u => `${u.firstName} ${u.lastName}`).join(', ') }}
+              {{ row.users.map((u) => `${u.firstName} ${u.lastName}`).join(', ') }}
             </span>
           </div>
         </template>

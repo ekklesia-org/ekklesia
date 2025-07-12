@@ -138,23 +138,23 @@
         </template>
 
         <!-- Pagination -->
-        <template #pagination="{ previousPage, nextPage, currentPage, totalPages }">
+        <template #pagination="{ previousPage, nextPage, currentPage: slotCurrentPage, totalPages: slotTotalPages }">
           <nav class="flex items-center space-x-1">
             <AppButton
               variant="secondary"
               size="sm"
-              :disabled="currentPage === 1"
+              :disabled="slotCurrentPage === 1"
               @click="previousPage"
             >
               {{ $t('common.previous') }}
             </AppButton>
             <span class="px-4 py-2 text-sm text-gray-700">
-              {{ $t('common.page_of', { current: currentPage, total: totalPages }) }}
+              {{ $t('common.page_of', { current: slotCurrentPage, total: slotTotalPages }) }}
             </span>
             <AppButton
               variant="secondary"
               size="sm"
-              :disabled="currentPage === totalPages"
+              :disabled="slotCurrentPage === slotTotalPages"
               @click="nextPage"
             >
               {{ $t('common.next') }}
@@ -182,8 +182,8 @@ import { useI18n } from 'vue-i18n';
 import { AppButton, AppTable, TableColumn } from '@ekklesia/ui';
 import AdminLayout from '../components/AdminLayout.vue';
 import MemberForm from '../components/MemberForm.vue';
-import { useMembersStore } from '../stores/members';
 import { useErrorHandler } from '../utils/errorHandler';
+import { useMembersStore } from '../stores/members';
 
 const { t } = useI18n();
 const { handleError, handleSuccess } = useErrorHandler();

@@ -46,10 +46,9 @@
 			}
 		],
 		"i18n-ally.localesPaths": [
-			"apps/admin-web/src/i18n",
-			"apps/client-app/src/i18n",
-			"libs/translations/src/locales",
-			"apps/admin-web/src/i18n/locales"
+			"apps/admin-web/src/i18n/locales",
+			"apps/client-app/src/i18n/locales",
+			"libs/translations/src/locales"
 		],
 		"cSpell.words": [
 			"ekklesia",
