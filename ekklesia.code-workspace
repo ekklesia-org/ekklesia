@@ -52,7 +52,11 @@
 			"apps/admin-web/src/i18n/locales"
 		],
 		"cSpell.words": [
-			"ekklesia"
+			"ekklesia",
+			"grayscale",
+			"heroicons",
+			"rgba",
+			"tailwindcss"
 		]
 	}
 }

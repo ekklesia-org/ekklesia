@@ -1,6 +1,4 @@
 import './main.css';
-// Import UI library components
-import '@ekklesia/ui';
 
 import router from './router';
 import { createApp } from 'vue';

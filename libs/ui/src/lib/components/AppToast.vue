@@ -68,10 +68,7 @@
               'h-full transition-all ease-linear',
               countdownBarClasses
             ]"
-            :style="{
-              width: `${progressPercentage}%`,
-              transitionDuration: '50ms'
-            }"
+            :style="progressBarStyle"
           />
         </div>
       </div>
@@ -125,9 +122,14 @@ let startTime: number = 0;
 let pausedTime: number = 0;
 let animationFrameId: number | null = null;
 
+const progressBarStyle = computed(() => {
+  return {
+    width: `${progressPercentage.value}%`,
+    transitionDuration: '50ms'
+  }
+});
+
 const positionClasses = computed(() => {
-  const stackOffset = props.stackIndex * 80; // 80px gap between toasts
-  
   switch (props.position) {
     case 'top-right':
       return `right-4`;
@@ -148,7 +150,7 @@ const positionClasses = computed(() => {
 
 const positionStyles = computed(() => {
   const stackOffset = props.stackIndex * 80; // 80px gap between toasts
-  
+
   switch (props.position) {
     case 'top-right':
     case 'top-left':
@@ -233,7 +235,7 @@ const resumeTimer = () => {
 
   const remaining = remainingTime.value;
   if (remaining > 0) {
-    timeoutId = setTimeout(() => {
+    timeoutId = window.setTimeout(() => {
       dismiss();
     }, remaining);
 
@@ -266,7 +268,7 @@ const show = () => {
     remainingTime.value = props.duration;
     progressPercentage.value = 100;
 
-    timeoutId = setTimeout(() => {
+    timeoutId = window.setTimeout(() => {
       dismiss();
     }, props.duration);
 
@@ -292,7 +294,7 @@ onMounted(() => {
   // Show immediately but delay timer start to sync with visibility
   visible.value = true;
   showCountdown.value = props.showCountdown && props.duration > 0;
-  
+
   // Delay timer start to match entrance animation
   setTimeout(() => {
     if (props.duration > 0) {
@@ -300,7 +302,7 @@ onMounted(() => {
       remainingTime.value = props.duration;
       progressPercentage.value = 100;
 
-      timeoutId = setTimeout(() => {
+      timeoutId = window.setTimeout(() => {
         dismiss();
       }, props.duration);
 

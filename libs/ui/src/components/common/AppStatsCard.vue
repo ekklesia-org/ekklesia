@@ -1,7 +1,7 @@
 <template>
   <div class="bg-white overflow-hidden shadow-sm rounded-lg border border-gray-200">
     <div class="p-6">
-      <div class="flex items-center gap-2">
+      <div class="flex items-center">
         <div class="flex-shrink-0">
           <div :class="iconClasses">
             <slot name="icon" />

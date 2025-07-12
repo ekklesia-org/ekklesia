@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@source "../../../libs/ui";
 
 /* Custom styles */
 body {
