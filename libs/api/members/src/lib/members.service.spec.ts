@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { MembersService } from './members.service';
+import { MembersServiceDrizzle } from './members.service.drizzle';
 import { DrizzleService } from '@ekklesia/database';
 import { NotFoundException, BadRequestException } from '@nestjs/common';
 
@@ -40,7 +41,10 @@ describe('MembersService', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        MembersService,
+        {
+          provide: MembersService,
+          useClass: MembersServiceDrizzle,
+        },
         {
           provide: DrizzleService,
           useValue: mockDrizzleService,
