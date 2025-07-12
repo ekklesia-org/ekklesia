@@ -2,7 +2,7 @@
 
 <a alt="Nx logo" href="https://nx.dev" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="45"></a>
 
-A comprehensive church management system built with modern technologies including NestJS, Vue.js, and Prisma, organized as an Nx monorepo.
+A comprehensive church management system built with modern technologies including NestJS, Vue.js, and Drizzle ORM, organized as an Nx monorepo.
 
 ## 🏗️ Architecture
 
@@ -80,7 +80,7 @@ The `.env` file is already configured for Docker PostgreSQL:
 # Run database migrations
 npm run db:migrate
 
-# Optional: Open Prisma Studio to view database
+# Optional: Open Drizzle Studio to view database
 npm run db:studio
 ```
 
@@ -120,8 +120,8 @@ npm run dev:client
 - `npm run db:up` - Start PostgreSQL container
 - `npm run db:down` - Stop and remove containers
 - `npm run db:logs` - View PostgreSQL logs
-- `npm run db:migrate` - Run Prisma migrations
-- `npm run db:studio` - Open Prisma Studio
+- `npm run db:migrate` - Run Drizzle migrations
+- `npm run db:studio` - Open Drizzle Studio
 - `npm run db:reset` - Reset database (⚠️ destructive)
 
 ### Database Management UI (Optional)
@@ -166,13 +166,11 @@ ekklesia/
 │   └── client-app-e2e/      # Client app E2E tests
 ├── libs/
 │   ├── api/                 # Feature modules (auth, financial, members, church)
-│   ├── database/            # Database layer & Prisma service
+│   ├── database/            # Database layer & Drizzle service
 │   ├── shared/              # Common types & interfaces
 │   └── shared-utils/        # Utility functions
-├── generated/
-│   └── prisma/              # Generated Prisma client
-├── prisma/
-│   └── schema.prisma        # Database schema
+├── drizzle/
+│   └── *.sql                # Database migrations
 ├── .env                     # Environment variables
 ├── context.md               # Project context for AI assistance
 ├── nx.json                  # Nx workspace configuration
@@ -183,7 +181,7 @@ ekklesia/
 
 ### Backend
 - **NestJS** - Node.js framework
-- **Prisma** - Database ORM
+- **Drizzle ORM** - Database ORM
 - **PostgreSQL 16** - Database (via Docker)
 - **TypeScript** - Programming language
 - **JWT** - Authentication (with bcrypt password hashing)
@@ -270,7 +268,7 @@ Update `.env` for production:
 ### Azure Database for PostgreSQL
 This project is configured to work with Azure Database for PostgreSQL 16:
 - The Docker setup uses PostgreSQL 16 to match Azure
-- Prisma migrations are compatible with both environments
+- Drizzle migrations are compatible with both environments
 - Connection string format: `postgresql://username:password@server.postgres.database.azure.com:5432/database?sslmode=require`
 
 ## 🤝 Contributing
@@ -293,4 +291,4 @@ After setting up the project:
 1. Explore the admin interface at `http://localhost:4201/`
 2. Check the client application at `http://localhost:4200/`
 3. Review the API endpoints at `http://localhost:3000/api`
-4. Open Prisma Studio to manage database: `npm run db:studio`
+4. Open Drizzle Studio to manage database: `npm run db:studio`
