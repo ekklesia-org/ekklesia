@@ -10,10 +10,13 @@
           <h2 class="text-lg font-semibold">
             {{ $t('users.manager.all_users') }}
           </h2>
-          <p v-if="auth.user?.role === 'SUPER_ADMIN'" class="text-sm text-gray-600 mt-1">
-            {{ selectedChurchStore.selectedChurchId 
-              ? $t('users.showing_users_from', { church: selectedChurchStore.selectedChurchName }) 
-              : $t('users.showing_all_users') 
+          <p
+            v-if="auth.user?.role === 'SUPER_ADMIN'"
+            class="text-sm text-gray-600 mt-1"
+          >
+            {{ selectedChurchStore.selectedChurchId
+              ? $t('users.showing_users_from', { church: selectedChurchStore.selectedChurchName })
+              : $t('users.showing_all_users')
             }}
           </p>
         </div>
