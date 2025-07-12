@@ -136,7 +136,7 @@
         </template>
 
         <!-- Pagination -->
-        <template #pagination="{ previousPage, nextPage, currentPage, totalPages }">
+        <template #pagination="{ previousPage, nextPage }">
           <nav class="flex items-center space-x-1">
             <AppButton
               variant="secondary"
@@ -196,11 +196,12 @@ const auth = useAuth();
 const selectedUser = ref<User | null>(null);
 const showForm = ref(false);
 const includeInactive = ref(false);
+const currentPage = ref(1);
+const totalPages = computed(() => usersStore.totalPages);
 
 // Use store getters and state
 const users = computed(() => usersStore.users);
 const isLoading = computed(() => usersStore.isLoading);
-const hasError = computed(() => usersStore.hasError);
 const error = computed(() => usersStore.error);
 const isSubmitting = computed(() => usersStore.isLoading);
 
