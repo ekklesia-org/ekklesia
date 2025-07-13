@@ -1,0 +1,48 @@
+# i18n Ally Custom Configuration
+# This file helps configure i18n Ally for better detection
+
+# Debug mode
+debug: true
+
+# Framework configuration
+framework: vue
+frameworkVersion: '3'
+
+# Locale detection
+localesPaths:
+  - 'libs/translations/src/locales'
+  - 'apps/admin-web/src/i18n/locales'
+  - 'apps/client-app/src/i18n/locales'
+
+# Key style
+keystyle: nested
+
+# Path matcher for locale files
+pathMatcher: '{locale}.json'
+
+# Source language
+sourceLanguage: 'pt-BR'
+
+# Display language
+displayLanguage: 'en'
+
+# Enable parsing of Vue SFC files
+enabledParsers:
+  - 'vue'
+  - 'vue-sfc'
+  - 'json'
+
+# Usage detection
+usage:
+  scanningDirs:
+    - 'apps/admin-web/src'
+    - 'apps/client-app/src'
+    - 'libs'
+
+# Regex patterns for detecting translation keys
+# These are the patterns i18n Ally will look for
+usageMatchRegex:
+  - "[^\\w\\d]t\\(['\"`]({key})['\"`]"
+  - "\\$t\\(['\"`]({key})['\"`]"
+  - "i18n\\.t\\(['\"`]({key})['\"`]"
+  - "i18n\\.global\\.t\\(['\"`]({key})['\"`]"
