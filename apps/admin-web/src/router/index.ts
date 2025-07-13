@@ -121,6 +121,41 @@ router.beforeEach(async (to, from, next) => {
     return;
   }
 
+  // Initialize auth state if not done yet
+  authStore.initializeAuth();
+
+  // For routes that require authentication, check auth first
+  if (to.meta.requiresAuth) {
+    if (!authStore.isAuthenticated) {
+      // Not authenticated, redirect to login
+      next('/login');
+      return;
+    }
+
+    // Validate token if we have one
+    if (authStore.token) {
+      const isValid = await authStore.validateToken();
+      if (!isValid) {
+        // Token is invalid, redirect to login
+        next('/login');
+        return;
+      }
+    }
+
+    // For authenticated users, skip system status checks
+    next();
+    return;
+  }
+
+  // For routes that require guest (unauthenticated) status
+  if (to.meta.requiresGuest && authStore.isAuthenticated) {
+    // User is authenticated but trying to access guest route
+    next('/dashboard');
+    return;
+  }
+
+  // Only check system status for unauthenticated users or specific routes
+  
   // Check if system needs setup (except for setup route itself)
   if (to.path !== '/setup') {
     try {
@@ -157,51 +192,26 @@ router.beforeEach(async (to, from, next) => {
 
   // Handle root path redirect based on auth status
   if (to.path === '/') {
-    try {
-      const systemStatus = await authStore.checkSystemStatus();
-      if (systemStatus.needsSetup) {
-        next('/setup');
-        return;
-      }
-
-      if (authStore.isAuthenticated) {
-        next('/dashboard');
-        return;
-      } else {
-        next('/login');
-      }
-    } catch (error) {
-      // Server error - redirect to error page
-      console.error('Server error during root path redirect:', error);
-      const errorMessage = error instanceof Error ? error.message : 'Server error';
-      next(`/error?error=${encodeURIComponent(errorMessage)}`);
+    if (authStore.isAuthenticated) {
+      next('/dashboard');
       return;
-    }
-  }
-
-  // For routes that require authentication
-  if (to.meta.requiresAuth) {
-    if (!authStore.isAuthenticated) {
-      // Not authenticated, redirect to login
-      next('/login');
-      return;
-    }
-
-    // Validate token if we have one
-    if (authStore.token) {
-      const isValid = await authStore.validateToken();
-      if (!isValid) {
-        // Token is invalid, redirect to login
+    } else {
+      // Only check system status for unauthenticated users accessing root
+      try {
+        const systemStatus = await authStore.checkSystemStatus();
+        if (systemStatus.needsSetup) {
+          next('/setup');
+          return;
+        }
         next('/login');
+      } catch (error) {
+        // Server error - redirect to error page
+        console.error('Server error during root path redirect:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Server error';
+        next(`/error?error=${encodeURIComponent(errorMessage)}`);
         return;
       }
     }
-  }
-
-  // For routes that require guest (unauthenticated) status
-  if (to.meta.requiresGuest && authStore.isAuthenticated) {
-    // User is authenticated but trying to access guest route
-    next('/dashboard');
     return;
   }
 

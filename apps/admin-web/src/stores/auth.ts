@@ -11,6 +11,8 @@ export const useAuthStore = defineStore('auth', () => {
   const token = ref<string | null>(null);
   const isLoading = ref(false);
   const error = ref<string>('');
+  const lastTokenValidation = ref<number>(0);
+  const TOKEN_VALIDATION_INTERVAL = 5 * 60 * 1000; // 5 minutes in milliseconds
 
   // Computed
   const isAuthenticated = computed(() => !!token.value && !!user.value);
@@ -98,12 +100,20 @@ export const useAuthStore = defineStore('auth', () => {
     }
   };
 
-  const validateToken = async (): Promise<boolean> => {
+  const validateToken = async (force = false): Promise<boolean> => {
     if (!token.value) return false;
+
+    // Check if we need to validate the token (cached validation)
+    const now = Date.now();
+    if (!force && lastTokenValidation.value && (now - lastTokenValidation.value) < TOKEN_VALIDATION_INTERVAL) {
+      // Token was validated recently, assume it's still valid
+      return true;
+    }
 
     try {
       // Validate token with the server
       await axios.get('/api/auth/profile');
+      lastTokenValidation.value = now;
       return true;
     } catch (err) {
       console.error('Token validation failed:', err);
