@@ -122,7 +122,7 @@
               v-if="row.isActive"
               variant="primary"
               size="sm"
-              :disabled="isLastSuperAdmin(row) || (auth.user && auth.user.id === row.id)"
+              :disabled="isLastSuperAdmin(row) || (!!auth.user && auth.user.id === row.id)"
               @click="deactivateUser(row.id)"
             >
               {{ $t('users.deactivate') }}
@@ -138,7 +138,7 @@
             <AppButton
               variant="danger"
               size="sm"
-              :disabled="isLastSuperAdmin(row) || (auth.user && auth.user.id === row.id)"
+              :disabled="isLastSuperAdmin(row) || (!!auth.user && auth.user.id === row.id)"
               @click="deleteUser(row.id)"
             >
               {{ $t('common.delete') }}
