@@ -21,9 +21,9 @@ export const i18n = createI18n({
   locale: getInitialLocale(),
   fallbackLocale: 'en',
   messages: {
-    en: deepMerge(translations.en, adminTranslations.en),
-    es: deepMerge(translations.es, adminTranslations.es),
-    'pt-BR': deepMerge(translations['pt-BR'], adminTranslations['pt-BR'])
+    en: deepMerge(translations.en, adminTranslations.en.translation),
+    es: deepMerge(translations.es, adminTranslations.es.translation),
+    'pt-BR': deepMerge(translations['pt-BR'], adminTranslations['pt-BR'].translation)
   }
 });
 

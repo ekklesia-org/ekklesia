@@ -4,7 +4,7 @@ export type SupportedLocale = typeof supportedLocales[number];
 
 // Helpers --------------------------------------------------------
 type IsPlainObject<T> = T extends object
-  ? (T extends Function ? false : true)          // exclude functions
+  ? (T extends (...args: any[]) => any ? false : true)          // exclude functions
   : false;
 
 type MergeDeepValue<T, U> =
