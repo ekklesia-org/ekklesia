@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { UserService } from '../services/userService';
-import { User, CreateUserDto, UpdateUserDto } from '@ekklesia/shared';
+import { ICreateUserDto, IUpdateUserDto, User } from '@ekklesia/shared';
 
 export const useUsersStore = defineStore('users', () => {
   const userService = new UserService();
@@ -74,7 +74,7 @@ export const useUsersStore = defineStore('users', () => {
     }
   };
 
-  const createUser = async (data: CreateUserDto): Promise<User | null> => {
+  const createUser = async (data: ICreateUserDto): Promise<User | null> => {
     loading.value = true;
     error.value = null;
 
@@ -95,7 +95,7 @@ export const useUsersStore = defineStore('users', () => {
     }
   };
 
-  const updateUser = async (id: string, data: UpdateUserDto): Promise<User | null> => {
+  const updateUser = async (id: string, data: IUpdateUserDto): Promise<User | null> => {
     loading.value = true;
     error.value = null;
 

@@ -281,6 +281,9 @@ const deleteUser = async (id: string) => {
 };
 
 const handleFormSubmit = async (data: ICreateUserDto | IUpdateUserDto) => {
+  if (selectedChurchStore.selectedChurchId && auth.user?.role === 'SUPER_ADMIN') {
+    data.churchId = selectedChurchStore.selectedChurchId;
+  }
   try {
     if (selectedUser.value) {
       await usersStore.updateUser(selectedUser.value.id, data as IUpdateUserDto);

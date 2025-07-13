@@ -35,9 +35,18 @@ export class UsersServiceDrizzle extends UsersService {
     // Hash password
     const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
 
+    if (!currentUser || (currentUser.role !== 'SUPER_ADMIN' && !currentUser.churchId)) {
+      throw new BadRequestException({
+        message: 'Current user does not have permission to create users without a church ID',
+        translationKey: 'errors.user.permission_denied'
+      });
+    }
+
     try {
-      // If current user exists and is not a super admin, automatically set churchId
+      // Church assignment logic
       let churchId = createUserDto.churchId;
+
+      // If current user exists and is not a super admin, automatically set churchId to current user's church
       if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
         churchId = currentUser.churchId;
       }
@@ -45,7 +54,12 @@ export class UsersServiceDrizzle extends UsersService {
       const [newUser] = await this.drizzle.db
         .insert(users)
         .values({
-          ...createUserDto,
+          email: createUserDto.email,
+          firstName: createUserDto.firstName,
+          lastName: createUserDto.lastName,
+          phone: createUserDto.phone,
+          avatar: createUserDto.avatar,
+          role: createUserDto.role,
           churchId,
           password: hashedPassword,
           isActive: true,
