@@ -306,6 +306,8 @@
     },
     "user": {
       "activate_failed": "Falha ao ativar o usuário. \nPor favor, tente novamente.",
+      "cannot_deactivate_self": "Você não pode desativar sua própria conta.",
+      "cannot_delete_self": "Você não pode excluir sua própria conta.",
       "create_failed": "Falhou em criar usuário. \nPor favor, tente novamente.",
       "current_password_incorrect": "A senha atual está incorreta.",
       "deactivate_failed": "Falhou em desativar o usuário. \nPor favor, tente novamente.",

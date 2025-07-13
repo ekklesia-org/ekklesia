@@ -306,6 +306,8 @@
     },
     "user": {
       "activate_failed": "Failed to activate user. Please try again.",
+      "cannot_deactivate_self": "You cannot deactivate your own account.",
+      "cannot_delete_self": "You cannot delete your own account.",
       "create_failed": "Failed to create user. Please try again.",
       "current_password_incorrect": "Current password is incorrect.",
       "deactivate_failed": "Failed to deactivate user. Please try again.",

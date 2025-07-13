@@ -389,7 +389,15 @@ export class UsersServiceDrizzle extends UsersService {
   /**
    * Remove a user (soft delete)
    */
-  async remove(id: string): Promise<any> {
+  async remove(id: string, currentUser?: CurrentUserData): Promise<any> {
+    // Prevent user from deleting themselves
+    if (currentUser && currentUser.userId === id) {
+      throw new BadRequestException({
+        message: 'You cannot delete your own account',
+        translationKey: 'errors.user.cannot_delete_self'
+      });
+    }
+
     try {
       const [updatedUser] = await this.drizzle.db
         .update(users)
@@ -409,7 +417,7 @@ export class UsersServiceDrizzle extends UsersService {
 
       return updatedUser;
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (error instanceof NotFoundException || error instanceof BadRequestException) {
         throw error;
       }
       throw new BadRequestException({
@@ -422,7 +430,15 @@ export class UsersServiceDrizzle extends UsersService {
   /**
    * Permanently delete a user
    */
-  async hardDelete(id: string): Promise<void> {
+  async hardDelete(id: string, currentUser?: CurrentUserData): Promise<void> {
+    // Prevent user from deleting themselves
+    if (currentUser && currentUser.userId === id) {
+      throw new BadRequestException({
+        message: 'You cannot delete your own account',
+        translationKey: 'errors.user.cannot_delete_self'
+      });
+    }
+
     try {
       const result = await this.drizzle.db
         .delete(users)
@@ -435,7 +451,7 @@ export class UsersServiceDrizzle extends UsersService {
         });
       }
     } catch (error) {
-      if (error instanceof NotFoundException) {
+      if (error instanceof NotFoundException || error instanceof BadRequestException) {
         throw error;
       }
       throw new BadRequestException({

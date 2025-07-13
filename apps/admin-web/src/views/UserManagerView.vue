@@ -122,7 +122,7 @@
               v-if="row.isActive"
               variant="primary"
               size="sm"
-              :disabled="isLastSuperAdmin(row)"
+              :disabled="isLastSuperAdmin(row) || (auth.user && auth.user.id === row.id)"
               @click="deactivateUser(row.id)"
             >
               {{ $t('users.deactivate') }}
@@ -138,7 +138,7 @@
             <AppButton
               variant="danger"
               size="sm"
-              :disabled="isLastSuperAdmin(row)"
+              :disabled="isLastSuperAdmin(row) || (auth.user && auth.user.id === row.id)"
               @click="deleteUser(row.id)"
             >
               {{ $t('common.delete') }}
@@ -253,6 +253,12 @@ const deactivateUser = async (id: string) => {
     return;
   }
 
+  // Prevent user from deactivating themselves
+  if (auth.user && auth.user.id === id) {
+    handleError(new Error(t('errors.user.cannot_deactivate_self')));
+    return;
+  }
+
   if (confirm(t('users.manager.confirm_deactivate'))) {
     try {
       await usersStore.deactivateUser(id);
@@ -267,6 +273,12 @@ const deleteUser = async (id: string) => {
   const user = users.value.find(u => u.id === id);
   if (user && isLastSuperAdmin(user)) {
     handleError(new Error(t('users.manager.cannot_delete_last_super_admin')));
+    return;
+  }
+
+  // Prevent user from deleting themselves
+  if (auth.user && auth.user.id === id) {
+    handleError(new Error(t('errors.user.cannot_delete_self')));
     return;
   }
 
