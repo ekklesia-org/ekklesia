@@ -45,6 +45,9 @@
     "website": "Sitio web"
   },
   "common": {
+    "actions": "Comportamiento",
+    "active": "Activo",
+    "address": "DIRECCIÓN",
     "back": "Atrás",
     "cancel": "Cancelar",
     "clear": "Limpiar",
@@ -52,21 +55,32 @@
     "coming_soon": "Muy pronto",
     "confirm": "Confirmar",
     "create": "Crear",
+    "created": "Creado",
     "delete": "Eliminar",
     "edit": "Editar",
+    "email": "Correo electrónico",
     "error": "Error",
+    "inactive": "Inactivo",
     "info": "Información",
     "loading": "Cargando...",
+    "name": "Nombre",
     "next": "Siguiente",
     "no": "No",
     "ok": "OK",
+    "phone": "Teléfono",
     "previous": "Anterior",
     "reset": "Restablecer",
+    "retry": "Rever",
     "save": "Guardar",
+    "saving": "Ahorro...",
     "search": "Buscar",
     "select": "Seleccionar",
+    "status": "Estado",
     "submit": "Enviar",
     "success": "Éxito",
+    "tax_id": "Identificación de impuestos",
+    "update": "Actualizar",
+    "updated": "Actualizado",
     "warning": "Advertencia",
     "welcome": "Bienvenido",
     "yes": "Sí"
@@ -75,6 +89,15 @@
     "delete": "¿Estás seguro de que quieres eliminar este elemento?",
     "logout": "¿Estás seguro de que quieres cerrar sesión?",
     "unsaved_changes": "Tienes cambios sin guardar. ¿Estás seguro de que quieres salir?"
+  },
+  "error": {
+    "checking": "De cheques...",
+    "description": "No podemos conectarnos al servidor. \nEsto podría deberse a problemas de red, mantenimiento del servidor o una interrupción temporal.",
+    "refresh_page": "Actualizar",
+    "retry": "Intentar otra vez",
+    "server_unavailable": "El servidor no está disponible actualmente",
+    "status_offline": "Servidor fuera de línea",
+    "technical_details": "Detalle técnico"
   },
   "errors": {
     "auth": {
@@ -106,6 +129,10 @@
       "permission_denied": "No tienes permisos para realizar esta acción",
       "server_error": "Error del servidor, por favor inténtalo más tarde",
       "something_went_wrong": "Algo salió mal"
+    },
+    "generic": {
+      "server_error": "Se produjo un error del servidor. \nPor favor intente de nuevo.",
+      "unknown_error": "Ocurrió un error desconocido. \nPor favor intente de nuevo."
     },
     "member": {
       "create_failed": "Error al crear el miembro",
@@ -162,6 +189,9 @@
     "utilities": "Servicios públicos"
   },
   "members": {
+    "activate": "Activar",
+    "activate_error": "No se pudo activar el miembro. \nPor favor intente de nuevo.",
+    "activate_success": "¡Miembro activado con éxito!",
     "active": "Activo",
     "add_member": "Agregar miembro",
     "address": "Dirección",
@@ -169,23 +199,48 @@
     "church_info": "Información de la iglesia",
     "city": "Ciudad",
     "contact_info": "Información de contacto",
+    "create_error": "No se pudo crear miembro. \nPor favor intente de nuevo.",
+    "create_member": "Crear miembro",
+    "create_success": "¡Miembro creado con éxito!",
     "date_of_birth": "Fecha de nacimiento",
+    "deactivate": "Desactivar",
+    "deactivate_error": "No se pudo desactivar el miembro. \nPor favor intente de nuevo.",
+    "deactivate_success": "¡Miembro desactivado con éxito!",
     "deceased": "Fallecido",
+    "delete_error": "No se pudo eliminar el miembro. \nPor favor intente de nuevo.",
+    "delete_success": "¡Miembro eliminado con éxito!",
+    "edit_member": "Editar miembro",
     "email": "Correo electrónico",
     "family_info": "Información familiar",
+    "fetch_error": "No logró obtener miembros. \nPor favor intente de nuevo.",
     "first_name": "Nombre",
+    "hide_inactive": "Esconderse",
     "inactive": "Inactivo",
+    "joined": "Unido",
     "last_name": "Apellido",
+    "manager": {
+      "all_members": "Todos los miembros",
+      "confirm_deactivate": "¿Estás seguro de que quieres desactivar a este miembro?",
+      "confirm_delete": "¿Estás seguro de que quieres eliminar a este miembro?",
+      "create_first_member": "Crear primer miembro",
+      "create_member": "Crear miembro",
+      "no_members": "No se encontraron miembros",
+      "title": "Gestión de miembros"
+    },
     "marital_status": "Estado civil",
     "member_details": "Detalles del miembro",
     "member_list": "Lista de miembros",
     "member_since": "Miembro desde",
+    "name": "Nombre",
     "personal_info": "Información personal",
     "phone": "Teléfono",
+    "show_inactive": "Mostrar inactivo",
     "state": "Estado/Provincia",
     "status": "Estado",
     "title": "Miembros",
     "transferred": "Transferido",
+    "update_error": "No se pudo actualizar el miembro. \nPor favor intente de nuevo.",
+    "update_success": "¡Miembro actualizado con éxito!",
     "zip_code": "Código postal"
   },
   "messages": {
@@ -209,5 +264,60 @@
     "profile": "Perfil",
     "reports": "Reportes",
     "settings": "Configuración"
+  },
+  "setup": {
+    "admin_description": "Configure su cuenta de administrador e información de la iglesia",
+    "initialize_button": "Inicializar el sistema",
+    "setting_up": "Configuración ...",
+    "setup_error": "No se pudo inicializar el sistema. \nPor favor intente de nuevo.",
+    "setup_success": "¡El sistema inicializado con éxito! \nInicie sesión con sus credenciales."
+  },
+  "users": {
+    "activate": "Activar",
+    "activate_error": "No se pudo activar el usuario. \nPor favor intente de nuevo.",
+    "activate_success": "¡El usuario activado con éxito!",
+    "active": "Activo",
+    "create_error": "No se pudo crear usuario. \nPor favor intente de nuevo.",
+    "create_success": "¡Usuario creado con éxito!",
+    "create_user": "Crear usuario",
+    "created": "Creado",
+    "deactivate": "Desactivar",
+    "deactivate_error": "No se pudo desactivar el usuario. \nPor favor intente de nuevo.",
+    "deactivate_success": "¡El usuario desactivó con éxito!",
+    "delete_error": "No se pudo eliminar el usuario. \nPor favor intente de nuevo.",
+    "delete_success": "¡Usuario eliminado con éxito!",
+    "edit_user": "Editar usuario",
+    "email": "Correo electrónico",
+    "first_name": "Nombre de pila",
+    "hide_inactive": "Esconderse",
+    "inactive": "Inactivo",
+    "last_name": "Apellido",
+    "manager": {
+      "all_users": "Todos los usuarios",
+      "create_first_user": "Crear primer usuario",
+      "create_user": "Crear usuario",
+      "no_users": "No se encontraron usuarios",
+      "title": "Gestión de usuarios"
+    },
+    "name": "Nombre",
+    "password": "Contraseña",
+    "password_hint": "Mínimo 6 caracteres",
+    "role": "Role",
+    "roles": {
+      "church_admin": "Administrador de la iglesia",
+      "member": "Miembro",
+      "pastor": "Pastor",
+      "secretary": "Secretario",
+      "super_admin": "Super administrador",
+      "treasurer": "Tesorero"
+    },
+    "select_role": "Seleccione un rol ...",
+    "show_inactive": "Mostrar inactivo",
+    "status": "Estado",
+    "update_error": "No se pudo actualizar al usuario. \nPor favor intente de nuevo.",
+    "update_success": "¡Usuario actualizado con éxito!"
+  },
+  "validation": {
+    "email_invalid": "Por favor, introduce una dirección de correo electrónico válida"
   }
 }

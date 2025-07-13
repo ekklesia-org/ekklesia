@@ -14,6 +14,9 @@
 		},
 		{
 			"path": "./../libs"
+		},
+    		{
+			"path": "./../libs/translations"
 		}
 	],
 	"settings": {

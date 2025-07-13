@@ -45,6 +45,9 @@
     "website": "Site"
   },
   "common": {
+    "actions": "Ações",
+    "active": "Ativo",
+    "address": "Endereço",
     "back": "Voltar",
     "cancel": "Cancelar",
     "clear": "Limpar",
@@ -52,21 +55,32 @@
     "coming_soon": "Em breve",
     "confirm": "Confirmar",
     "create": "Criar",
+    "created": "Criado",
     "delete": "Excluir",
     "edit": "Editar",
+    "email": "E-mail",
     "error": "Erro",
+    "inactive": "Inativo",
     "info": "Informação",
     "loading": "Carregando...",
+    "name": "Nome",
     "next": "Próximo",
     "no": "Não",
     "ok": "OK",
+    "phone": "Telefone",
     "previous": "Anterior",
     "reset": "Redefinir",
+    "retry": "Tente novamente",
     "save": "Salvar",
+    "saving": "Salvando ...",
     "search": "Buscar",
     "select": "Selecionar",
+    "status": "Status",
     "submit": "Enviar",
     "success": "Sucesso",
+    "tax_id": "ID do imposto",
+    "update": "Atualizar",
+    "updated": "Atualizado",
     "warning": "Aviso",
     "welcome": "Bem-vindo",
     "yes": "Sim"
@@ -75,6 +89,15 @@
     "delete": "Tem certeza de que deseja excluir este item?",
     "logout": "Tem certeza de que deseja sair?",
     "unsaved_changes": "Você tem alterações não salvas. Tem certeza de que deseja sair?"
+  },
+  "error": {
+    "checking": "Verificando ...",
+    "description": "Não podemos conectar ao servidor. \nIsso pode ser devido a problemas de rede, manutenção do servidor ou uma interrupção temporária.",
+    "refresh_page": "Página de atualização",
+    "retry": "Tente novamente",
+    "server_unavailable": "O servidor está atualmente indisponível",
+    "status_offline": "Servidor offline",
+    "technical_details": "Detalhes técnicos"
   },
   "errors": {
     "auth": {
@@ -106,6 +129,10 @@
       "permission_denied": "Você não tem permissão para realizar esta ação",
       "server_error": "Erro do servidor, tente novamente mais tarde",
       "something_went_wrong": "Algo deu errado"
+    },
+    "generic": {
+      "server_error": "Ocorreu o erro do servidor. \nPor favor, tente novamente.",
+      "unknown_error": "Ocorreu um erro desconhecido. \nPor favor, tente novamente."
     },
     "member": {
       "create_failed": "Falha ao criar membro",
@@ -162,6 +189,9 @@
     "utilities": "Utilidades"
   },
   "members": {
+    "activate": "Ativar",
+    "activate_error": "Falhou em ativar o membro. \nPor favor, tente novamente.",
+    "activate_success": "Membro ativado com sucesso!",
     "active": "Ativo",
     "add_member": "Adicionar membro",
     "address": "Endereço",
@@ -169,23 +199,48 @@
     "church_info": "Informações da igreja",
     "city": "Cidade",
     "contact_info": "Informações de contato",
+    "create_error": "Falhou em criar membro. \nPor favor, tente novamente.",
+    "create_member": "Criar membro",
+    "create_success": "Membro criado com sucesso!",
     "date_of_birth": "Data de nascimento",
+    "deactivate": "Desativar",
+    "deactivate_error": "Falhou em desativar o membro. \nPor favor, tente novamente.",
+    "deactivate_success": "Membro desativado com sucesso!",
     "deceased": "Falecido",
+    "delete_error": "Falhou em excluir o membro. \nPor favor, tente novamente.",
+    "delete_success": "Membro excluído com sucesso!",
+    "edit_member": "Membro de edição",
     "email": "Email",
     "family_info": "Informações familiares",
+    "fetch_error": "Falhou em buscar membros. \nPor favor, tente novamente.",
     "first_name": "Nome",
+    "hide_inactive": "Ocultar inativo",
     "inactive": "Inativo",
+    "joined": "Ingressou",
     "last_name": "Sobrenome",
+    "manager": {
+      "all_members": "Todos os membros",
+      "confirm_deactivate": "Tem certeza de que deseja desativar este membro?",
+      "confirm_delete": "Tem certeza de que deseja excluir este membro?",
+      "create_first_member": "Crie o primeiro membro",
+      "create_member": "Criar membro",
+      "no_members": "Nenhum membro encontrado",
+      "title": "Gerenciamento de membros"
+    },
     "marital_status": "Estado civil",
     "member_details": "Detalhes do membro",
     "member_list": "Lista de membros",
     "member_since": "Membro desde",
+    "name": "Nome",
     "personal_info": "Informações pessoais",
     "phone": "Telefone",
+    "show_inactive": "Mostrar inativo",
     "state": "Estado",
     "status": "Status",
     "title": "Membros",
     "transferred": "Transferido",
+    "update_error": "Falhou em atualizar o membro. \nPor favor, tente novamente.",
+    "update_success": "Membro atualizado com sucesso!",
     "zip_code": "CEP"
   },
   "messages": {
@@ -209,5 +264,60 @@
     "profile": "Perfil",
     "reports": "Relatórios",
     "settings": "Configurações"
+  },
+  "setup": {
+    "admin_description": "Configure sua conta de administrador e informações da igreja",
+    "initialize_button": "Inicialize o sistema",
+    "setting_up": "Configurando ...",
+    "setup_error": "Falha ao inicializar o sistema. \nPor favor, tente novamente.",
+    "setup_success": "Sistema inicializado com sucesso! \nPor favor, faça o login com suas credenciais."
+  },
+  "users": {
+    "activate": "Ativar",
+    "activate_error": "Falha ao ativar o usuário. \nPor favor, tente novamente.",
+    "activate_success": "Usuário ativado com sucesso!",
+    "active": "Ativo",
+    "create_error": "Falhou em criar usuário. \nPor favor, tente novamente.",
+    "create_success": "Usuário criado com sucesso!",
+    "create_user": "Criar usuário",
+    "created": "Criado",
+    "deactivate": "Desativar",
+    "deactivate_error": "Falhou em desativar o usuário. \nPor favor, tente novamente.",
+    "deactivate_success": "O usuário desativou com sucesso!",
+    "delete_error": "Falha ao excluir o usuário. \nPor favor, tente novamente.",
+    "delete_success": "Usuário excluído com sucesso!",
+    "edit_user": "Editar usuário",
+    "email": "E-mail",
+    "first_name": "Primeiro nome",
+    "hide_inactive": "Ocultar inativo",
+    "inactive": "Inativo",
+    "last_name": "Sobrenome",
+    "manager": {
+      "all_users": "Todos os usuários",
+      "create_first_user": "Crie o primeiro usuário",
+      "create_user": "Criar usuário",
+      "no_users": "Nenhum usuário encontrado",
+      "title": "Gerenciamento de usuários"
+    },
+    "name": "Nome",
+    "password": "Senha",
+    "password_hint": "Mínimo 6 caracteres",
+    "role": "Papel",
+    "roles": {
+      "church_admin": "Administrador da igreja",
+      "member": "Membro",
+      "pastor": "Pastor",
+      "secretary": "Secretário",
+      "super_admin": "Super Admin",
+      "treasurer": "Tesoureiro"
+    },
+    "select_role": "Selecione uma função ...",
+    "show_inactive": "Mostrar inativo",
+    "status": "Status",
+    "update_error": "Falha ao atualizar o usuário. \nPor favor, tente novamente.",
+    "update_success": "Usuário atualizado com sucesso!"
+  },
+  "validation": {
+    "email_invalid": "Por favor, insira um endereço de e -mail válido"
   }
 }
