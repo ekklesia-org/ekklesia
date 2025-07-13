@@ -4,24 +4,23 @@
 			"path": "./.."
 		},
 		{
-			"path": "apps/api"
+			"path": "./../apps/api"
 		},
 		{
-			"path": "apps/admin-web"
+			"path": "./../apps/admin-web"
 		},
 		{
-			"path": "apps/client-app"
+			"path": "./../apps/client-app"
 		},
 		{
-			"path": "libs"
+			"path": "./../libs"
 		}
 	],
 	"settings": {
 		"nxConsole.generateAiAgentRules": true,
 		"i18n-ally.keystyle": "nested",
-		"i18n-ally.defaultNamespace": "translation",
 		"i18n-ally.displayLanguage": "en",
-		"i18n-ally.sourceLanguage": "pt-BR",
+		"i18n-ally.sourceLanguage": "en",
 		"i18n-ally.enabledFrameworks": [
 			"vue",
 			"vue-sfc"
@@ -55,7 +54,15 @@
 			"grayscale",
 			"heroicons",
 			"rgba",
-			"tailwindcss"
+			"tailwindcss",
+      "Descomente",
+      "ekklesia",
+      "esnext",
+      "initdb",
+      "pgadmin",
+      "postgres",
+      "postgresql",
+      "Segoe"
 		]
 	}
 }

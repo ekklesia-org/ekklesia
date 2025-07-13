@@ -1,480 +1,478 @@
 {
-  "translation": {
-    "admin": {
-      "church_settings": {
-        "general": "Configurações Gerais",
-        "integrations": "Integrações",
-        "modules": "Módulos Habilitados",
-        "title": "Configurações da Igreja"
-      },
-      "dashboard": {
-        "overview": "Visão Geral",
-        "recent_activity": "Atividade Recente",
-        "statistics": "Estatísticas",
-        "title": "Painel de Administração"
-      },
-      "title": "Administração da Igreja",
-      "users": {
-        "add_user": "Adicionar Usuário",
-        "permissions": "Permissões",
-        "roles": "Funções",
-        "title": "Gerenciamento de Usuários"
-      }
-    },
-    "app": {
-      "title": "Ekklesia Admin"
-    },
-    "auth": {
-      "admin_portal": "Portal Administrativo",
-      "ekklesia_logo": "Logo Ekklesia",
-      "email": "E-mail",
-      "email_placeholder": "Digite seu endereço de e-mail",
-      "logging_in": "Entrando...",
-      "login": "Entrar",
-      "login_error": "Erro de Login",
-      "login_failed": "Falha no login. Tente novamente.",
-      "login_success": "Login realizado com sucesso!",
-      "logout": "Sair",
-      "need_help": "Precisa de ajuda? Entre em contato com o administrador do sistema",
-      "password": "Senha",
-      "password_placeholder": "Digite sua senha"
-    },
-    "churches": {
-      "active_churches": "Igrejas Ativas",
-      "add_church": "Adicionar Nova Igreja",
-      "all_churches": "Todas as Igrejas",
-      "church_settings": "Configurações da Igreja",
-      "create_church": {
-        "admin_email": "E-mail do Administrador",
-        "admin_first_name": "Nome do Administrador",
-        "admin_info": "Informações do Usuário Administrador",
-        "admin_last_name": "Sobrenome do Administrador",
-        "admin_password": "Senha do Administrador",
-        "cancel_button": "Cancelar",
-        "church_address": "Endereço da Igreja",
-        "church_city": "Cidade",
-        "church_email": "E-mail da Igreja",
-        "church_info": "Informações da Igreja",
-        "church_name": "Nome da Igreja",
-        "church_phone": "Telefone da Igreja",
-        "church_state": "Estado",
-        "church_tax_id": "ID do imposto",
-        "church_zip": "CEP",
-        "create_button": "Criar Igreja",
-        "title": "Criar Nova Igreja"
-      },
-      "create_error": "Falha ao criar igreja. Tente novamente.",
-      "create_success": "Igreja criada com sucesso!",
-      "delete_error": "Falha ao deletar igreja. Tente novamente.",
-      "delete_success": "Igreja deletada com sucesso!",
-      "edit_church": "Editar Igreja",
-      "form": {
-        "address": "Endereço",
-        "address_info": "Informações de Endereço",
-        "address_placeholder": "Rua das Flores, 123",
-        "advanced_options": "Opções Avançadas",
-        "basic_info": "Informações Básicas",
-        "city": "Cidade",
-        "city_placeholder": "São Paulo",
-        "email": "E-mail",
-        "email_placeholder": "Digite o e-mail da igreja",
-        "errors": {
-          "email_invalid": "E-mail inválido",
-          "email_required": "E-mail é obrigatório",
-          "logo_url_invalid": "URL do logo inválida",
-          "name_max_length": "Nome deve ter no máximo 100 caracteres",
-          "name_min_length": "Nome deve ter pelo menos 2 caracteres",
-          "name_required": "Nome da igreja é obrigatório",
-          "slug_max_length": "Slug deve ter no máximo 100 caracteres",
-          "slug_min_length": "Slug deve ter pelo menos 2 caracteres",
-          "website_invalid": "URL do site inválida"
-        },
-        "is_active": "Igreja Ativa",
-        "logo_url": "URL do Logo",
-        "logo_url_placeholder": "https://www.exemplo.com/logo.png",
-        "name": "Nome da Igreja",
-        "name_placeholder": "Ex: Igreja Batista Central",
-        "phone": "Telefone",
-        "phone_placeholder": "(11) 99999-9999",
-        "slug": "Slug",
-        "slug_help": "URL amigável (será gerada automaticamente se não preenchida)",
-        "slug_placeholder": "igreja-batista-central",
-        "state": "Estado",
-        "state_placeholder": "SP",
-        "tax_id": "CNPJ",
-        "tax_id_placeholder": "12.345.678/0001-90",
-        "website": "Site",
-        "website_placeholder": "https://www.igreja.com",
-        "zip_code": "CEP",
-        "zip_code_placeholder": "01234-567"
-      },
-      "list": {
-        "actions": "Ações",
-        "created": "Criado",
-        "email": "E-mail",
-        "name": "Nome da Igreja",
-        "status": "Status",
-        "users": "Usuários"
-      },
-      "manage_users": "Gerenciar Usuários",
-      "manager": {
-        "all_churches": "Todas as Igrejas",
-        "confirm_delete": "Tem certeza que deseja deletar esta igreja?",
-        "create_church": "Criar Igreja",
-        "no_churches": "Nenhuma igreja encontrada",
-        "title": "Gerenciador de Igrejas",
-        "users": "Usuários"
-      },
-      "name": "Nome da Igreja",
-      "select_church": "Selecionar Igreja",
-      "status": {
-        "active": "Ativo",
-        "inactive": "Inativo"
-      },
-      "subtitle": "Gerencie igrejas e suas configurações",
-      "super_admin_transfer": {
-        "affected_users": "Usuários Afetados",
-        "cannot_delete_last_church": "Não é possível deletar a última igreja do sistema.",
-        "cannot_delete_with_super_admins": "Não é possível deletar uma igreja com Super Administradores. Transfira-os primeiro.",
-        "fetch_options_error": "Falha ao carregar igrejas disponíveis. Tente novamente.",
-        "select_church": "Selecione uma igreja...",
-        "select_destination": "Selecionar Igreja de Destino",
-        "title": "Transferir Super Administradores",
-        "transfer_and_delete": "Transferir e Deletar",
-        "transfer_error": "Falha ao transferir Super Administradores. Tente novamente.",
-        "transfer_success": "Super Administradores transferidos com sucesso!",
-        "warning": "Esta igreja possui Super Administradores. Eles devem ser transferidos para outra igreja antes da exclusão."
-      },
-      "title": "Gerenciamento de Igrejas",
-      "total_users": "Total de Usuários",
-      "transfer_delete_error": "Falha ao transferir e deletar igreja. Tente novamente.",
-      "transfer_delete_success": "Super administradores transferidos e igreja deletada com sucesso!",
-      "update_error": "Falha ao atualizar igreja. Tente novamente.",
-      "update_success": "Igreja atualizada com sucesso!",
-      "view_church": "Ver Detalhes da Igreja"
-    },
-    "coming_soon": {
-      "back_to_dashboard": "Voltar ao Painel",
-      "description": "Esta funcionalidade ainda está sendo desenvolvida pela nossa equipe. Em breve ela estará disponível para uso.",
-      "features": {
-        "announcements": {
-          "description": "Sistema de comunicação interna da igreja",
-          "title": "Anúncios"
-        },
-        "events": {
-          "description": "Criação e gerenciamento de eventos e cultos",
-          "title": "Eventos"
-        },
-        "finances": {
-          "description": "Gestão de dízimos, ofertas e despesas da igreja",
-          "title": "Controle Financeiro"
-        },
-        "members": {
-          "description": "Cadastro e gerenciamento completo de membros da igreja",
-          "title": "Gerenciamento de Membros"
-        },
-        "reports": {
-          "description": "Relatórios detalhados e exportação de dados",
-          "title": "Relatórios"
-        },
-        "settings": {
-          "description": "Configurações específicas da igreja",
-          "title": "Configurações"
-        },
-        "statistics": {
-          "description": "Relatórios e métricas da igreja",
-          "title": "Estatísticas"
-        },
-        "users": {
-          "description": "Gerenciamento de usuários e permissões",
-          "title": "Usuários"
-        }
-      },
-      "main_title": "Funcionalidade em Desenvolvimento",
-      "status": "Em desenvolvimento ativo",
-      "subtitle": "Esta funcionalidade está sendo desenvolvida",
-      "timeline": {
-        "phase1": {
-          "description": "Sistema base com autenticação e gerenciamento de igrejas",
-          "features": "Autenticação, Setup inicial, Gerenciamento de igrejas",
-          "title": "Fase 1 - Fundação"
-        },
-        "phase2": {
-          "description": "Implementação do módulo de membros e usuários",
-          "features": "Cadastro de membros, Gerenciamento de usuários, Permissões",
-          "title": "Fase 2 - Gestão de Membros"
-        },
-        "phase3": {
-          "description": "Módulos de eventos e controle financeiro",
-          "features": "Eventos, Cultos, Dízimos, Ofertas, Despesas",
-          "title": "Fase 3 - Eventos e Finanças"
-        },
-        "phase4": {
-          "description": "Sistema de comunicação e relatórios avançados",
-          "features": "Anúncios, Notificações, Relatórios, Estatísticas",
-          "title": "Fase 4 - Comunicação e Relatórios"
-        },
-        "status": {
-          "completed": "Concluído",
-          "in_progress": "Em andamento",
-          "planned": "Planejado"
-        },
-        "title": "Cronograma de Desenvolvimento"
-      },
-      "title": "Em Desenvolvimento"
-    },
-    "common": {
-      "actions": "Ações",
-      "active": "Ativo",
-      "address": "Endereço",
-      "cancel": "Cancelar",
-      "close": "Fechar",
-      "confirm": "Confirmar",
-      "create": "Criar",
-      "created": "Criado",
-      "delete": "Deletar",
-      "edit": "Editar",
-      "email": "E-mail",
-      "inactive": "Inativo",
-      "loading": "Carregando...",
-      "name": "Nome",
-      "next": "Próximo",
-      "no": "Não",
-      "page_of": "Página {current} de {total}",
-      "phone": "Telefone",
-      "previous": "Anterior",
-      "retry": "Tentar Novamente",
-      "save": "Salvar",
-      "saving": "Salvando...",
-      "status": "Status",
-      "tax_id": "CNPJ",
-      "update": "Atualizar",
-      "updated": "Atualizado",
-      "yes": "Sim"
+  "admin": {
+    "church_settings": {
+      "general": "Configurações Gerais",
+      "integrations": "Integrações",
+      "modules": "Módulos Habilitados",
+      "title": "Configurações da Igreja"
     },
     "dashboard": {
-      "add_member": "Adicionar Novo Membro",
-      "announcements": "Anúncios Ativos",
-      "create_church": "Criar Nova Igreja",
-      "create_event": "Criar Evento",
-      "donations": "Doações Mensais",
-      "events": "Eventos Próximos",
-      "manage_users": "Gerenciar Usuários",
-      "members": "Total de Membros",
-      "new_announcement": "Novo Anúncio",
-      "quick_actions": "Ações Rápidas",
-      "system_health": "Saúde do Sistema",
-      "system_settings": "Configurações do Sistema",
-      "title": "Painel de Controle",
-      "total_events": "Total de Eventos",
-      "welcome": "Bem-vindo de volta, {name}!"
+      "overview": "Visão Geral",
+      "recent_activity": "Atividade Recente",
+      "statistics": "Estatísticas",
+      "title": "Painel de Administração"
     },
-    "error": {
-      "checking": "Verificando...",
-      "description": "Não conseguimos nos conectar ao servidor. Isso pode ser devido a problemas de rede, manutenção do servidor ou uma interrupção temporária.",
-      "refresh_page": "Atualizar Página",
-      "retry": "Tentar Novamente",
-      "server_unavailable": "O servidor não está disponível no momento",
-      "status_offline": "Servidor Offline",
-      "technical_details": "Detalhes Técnicos",
-      "title": "Erro do Servidor"
-    },
-    "errors": {
-      "church": {
-        "cannot_delete_last_church": "Não pode excluir a última igreja no sistema.",
-        "cannot_delete_with_super_admins": "Não pode excluir a igreja com super administradores. \nTransfira -os primeiro.",
-        "cannot_transfer_to_inactive_church": "Não pode transferir super administradores para uma igreja inativa.",
-        "create_failed": "Falhou em criar igreja. \nPor favor, tente novamente.",
-        "delete_failed": "Falhou em excluir a igreja. \nPor favor, tente novamente.",
-        "email_already_exists": "Uma igreja com este e -mail já existe.",
-        "not_found": "Igreja não encontrada.",
-        "settings_already_exist": "As configurações para esta igreja já existem.",
-        "settings_create_failed": "Falhou em criar ambientes da igreja. \nPor favor, tente novamente.",
-        "settings_not_found": "As configurações para esta igreja não foram encontradas.",
-        "settings_update_failed": "Falhou em atualizar as configurações da igreja. \nPor favor, tente novamente.",
-        "slug_already_exists": "Uma igreja com esta lesma já existe.",
-        "update_failed": "Falhou em atualizar a igreja. \nPor favor, tente novamente."
-      },
-      "generic": {
-        "server_error": "Ocorreu o erro do servidor. \nPor favor, tente novamente.",
-        "unknown_error": "Ocorreu um erro desconhecido. \nPor favor, tente novamente."
-      },
-      "member": {
-        "create_failed": "Falhou em criar membro. \nPor favor, tente novamente.",
-        "delete_failed": "Falhou em excluir o membro. \nPor favor, tente novamente.",
-        "not_found": "Membro não encontrado.",
-        "update_failed": "Falhou em atualizar o membro. \nPor favor, tente novamente."
-      },
-      "user": {
-        "activate_failed": "Falha ao ativar o usuário. \nPor favor, tente novamente.",
-        "cannot_deactivate_self": "Você não pode desativar sua própria conta.",
-        "cannot_delete_self": "Você não pode excluir sua própria conta.",
-        "create_failed": "Falhou em criar usuário. \nPor favor, tente novamente.",
-        "current_password_incorrect": "A senha atual está incorreta.",
-        "deactivate_failed": "Falhou em desativar o usuário. \nPor favor, tente novamente.",
-        "delete_failed": "Falha ao excluir o usuário. \nPor favor, tente novamente.",
-        "email_already_exists": "Um usuário com este email já existe.",
-        "fetch_by_church_failed": "Não conseguiu buscar usuários pela igreja. \nPor favor, tente novamente.",
-        "fetch_failed": "Falha ao buscar dados do usuário. \nPor favor, tente novamente.",
-        "not_found": "Usuário não encontrado.",
-        "password_update_failed": "Falha ao atualizar a senha. \nPor favor, tente novamente.",
-        "remove_failed": "Falha ao remover o usuário. \nPor favor, tente novamente.",
-        "role_update_failed": "Falha ao atualizar a função do usuário. \nPor favor, tente novamente.",
-        "update_failed": "Falha ao atualizar o usuário. \nPor favor, tente novamente."
-      }
-    },
-    "members": {
-      "activate": "Ativar",
-      "activate_error": "Falhou em ativar o membro. \nPor favor, tente novamente.",
-      "activate_success": "Membro ativado com sucesso!",
-      "active": "Ativo",
-      "baptism_date": "Data do batismo",
-      "create_error": "Falhou em criar membro. \nPor favor, tente novamente.",
-      "create_member": "Criar membro",
-      "create_success": "Membro criado com sucesso!",
-      "deactivate": "Desativar",
-      "deactivate_error": "Falhou em desativar o membro. \nPor favor, tente novamente.",
-      "deactivate_success": "Membro desativado com sucesso!",
-      "delete_error": "Falhou em excluir o membro. \nPor favor, tente novamente.",
-      "delete_success": "Membro excluído com sucesso!",
-      "edit_member": "Membro de edição",
-      "email": "E-mail",
-      "fetch_error": "Falhou em buscar membros. \nPor favor, tente novamente.",
-      "hide_inactive": "Ocultar inativo",
-      "inactive": "Inativo",
-      "joined": "Ingressou",
-      "manager": {
-        "all_members": "Todos os membros",
-        "confirm_deactivate": "Tem certeza de que deseja desativar este membro?",
-        "confirm_delete": "Tem certeza de que deseja excluir este membro?",
-        "create_first_member": "Crie o primeiro membro",
-        "create_member": "Criar membro",
-        "no_members": "Nenhum membro encontrado",
-        "title": "Gerenciamento de membros"
-      },
-      "name": "Nome",
-      "phone": "Telefone",
-      "show_inactive": "Mostrar inativo",
-      "status": "Status",
-      "update_error": "Falhou em atualizar o membro. \nPor favor, tente novamente.",
-      "update_success": "Membro atualizado com sucesso!"
-    },
-    "not_found": {
-      "actions": {
-        "go_back": "Voltar",
-        "go_home": "Ir para o Painel"
-      },
-      "description": "A página que você está procurando não foi encontrada ou não existe.",
-      "quick_links": {
-        "churches": "Gerenciar Igrejas",
-        "coming_soon": "Funcionalidades em Desenvolvimento",
-        "dashboard": "Painel de Controle",
-        "title": "Links Rápidos"
-      },
-      "requested_url": "URL Solicitada",
-      "status": "Página não encontrada",
-      "suggestions": {
-        "check_url": "Verifique se a URL digitada está correta",
-        "contact_admin": "Entre em contato com o administrador se o problema persistir",
-        "title": "Sugestões",
-        "use_navigation": "Use o menu de navegação para encontrar o que precisa"
-      },
-      "title": "Página Não Encontrada"
-    },
-    "setup": {
-      "admin_description": "Configure sua conta de administrador e as informações da igreja",
+    "title": "Administração da Igreja",
+    "users": {
+      "add_user": "Adicionar Usuário",
+      "permissions": "Permissões",
+      "roles": "Funções",
+      "title": "Gerenciamento de Usuários"
+    }
+  },
+  "app": {
+    "title": "Ekklesia Admin"
+  },
+  "auth": {
+    "admin_portal": "Portal Administrativo",
+    "ekklesia_logo": "Logo Ekklesia",
+    "email": "E-mail",
+    "email_placeholder": "Digite seu endereço de e-mail",
+    "logging_in": "Entrando...",
+    "login": "Entrar",
+    "login_error": "Erro de Login",
+    "login_failed": "Falha no login. Tente novamente.",
+    "login_success": "Login realizado com sucesso!",
+    "logout": "Sair",
+    "need_help": "Precisa de ajuda? Entre em contato com o administrador do sistema",
+    "password": "Senha",
+    "password_placeholder": "Digite sua senha"
+  },
+  "churches": {
+    "active_churches": "Igrejas Ativas",
+    "add_church": "Adicionar Nova Igreja",
+    "all_churches": "Todas as Igrejas",
+    "church_settings": "Configurações da Igreja",
+    "create_church": {
+      "admin_email": "E-mail do Administrador",
+      "admin_first_name": "Nome do Administrador",
+      "admin_info": "Informações do Usuário Administrador",
+      "admin_last_name": "Sobrenome do Administrador",
+      "admin_password": "Senha do Administrador",
+      "cancel_button": "Cancelar",
+      "church_address": "Endereço da Igreja",
+      "church_city": "Cidade",
+      "church_email": "E-mail da Igreja",
+      "church_info": "Informações da Igreja",
       "church_name": "Nome da Igreja",
-      "create_admin": "Criar Conta de Administrador",
-      "email": "Endereço de e-mail",
-      "first_name": "Nome",
-      "initialize_button": "Inicializar Sistema",
-      "last_name": "Sobrenome",
-      "password": "Senha",
-      "password_hint": "Mínimo 6 caracteres",
-      "setting_up": "Configurando...",
-      "setup_error": "Falha ao inicializar sistema. Tente novamente.",
-      "setup_success": "Sistema inicializado com sucesso! Faça login com suas credenciais.",
-      "subtitle": "Vamos configurar seu sistema de gestão de igreja",
-      "title": "Bem-vindo ao Ekklesia",
-      "validation": {
-        "church_name_required": "O nome da igreja é obrigatório",
-        "email_invalid": "Por favor insira um endereço de e-mail válido",
-        "email_required": "O e-mail é obrigatório",
-        "first_name_required": "O nome é obrigatório",
-        "last_name_required": "O sobrenome é obrigatório",
-        "password_min_length": "A senha deve ter pelo menos 6 caracteres",
-        "password_required": "A senha é obrigatória"
-      }
+      "church_phone": "Telefone da Igreja",
+      "church_state": "Estado",
+      "church_tax_id": "ID do imposto",
+      "church_zip": "CEP",
+      "create_button": "Criar Igreja",
+      "title": "Criar Nova Igreja"
     },
-    "sidebar": {
-      "announcements": "Anúncios",
-      "church_settings": "Configurações da Igreja",
-      "churches": "Gerenciar Igrejas",
-      "dashboard": "Painel de Controle",
-      "events": "Eventos",
-      "finances": "Finanças",
-      "members": "Membros",
-      "reports": "Relatórios",
-      "statistics": "Estatísticas Gerais",
+    "create_error": "Falha ao criar igreja. Tente novamente.",
+    "create_success": "Igreja criada com sucesso!",
+    "delete_error": "Falha ao deletar igreja. Tente novamente.",
+    "delete_success": "Igreja deletada com sucesso!",
+    "edit_church": "Editar Igreja",
+    "form": {
+      "address": "Endereço",
+      "address_info": "Informações de Endereço",
+      "address_placeholder": "Rua das Flores, 123",
+      "advanced_options": "Opções Avançadas",
+      "basic_info": "Informações Básicas",
+      "city": "Cidade",
+      "city_placeholder": "São Paulo",
+      "email": "E-mail",
+      "email_placeholder": "Digite o e-mail da igreja",
+      "errors": {
+        "email_invalid": "E-mail inválido",
+        "email_required": "E-mail é obrigatório",
+        "logo_url_invalid": "URL do logo inválida",
+        "name_max_length": "Nome deve ter no máximo 100 caracteres",
+        "name_min_length": "Nome deve ter pelo menos 2 caracteres",
+        "name_required": "Nome da igreja é obrigatório",
+        "slug_max_length": "Slug deve ter no máximo 100 caracteres",
+        "slug_min_length": "Slug deve ter pelo menos 2 caracteres",
+        "website_invalid": "URL do site inválida"
+      },
+      "is_active": "Igreja Ativa",
+      "logo_url": "URL do Logo",
+      "logo_url_placeholder": "https://www.exemplo.com/logo.png",
+      "name": "Nome da Igreja",
+      "name_placeholder": "Ex: Igreja Batista Central",
+      "phone": "Telefone",
+      "phone_placeholder": "(11) 99999-9999",
+      "slug": "Slug",
+      "slug_help": "URL amigável (será gerada automaticamente se não preenchida)",
+      "slug_placeholder": "igreja-batista-central",
+      "state": "Estado",
+      "state_placeholder": "SP",
+      "tax_id": "CNPJ",
+      "tax_id_placeholder": "12.345.678/0001-90",
+      "website": "Site",
+      "website_placeholder": "https://www.igreja.com",
+      "zip_code": "CEP",
+      "zip_code_placeholder": "01234-567"
+    },
+    "list": {
+      "actions": "Ações",
+      "created": "Criado",
+      "email": "E-mail",
+      "name": "Nome da Igreja",
+      "status": "Status",
       "users": "Usuários"
     },
-    "users": {
-      "activate": "Ativar",
-      "activate_error": "Falha ao ativar usuário. Tente novamente.",
-      "activate_success": "Usuário ativado com sucesso!",
-      "active": "Ativo",
-      "cannot_create_super_admin_error": "Você não tem permissão para criar usuários super administradores.",
-      "create_error": "Falha ao criar usuário. Tente novamente.",
-      "create_success": "Usuário criado com sucesso!",
-      "create_user": "Criar Usuário",
-      "created": "Criado",
-      "deactivate": "Desativar",
-      "deactivate_error": "Falha ao desativar usuário. Tente novamente.",
-      "deactivate_success": "Usuário desativado com sucesso!",
-      "delete_error": "Falha ao deletar usuário. Tente novamente.",
-      "delete_success": "Usuário deletado com sucesso!",
-      "edit_user": "Editar Usuário",
-      "email": "E-mail",
-      "first_name": "Nome",
-      "hide_inactive": "Ocultar Inativos",
-      "inactive": "Inativo",
-      "last_name": "Sobrenome",
-      "manager": {
-        "all_users": "Todos os Usuários",
-        "cannot_deactivate_last_super_admin": "Não é possível desativar o último super administrador. Deve haver pelo menos um super administrador ativo no sistema.",
-        "cannot_delete_last_super_admin": "Não é possível deletar o último super administrador. Deve haver pelo menos um super administrador ativo no sistema.",
-        "confirm_deactivate": "Tem certeza de que deseja desativar este usuário?",
-        "confirm_delete": "Tem certeza de que deseja deletar este usuário?",
-        "create_first_user": "Criar Primeiro Usuário",
-        "create_user": "Criar Usuário",
-        "no_users": "Nenhum usuário encontrado",
-        "title": "Gestão de Usuários"
-      },
-      "name": "Nome",
-      "password": "Senha",
-      "password_hint": "Mínimo 6 caracteres",
-      "role": "Função",
-      "roles": {
-        "church_admin": "Admin da Igreja",
-        "member": "Membro",
-        "pastor": "Pastor",
-        "secretary": "Secretário",
-        "super_admin": "Super Admin",
-        "treasurer": "Tesoureiro"
-      },
-      "select_role": "Selecione uma função...",
-      "show_inactive": "Mostrar Inativos",
-      "showing_all_users": "Mostrando todos os usuários",
-      "showing_users_from": "Mostrando usuários de {church}",
-      "status": "Status",
-      "title": "Gestão de Usuários",
-      "update_error": "Falha ao atualizar usuário. Tente novamente.",
-      "update_success": "Usuário atualizado com sucesso!"
+    "manage_users": "Gerenciar Usuários",
+    "manager": {
+      "all_churches": "Todas as Igrejas",
+      "confirm_delete": "Tem certeza que deseja deletar esta igreja?",
+      "create_church": "Criar Igreja",
+      "no_churches": "Nenhuma igreja encontrada",
+      "title": "Gerenciador de Igrejas",
+      "users": "Usuários"
     },
-    "validation": {
-      "email_invalid": "Por favor insira um endereço de e-mail válido",
-      "min_length": "{field} deve ter pelo menos {min} caracteres",
-      "required": "{field} é obrigatório"
+    "name": "Nome da Igreja",
+    "select_church": "Selecionar Igreja",
+    "status": {
+      "active": "Ativo",
+      "inactive": "Inativo"
+    },
+    "subtitle": "Gerencie igrejas e suas configurações",
+    "super_admin_transfer": {
+      "affected_users": "Usuários Afetados",
+      "cannot_delete_last_church": "Não é possível deletar a última igreja do sistema.",
+      "cannot_delete_with_super_admins": "Não é possível deletar uma igreja com Super Administradores. Transfira-os primeiro.",
+      "fetch_options_error": "Falha ao carregar igrejas disponíveis. Tente novamente.",
+      "select_church": "Selecione uma igreja...",
+      "select_destination": "Selecionar Igreja de Destino",
+      "title": "Transferir Super Administradores",
+      "transfer_and_delete": "Transferir e Deletar",
+      "transfer_error": "Falha ao transferir Super Administradores. Tente novamente.",
+      "transfer_success": "Super Administradores transferidos com sucesso!",
+      "warning": "Esta igreja possui Super Administradores. Eles devem ser transferidos para outra igreja antes da exclusão."
+    },
+    "title": "Gerenciamento de Igrejas",
+    "total_users": "Total de Usuários",
+    "transfer_delete_error": "Falha ao transferir e deletar igreja. Tente novamente.",
+    "transfer_delete_success": "Super administradores transferidos e igreja deletada com sucesso!",
+    "update_error": "Falha ao atualizar igreja. Tente novamente.",
+    "update_success": "Igreja atualizada com sucesso!",
+    "view_church": "Ver Detalhes da Igreja"
+  },
+  "coming_soon": {
+    "back_to_dashboard": "Voltar ao Painel",
+    "description": "Esta funcionalidade ainda está sendo desenvolvida pela nossa equipe. Em breve ela estará disponível para uso.",
+    "features": {
+      "announcements": {
+        "description": "Sistema de comunicação interna da igreja",
+        "title": "Anúncios"
+      },
+      "events": {
+        "description": "Criação e gerenciamento de eventos e cultos",
+        "title": "Eventos"
+      },
+      "finances": {
+        "description": "Gestão de dízimos, ofertas e despesas da igreja",
+        "title": "Controle Financeiro"
+      },
+      "members": {
+        "description": "Cadastro e gerenciamento completo de membros da igreja",
+        "title": "Gerenciamento de Membros"
+      },
+      "reports": {
+        "description": "Relatórios detalhados e exportação de dados",
+        "title": "Relatórios"
+      },
+      "settings": {
+        "description": "Configurações específicas da igreja",
+        "title": "Configurações"
+      },
+      "statistics": {
+        "description": "Relatórios e métricas da igreja",
+        "title": "Estatísticas"
+      },
+      "users": {
+        "description": "Gerenciamento de usuários e permissões",
+        "title": "Usuários"
+      }
+    },
+    "main_title": "Funcionalidade em Desenvolvimento",
+    "status": "Em desenvolvimento ativo",
+    "subtitle": "Esta funcionalidade está sendo desenvolvida",
+    "timeline": {
+      "phase1": {
+        "description": "Sistema base com autenticação e gerenciamento de igrejas",
+        "features": "Autenticação, Setup inicial, Gerenciamento de igrejas",
+        "title": "Fase 1 - Fundação"
+      },
+      "phase2": {
+        "description": "Implementação do módulo de membros e usuários",
+        "features": "Cadastro de membros, Gerenciamento de usuários, Permissões",
+        "title": "Fase 2 - Gestão de Membros"
+      },
+      "phase3": {
+        "description": "Módulos de eventos e controle financeiro",
+        "features": "Eventos, Cultos, Dízimos, Ofertas, Despesas",
+        "title": "Fase 3 - Eventos e Finanças"
+      },
+      "phase4": {
+        "description": "Sistema de comunicação e relatórios avançados",
+        "features": "Anúncios, Notificações, Relatórios, Estatísticas",
+        "title": "Fase 4 - Comunicação e Relatórios"
+      },
+      "status": {
+        "completed": "Concluído",
+        "in_progress": "Em andamento",
+        "planned": "Planejado"
+      },
+      "title": "Cronograma de Desenvolvimento"
+    },
+    "title": "Em Desenvolvimento"
+  },
+  "common": {
+    "actions": "Ações",
+    "active": "Ativo",
+    "address": "Endereço",
+    "cancel": "Cancelar",
+    "close": "Fechar",
+    "confirm": "Confirmar",
+    "create": "Criar",
+    "created": "Criado",
+    "delete": "Deletar",
+    "edit": "Editar",
+    "email": "E-mail",
+    "inactive": "Inativo",
+    "loading": "Carregando...",
+    "name": "Nome",
+    "next": "Próximo",
+    "no": "Não",
+    "page_of": "Página {current} de {total}",
+    "phone": "Telefone",
+    "previous": "Anterior",
+    "retry": "Tentar Novamente",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "status": "Status",
+    "tax_id": "CNPJ",
+    "update": "Atualizar",
+    "updated": "Atualizado",
+    "yes": "Sim"
+  },
+  "dashboard": {
+    "add_member": "Adicionar Novo Membro",
+    "announcements": "Anúncios Ativos",
+    "create_church": "Criar Nova Igreja",
+    "create_event": "Criar Evento",
+    "donations": "Doações Mensais",
+    "events": "Eventos Próximos",
+    "manage_users": "Gerenciar Usuários",
+    "members": "Total de Membros",
+    "new_announcement": "Novo Anúncio",
+    "quick_actions": "Ações Rápidas",
+    "system_health": "Saúde do Sistema",
+    "system_settings": "Configurações do Sistema",
+    "title": "Painel de Controle",
+    "total_events": "Total de Eventos",
+    "welcome": "Bem-vindo de volta, {name}!"
+  },
+  "error": {
+    "checking": "Verificando...",
+    "description": "Não conseguimos nos conectar ao servidor. Isso pode ser devido a problemas de rede, manutenção do servidor ou uma interrupção temporária.",
+    "refresh_page": "Atualizar Página",
+    "retry": "Tentar Novamente",
+    "server_unavailable": "O servidor não está disponível no momento",
+    "status_offline": "Servidor Offline",
+    "technical_details": "Detalhes Técnicos",
+    "title": "Erro do Servidor"
+  },
+  "errors": {
+    "church": {
+      "cannot_delete_last_church": "Não pode excluir a última igreja no sistema.",
+      "cannot_delete_with_super_admins": "Não pode excluir a igreja com super administradores. \nTransfira -os primeiro.",
+      "cannot_transfer_to_inactive_church": "Não pode transferir super administradores para uma igreja inativa.",
+      "create_failed": "Falhou em criar igreja. \nPor favor, tente novamente.",
+      "delete_failed": "Falhou em excluir a igreja. \nPor favor, tente novamente.",
+      "email_already_exists": "Uma igreja com este e -mail já existe.",
+      "not_found": "Igreja não encontrada.",
+      "settings_already_exist": "As configurações para esta igreja já existem.",
+      "settings_create_failed": "Falhou em criar ambientes da igreja. \nPor favor, tente novamente.",
+      "settings_not_found": "As configurações para esta igreja não foram encontradas.",
+      "settings_update_failed": "Falhou em atualizar as configurações da igreja. \nPor favor, tente novamente.",
+      "slug_already_exists": "Uma igreja com esta lesma já existe.",
+      "update_failed": "Falhou em atualizar a igreja. \nPor favor, tente novamente."
+    },
+    "generic": {
+      "server_error": "Ocorreu o erro do servidor. \nPor favor, tente novamente.",
+      "unknown_error": "Ocorreu um erro desconhecido. \nPor favor, tente novamente."
+    },
+    "member": {
+      "create_failed": "Falhou em criar membro. \nPor favor, tente novamente.",
+      "delete_failed": "Falhou em excluir o membro. \nPor favor, tente novamente.",
+      "not_found": "Membro não encontrado.",
+      "update_failed": "Falhou em atualizar o membro. \nPor favor, tente novamente."
+    },
+    "user": {
+      "activate_failed": "Falha ao ativar o usuário. \nPor favor, tente novamente.",
+      "cannot_deactivate_self": "Você não pode desativar sua própria conta.",
+      "cannot_delete_self": "Você não pode excluir sua própria conta.",
+      "create_failed": "Falhou em criar usuário. \nPor favor, tente novamente.",
+      "current_password_incorrect": "A senha atual está incorreta.",
+      "deactivate_failed": "Falhou em desativar o usuário. \nPor favor, tente novamente.",
+      "delete_failed": "Falha ao excluir o usuário. \nPor favor, tente novamente.",
+      "email_already_exists": "Um usuário com este email já existe.",
+      "fetch_by_church_failed": "Não conseguiu buscar usuários pela igreja. \nPor favor, tente novamente.",
+      "fetch_failed": "Falha ao buscar dados do usuário. \nPor favor, tente novamente.",
+      "not_found": "Usuário não encontrado.",
+      "password_update_failed": "Falha ao atualizar a senha. \nPor favor, tente novamente.",
+      "remove_failed": "Falha ao remover o usuário. \nPor favor, tente novamente.",
+      "role_update_failed": "Falha ao atualizar a função do usuário. \nPor favor, tente novamente.",
+      "update_failed": "Falha ao atualizar o usuário. \nPor favor, tente novamente."
     }
+  },
+  "members": {
+    "activate": "Ativar",
+    "activate_error": "Falhou em ativar o membro. \nPor favor, tente novamente.",
+    "activate_success": "Membro ativado com sucesso!",
+    "active": "Ativo",
+    "baptism_date": "Data do batismo",
+    "create_error": "Falhou em criar membro. \nPor favor, tente novamente.",
+    "create_member": "Criar membro",
+    "create_success": "Membro criado com sucesso!",
+    "deactivate": "Desativar",
+    "deactivate_error": "Falhou em desativar o membro. \nPor favor, tente novamente.",
+    "deactivate_success": "Membro desativado com sucesso!",
+    "delete_error": "Falhou em excluir o membro. \nPor favor, tente novamente.",
+    "delete_success": "Membro excluído com sucesso!",
+    "edit_member": "Membro de edição",
+    "email": "E-mail",
+    "fetch_error": "Falhou em buscar membros. \nPor favor, tente novamente.",
+    "hide_inactive": "Ocultar inativo",
+    "inactive": "Inativo",
+    "joined": "Ingressou",
+    "manager": {
+      "all_members": "Todos os membros",
+      "confirm_deactivate": "Tem certeza de que deseja desativar este membro?",
+      "confirm_delete": "Tem certeza de que deseja excluir este membro?",
+      "create_first_member": "Crie o primeiro membro",
+      "create_member": "Criar membro",
+      "no_members": "Nenhum membro encontrado",
+      "title": "Gerenciamento de membros"
+    },
+    "name": "Nome",
+    "phone": "Telefone",
+    "show_inactive": "Mostrar inativo",
+    "status": "Status",
+    "update_error": "Falhou em atualizar o membro. \nPor favor, tente novamente.",
+    "update_success": "Membro atualizado com sucesso!"
+  },
+  "not_found": {
+    "actions": {
+      "go_back": "Voltar",
+      "go_home": "Ir para o Painel"
+    },
+    "description": "A página que você está procurando não foi encontrada ou não existe.",
+    "quick_links": {
+      "churches": "Gerenciar Igrejas",
+      "coming_soon": "Funcionalidades em Desenvolvimento",
+      "dashboard": "Painel de Controle",
+      "title": "Links Rápidos"
+    },
+    "requested_url": "URL Solicitada",
+    "status": "Página não encontrada",
+    "suggestions": {
+      "check_url": "Verifique se a URL digitada está correta",
+      "contact_admin": "Entre em contato com o administrador se o problema persistir",
+      "title": "Sugestões",
+      "use_navigation": "Use o menu de navegação para encontrar o que precisa"
+    },
+    "title": "Página Não Encontrada"
+  },
+  "setup": {
+    "admin_description": "Configure sua conta de administrador e as informações da igreja",
+    "church_name": "Nome da Igreja",
+    "create_admin": "Criar Conta de Administrador",
+    "email": "Endereço de e-mail",
+    "first_name": "Nome",
+    "initialize_button": "Inicializar Sistema",
+    "last_name": "Sobrenome",
+    "password": "Senha",
+    "password_hint": "Mínimo 6 caracteres",
+    "setting_up": "Configurando...",
+    "setup_error": "Falha ao inicializar sistema. Tente novamente.",
+    "setup_success": "Sistema inicializado com sucesso! Faça login com suas credenciais.",
+    "subtitle": "Vamos configurar seu sistema de gestão de igreja",
+    "title": "Bem-vindo ao Ekklesia",
+    "validation": {
+      "church_name_required": "O nome da igreja é obrigatório",
+      "email_invalid": "Por favor insira um endereço de e-mail válido",
+      "email_required": "O e-mail é obrigatório",
+      "first_name_required": "O nome é obrigatório",
+      "last_name_required": "O sobrenome é obrigatório",
+      "password_min_length": "A senha deve ter pelo menos 6 caracteres",
+      "password_required": "A senha é obrigatória"
+    }
+  },
+  "sidebar": {
+    "announcements": "Anúncios",
+    "church_settings": "Configurações da Igreja",
+    "churches": "Gerenciar Igrejas",
+    "dashboard": "Painel de Controle",
+    "events": "Eventos",
+    "finances": "Finanças",
+    "members": "Membros",
+    "reports": "Relatórios",
+    "statistics": "Estatísticas Gerais",
+    "users": "Usuários"
+  },
+  "users": {
+    "activate": "Ativar",
+    "activate_error": "Falha ao ativar usuário. Tente novamente.",
+    "activate_success": "Usuário ativado com sucesso!",
+    "active": "Ativo",
+    "cannot_create_super_admin_error": "Você não tem permissão para criar usuários super administradores.",
+    "create_error": "Falha ao criar usuário. Tente novamente.",
+    "create_success": "Usuário criado com sucesso!",
+    "create_user": "Criar Usuário",
+    "created": "Criado",
+    "deactivate": "Desativar",
+    "deactivate_error": "Falha ao desativar usuário. Tente novamente.",
+    "deactivate_success": "Usuário desativado com sucesso!",
+    "delete_error": "Falha ao deletar usuário. Tente novamente.",
+    "delete_success": "Usuário deletado com sucesso!",
+    "edit_user": "Editar Usuário",
+    "email": "E-mail",
+    "first_name": "Nome",
+    "hide_inactive": "Ocultar Inativos",
+    "inactive": "Inativo",
+    "last_name": "Sobrenome",
+    "manager": {
+      "all_users": "Todos os Usuários",
+      "cannot_deactivate_last_super_admin": "Não é possível desativar o último super administrador. Deve haver pelo menos um super administrador ativo no sistema.",
+      "cannot_delete_last_super_admin": "Não é possível deletar o último super administrador. Deve haver pelo menos um super administrador ativo no sistema.",
+      "confirm_deactivate": "Tem certeza de que deseja desativar este usuário?",
+      "confirm_delete": "Tem certeza de que deseja deletar este usuário?",
+      "create_first_user": "Criar Primeiro Usuário",
+      "create_user": "Criar Usuário",
+      "no_users": "Nenhum usuário encontrado",
+      "title": "Gestão de Usuários"
+    },
+    "name": "Nome",
+    "password": "Senha",
+    "password_hint": "Mínimo 6 caracteres",
+    "role": "Função",
+    "roles": {
+      "church_admin": "Admin da Igreja",
+      "member": "Membro",
+      "pastor": "Pastor",
+      "secretary": "Secretário",
+      "super_admin": "Super Admin",
+      "treasurer": "Tesoureiro"
+    },
+    "select_role": "Selecione uma função...",
+    "show_inactive": "Mostrar Inativos",
+    "showing_all_users": "Mostrando todos os usuários",
+    "showing_users_from": "Mostrando usuários de {church}",
+    "status": "Status",
+    "title": "Gestão de Usuários",
+    "update_error": "Falha ao atualizar usuário. Tente novamente.",
+    "update_success": "Usuário atualizado com sucesso!"
+  },
+  "validation": {
+    "email_invalid": "Por favor insira um endereço de e-mail válido",
+    "min_length": "{field} deve ter pelo menos {min} caracteres",
+    "required": "{field} é obrigatório"
   }
 }
