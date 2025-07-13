@@ -100,23 +100,23 @@ export class UsersServiceDrizzle extends UsersService {
     totalPages: number;
   }> {
     const offset = (page - 1) * limit;
-    
+
     // Build where conditions
     const conditions = [];
-    
+
     if (!includeInactive) {
       conditions.push(eq(users.isActive, true));
     }
-    
+
     let finalChurchId = churchId;
     if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
       finalChurchId = currentUser.churchId;
     }
-    
+
     if (finalChurchId) {
       conditions.push(eq(users.churchId, finalChurchId));
     }
-    
+
     if (role) {
       conditions.push(eq(users.role, role as any));
     }
@@ -379,7 +379,7 @@ export class UsersServiceDrizzle extends UsersService {
     try {
       const [updatedUser] = await this.drizzle.db
         .update(users)
-        .set({ 
+        .set({
           isActive: false,
           updatedAt: new Date()
         })
@@ -438,7 +438,7 @@ export class UsersServiceDrizzle extends UsersService {
     try {
       const [updatedUser] = await this.drizzle.db
         .update(users)
-        .set({ 
+        .set({
           isActive: true,
           updatedAt: new Date()
         })
@@ -471,7 +471,7 @@ export class UsersServiceDrizzle extends UsersService {
     try {
       const [updatedUser] = await this.drizzle.db
         .update(users)
-        .set({ 
+        .set({
           isActive: false,
           updatedAt: new Date()
         })
@@ -504,7 +504,7 @@ export class UsersServiceDrizzle extends UsersService {
     try {
       const [updatedUser] = await this.drizzle.db
         .update(users)
-        .set({ 
+        .set({
           role,
           updatedAt: new Date()
         })
