@@ -1,6 +1,6 @@
 {
   "i18n-ally.localesPaths": [
-    "./../../../libs/translations/src/locales",
     "./src/i18n/locales",
+    "./../../../libs/translations/src/locales"
   ]
 }
