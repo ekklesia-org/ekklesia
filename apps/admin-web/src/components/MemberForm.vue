@@ -452,11 +452,28 @@
               v-if="form.userId && linkedUser"
               class="mt-3 p-3 bg-blue-50 rounded-md"
             >
-              <p class="text-sm text-blue-800">
-                <strong>{{ $t('members.linked_to') }}:</strong> {{ linkedUser.firstName }} {{ linkedUser.lastName }}
-                <br>
-                <strong>{{ $t('members.user_role') }}:</strong> {{ $t(`users.roles.${linkedUser.role.toLowerCase()}`) }}
-              </p>
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-sm text-blue-800">
+                    <strong>{{ $t('members.linked_to') }}:</strong> {{ linkedUser.firstName }} {{ linkedUser.lastName }}
+                    <br>
+                    <strong>{{ $t('members.user_role') }}:</strong> {{ $t(`users.roles.${linkedUser.role.toLowerCase()}`) }}
+                  </p>
+                </div>
+                <AppButton
+                  v-if="member"
+                  type="button"
+                  variant="danger"
+                  size="sm"
+                  @click="unlinkUser"
+                  :disabled="unlinkingUser"
+                >
+                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                  </svg>
+                  {{ unlinkingUser ? $t('members.unlinking') : $t('members.unlink_user') }}
+                </AppButton>
+              </div>
             </div>
             <div
               v-else-if="member && !form.userId && form.email"
@@ -577,6 +594,7 @@ import { ICreateMemberDto, IUpdateMemberDto, User } from '@ekklesia/shared';
 import { useSelectedChurch } from '../stores/selectedChurch';
 import { useAuthStore } from '../stores';
 import { userService } from '../services/userService';
+import { memberService } from '../services/memberService';
 import { useRouter } from 'vue-router';
 import { useErrorHandler } from '../utils/errorHandler';
 
@@ -627,6 +645,7 @@ const errors = ref<Record<string, string>>({});
 const availableUsers = ref<User[]>([]);
 const loadingUsers = ref(false);
 const creatingUser = ref(false);
+const unlinkingUser = ref(false);
 
 const linkedUser = computed(() => {
   if (!form.userId || !availableUsers.value.length) return null;
@@ -762,16 +781,9 @@ const fetchAvailableUsers = async () => {
   loadingUsers.value = true;
   try {
     const churchId = selectedChurchStore.selectedChurch?.id || authStore.user?.churchId;
-    const response = await userService.getUsers(1, 100, false, churchId);
-    // Filter out users that are already linked to other members
-    // In a real implementation, you might want to add an API endpoint for this
-    availableUsers.value = response.users.filter(user => {
-      // If editing a member with a userId, include that user in the list
-      if (props.member?.userId === user.id) return true;
-      // Otherwise, only show users with MEMBER role or users without a member link
-      // This is a simplified approach - ideally the backend would handle this
-      return user.role === 'MEMBER' || !user.id; // Placeholder logic
-    });
+    const excludeMemberId = props.member?.id;
+    const response = await userService.getAvailableForMember(churchId, excludeMemberId);
+    availableUsers.value = response;
   } catch (error) {
     console.error('Failed to fetch users:', error);
     availableUsers.value = [];
@@ -843,5 +855,32 @@ const generateTempPassword = () => {
     password += chars.charAt(Math.floor(Math.random() * chars.length));
   }
   return password;
+};
+
+const unlinkUser = async () => {
+  if (!props.member || !form.userId) return;
+  
+  // Confirm with user
+  if (!confirm(t('members.confirm_unlink_user'))) {
+    return;
+  }
+  
+  unlinkingUser.value = true;
+  try {
+    await memberService.unlinkUser(props.member.id);
+    
+    // Update form
+    form.userId = '';
+    
+    // Show success message
+    handleSuccess(t('members.user_unlinked_success'));
+    
+    // Refresh available users
+    await fetchAvailableUsers();
+  } catch (error) {
+    handleError(error, t('members.user_unlink_error'));
+  } finally {
+    unlinkingUser.value = false;
+  }
 };
 </script>

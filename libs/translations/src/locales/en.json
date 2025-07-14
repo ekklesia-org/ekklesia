@@ -229,7 +229,12 @@
     "create_user_hint": "Create a user account for this member to allow them to sign in.",
     "confirm_create_user": "Create a user account for this member? A temporary password will be generated.",
     "user_created_success": "User account created successfully! Temporary password: {password}",
-    "user_creation_error": "Failed to create user account. Please try again."
+    "user_creation_error": "Failed to create user account. Please try again.",
+    "unlink_user": "Unlink User",
+    "unlinking": "Unlinking...",
+    "confirm_unlink_user": "Are you sure you want to unlink this user account from the member?",
+    "user_unlinked_success": "User account unlinked successfully!",
+    "user_unlink_error": "Failed to unlink user account. Please try again."
   },
   "financial": {
     "title": "Financial",

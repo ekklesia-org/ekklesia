@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, ClassSerializerInterceptor, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query, UseInterceptors, ClassSerializerInterceptor, ParseIntPipe, HttpCode, HttpStatus } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiParam, ApiResponse, ApiQuery } from '@nestjs/swagger';
 import { MembersService } from './members.service';
 import { CreateMemberDto } from './dto/create-member.dto';
@@ -67,5 +67,15 @@ export class MembersController {
   @ApiResponse({ status: 404, description: 'Not Found.' })
   hardDelete(@Param('id') id: string) {
     return this.membersService.hardDelete(id);
+  }
+
+  @Put(':id/unlink-user')
+  @ApiOperation({ summary: 'Unlink user from member' })
+  @ApiParam({ name: 'id', description: 'ID of the member' })
+  @ApiResponse({ status: 200, description: 'The user has been successfully unlinked from the member.' })
+  @ApiResponse({ status: 404, description: 'Not Found.' })
+  @HttpCode(HttpStatus.OK)
+  unlinkUser(@Param('id') id: string) {
+    return this.membersService.unlinkUser(id);
   }
 }

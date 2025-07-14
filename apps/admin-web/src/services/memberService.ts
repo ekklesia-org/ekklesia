@@ -106,6 +106,13 @@ export class MemberService {
   async hardDeleteMember(id: string): Promise<void> {
     await axios.delete(`${this.baseUrl}/${id}/hard`);
   }
+
+  /**
+   * Unlink user from member
+   */
+  async unlinkUser(id: string): Promise<void> {
+    await axios.put(`${this.baseUrl}/${id}/unlink-user`);
+  }
 }
 
 // Export a default instance

@@ -267,10 +267,15 @@
     "user": "Usuário",
     "user_account": "Conta de usuário",
     "user_account_hint": "Ligue este membro a uma conta de usuário para permitir que eles entrem no sistema.",
-    "user_created_success": "Conta de usuário criada com sucesso! \nSenha temporária: {senha}",
-    "user_creation_error": "Falha ao criar uma conta de usuário. \nPor favor, tente novamente.",
-    "user_role": "Função de usuário",
-    "zip_code": "CEP"
+    "user_created_success": "Conta de usuário criada com sucesso! \nSenha temporária: {password}",
+    "user_creation_error": "Falhou em criar conta de usuário. \nPor favor, tente novamente.",
+    "user_role": "Função do usuário",
+    "zip_code": "Código postal",
+    "unlink_user": "Desvincular Usuário",
+    "unlinking": "Desvinculando...",
+    "confirm_unlink_user": "Tem certeza de que deseja desvincular esta conta de usuário do membro?",
+    "user_unlinked_success": "Conta de usuário desvinculada com sucesso!",
+    "user_unlink_error": "Falha ao desvincular conta de usuário. Por favor, tente novamente."
   },
   "messages": {
     "success": {

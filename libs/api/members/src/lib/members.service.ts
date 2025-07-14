@@ -44,5 +44,6 @@ export abstract class MembersService {
   abstract update(id: string, updateMemberDto: UpdateMemberDto): Promise<Member>;
   abstract remove(id: string): Promise<Member>;
   abstract hardDelete(id: string): Promise<void>;
+  abstract unlinkUser(id: string): Promise<Member>;
 }
 

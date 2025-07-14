@@ -270,7 +270,12 @@
     "user_created_success": "Cuenta de usuario creada con éxito! \nContraseña temporal: {contraseña}",
     "user_creation_error": "No se pudo crear una cuenta de usuario. \nPor favor intente de nuevo.",
     "user_role": "Rol de usuario",
-    "zip_code": "Código postal"
+    "zip_code": "Código postal",
+    "unlink_user": "Desvincular Usuario",
+    "unlinking": "Desvinculando...",
+    "confirm_unlink_user": "¿Está seguro de que desea desvincular esta cuenta de usuario del miembro?",
+    "user_unlinked_success": "¡Cuenta de usuario desvinculada con éxito!",
+    "user_unlink_error": "No se pudo desvincular la cuenta de usuario. Por favor intente de nuevo."
   },
   "messages": {
     "success": {

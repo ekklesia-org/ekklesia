@@ -40,4 +40,9 @@ export abstract class UsersService {
   abstract activate(id: string): Promise<any>;
   abstract deactivate(id: string): Promise<any>;
   abstract updateRole(id: string, role: any): Promise<any>;
+  abstract findAvailableForMember(
+    churchId?: string,
+    excludeMemberId?: string,
+    currentUser?: CurrentUserData
+  ): Promise<any[]>;
 }

@@ -143,7 +143,20 @@ export class UsersController {
   @ApiResponse({ status: 200, description: 'The user role has been successfully updated.' })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   @ApiResponse({ status: 404, description: 'Not Found.' })
-updateRole(@Param('id') id: string, @Body() body: { role: UserRole }) {
+  updateRole(@Param('id') id: string, @Body() body: { role: UserRole }) {
     return this.usersService.updateRole(id, body.role);
+  }
+
+  @Get('available/for-member')
+  @ApiOperation({ summary: 'Get users available to link to members' })
+  @ApiQuery({ name: 'churchId', required: false, description: 'Filter by church ID' })
+  @ApiQuery({ name: 'excludeMemberId', required: false, description: 'Exclude users linked to other members (except this one)' })
+  @ApiResponse({ status: 200, description: 'Success' })
+  findAvailableForMember(
+    @CurrentUser() currentUser: CurrentUserData,
+    @Query('churchId') churchId?: string,
+    @Query('excludeMemberId') excludeMemberId?: string
+  ) {
+    return this.usersService.findAvailableForMember(churchId, excludeMemberId, currentUser);
   }
 }

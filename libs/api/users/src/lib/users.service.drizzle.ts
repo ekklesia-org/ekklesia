@@ -3,7 +3,7 @@ import { DrizzleService } from '@ekklesia/database';
 import { users, churches, members } from '@ekklesia/database';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
-import { eq, and, count, desc, sql, or } from 'drizzle-orm';
+import { eq, and, count, desc, or, isNull } from 'drizzle-orm';
 import { CurrentUserData } from '../../../src/lib/decorators/current-user.decorator';
 import * as bcrypt from 'bcryptjs';
 import { UsersService } from './users.service';
@@ -585,5 +585,73 @@ export class UsersServiceDrizzle extends UsersService {
     }
 
     return this.findAll(page, limit, includeInactive, churchId, undefined, currentUser);
+  }
+
+  /**
+   * Find users available to link to members
+   */
+  async findAvailableForMember(
+    churchId?: string,
+    excludeMemberId?: string,
+    currentUser?: CurrentUserData
+  ): Promise<any[]> {
+    try {
+      // Build the base query
+      let query = this.drizzle.db
+        .select({
+          id: users.id,
+          email: users.email,
+          firstName: users.firstName,
+          lastName: users.lastName,
+          role: users.role,
+          isActive: users.isActive,
+          memberId: members.id,
+        })
+        .from(users)
+        .leftJoin(members, eq(users.id, members.userId));
+
+      // Apply filters
+      const conditions = [];
+
+      // Filter by church if specified
+      if (churchId) {
+        conditions.push(eq(users.churchId, churchId));
+      } else if (currentUser && currentUser.role !== 'SUPER_ADMIN' && currentUser.churchId) {
+        // Non-super admins can only see users from their church
+        conditions.push(eq(users.churchId, currentUser.churchId));
+      }
+
+      // Only active users
+      conditions.push(eq(users.isActive, true));
+
+      // Either users without a member link OR the user linked to the specified member
+      if (excludeMemberId) {
+        conditions.push(
+          or(
+            isNull(members.id),
+            eq(members.id, excludeMemberId)
+          )
+        );
+      } else {
+        // Only users without member links
+        conditions.push(isNull(members.id));
+      }
+
+      if (conditions.length > 0) {
+        query = query.where(and(...conditions)) as typeof query;
+      }
+
+      const result = await query;
+
+      // Return only the user data, filtering out those already linked to other members
+      return result
+        .filter(row => !row.memberId || row.memberId === excludeMemberId)
+        .map(({ memberId, ...user }) => user);
+    } catch (error) {
+      throw new BadRequestException({
+        message: `Failed to fetch available users: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.user.fetch_failed'
+      });
+    }
   }
 }

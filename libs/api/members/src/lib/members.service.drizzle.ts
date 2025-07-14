@@ -206,4 +206,41 @@ export class MembersServiceDrizzle extends MembersService {
       });
     }
   }
+
+  /**
+   * Unlink user from member
+   */
+  async unlinkUser(id: string): Promise<Member> {
+    try {
+      // First, check if the member exists
+      const member = await this.findOne(id);
+      
+      if (!member.userId) {
+        throw new BadRequestException({
+          message: 'This member is not linked to any user',
+          translationKey: 'errors.member.no_user_linked'
+        });
+      }
+
+      // Update member to remove userId
+      const [updatedMember] = await this.drizzle.db
+        .update(members)
+        .set({
+          userId: null,
+          updatedAt: new Date()
+        })
+        .where(eq(members.id, id))
+        .returning();
+
+      return updatedMember;
+    } catch (error) {
+      if (error instanceof NotFoundException || error instanceof BadRequestException) {
+        throw error;
+      }
+      throw new BadRequestException({
+        message: `Failed to unlink user from member: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        translationKey: 'errors.member.unlink_failed'
+      });
+    }
+  }
 }
