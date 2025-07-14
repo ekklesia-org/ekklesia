@@ -356,7 +356,8 @@
     "show_inactive": "Inactivo",
     "status": "Estado",
     "update_error": "No se pudo actualizar al miembro. \nPor favor intente de nuevo.",
-    "update_success": "¡Miembro actualizado exitoso!"
+    "update_success": "¡Miembro actualizado exitoso!",
+    "user_account": ""
   },
   "not_found": {
     "actions": {

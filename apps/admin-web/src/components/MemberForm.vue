@@ -416,6 +416,82 @@
           </p>
         </div>
 
+        <!-- User Account Section -->
+        <div class="border-t pt-6">
+          <h3 class="text-lg font-medium text-gray-900 mb-4">
+            {{ $t('members.user_account') }}
+          </h3>
+          <div>
+            <label
+              for="userId"
+              class="block text-sm font-medium text-gray-700 mb-2"
+            >
+              {{ $t('members.link_user_account') }}
+            </label>
+            <select
+              id="userId"
+              v-model="form.userId"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              :disabled="loadingUsers"
+            >
+              <option value="">
+                {{ $t('members.no_user_account') }}
+              </option>
+              <option
+                v-for="user in availableUsers"
+                :key="user.id"
+                :value="user.id"
+              >
+                {{ user.firstName }} {{ user.lastName }} ({{ user.email }})
+              </option>
+            </select>
+            <p class="mt-1 text-sm text-gray-500">
+              {{ $t('members.user_account_hint') }}
+            </p>
+            <div
+              v-if="form.userId && linkedUser"
+              class="mt-3 p-3 bg-blue-50 rounded-md"
+            >
+              <p class="text-sm text-blue-800">
+                <strong>{{ $t('members.linked_to') }}:</strong> {{ linkedUser.firstName }} {{ linkedUser.lastName }}
+                <br>
+                <strong>{{ $t('members.user_role') }}:</strong> {{ $t(`users.roles.${linkedUser.role.toLowerCase()}`) }}
+              </p>
+            </div>
+            <div
+              v-else-if="member && !form.userId && form.email"
+              class="mt-3"
+            >
+              <AppButton
+                type="button"
+                variant="secondary"
+                size="sm"
+                :disabled="creatingUser"
+                @click="createUserForMember"
+              >
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
+                  />
+                </svg>
+                {{ creatingUser ? $t('members.creating_user') : $t('members.create_user_account') }}
+              </AppButton>
+              <p class="mt-2 text-xs text-gray-500">
+                {{ $t('members.create_user_hint') }}
+              </p>
+            </div>
+          </div>
+        </div>
+
         <!-- Member Status (only for editing existing members) -->
         <div
           v-if="member"
@@ -493,17 +569,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, computed } from 'vue';
+import { ref, reactive, onMounted, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton } from '@ekklesia/ui';
 import { Member } from '../services/memberService';
-import { ICreateMemberDto, IUpdateMemberDto } from '@ekklesia/shared';
+import { ICreateMemberDto, IUpdateMemberDto, User } from '@ekklesia/shared';
 import { useSelectedChurch } from '../stores/selectedChurch';
 import { useAuthStore } from '../stores';
+import { userService } from '../services/userService';
+import { useRouter } from 'vue-router';
+import { useErrorHandler } from '../utils/errorHandler';
 
 const { t } = useI18n();
 const selectedChurchStore = useSelectedChurch();
 const authStore = useAuthStore();
+const router = useRouter();
+const { handleError, handleSuccess } = useErrorHandler();
 
 interface Props {
   member?: Member;
@@ -539,9 +620,18 @@ const form = reactive({
   notes: '',
   status: 'ACTIVE',
   isActive: true,
+  userId: '',
 });
 
 const errors = ref<Record<string, string>>({});
+const availableUsers = ref<User[]>([]);
+const loadingUsers = ref(false);
+const creatingUser = ref(false);
+
+const linkedUser = computed(() => {
+  if (!form.userId || !availableUsers.value.length) return null;
+  return availableUsers.value.find(u => u.id === form.userId) || null;
+});
 
 const validateForm = () => {
   errors.value = {};
@@ -612,6 +702,7 @@ const handleSubmit = () => {
       profession: form.profession || undefined,
       notes: form.notes || undefined,
       status: form.status as 'ACTIVE' | 'INACTIVE' | 'TRANSFERRED' | 'DECEASED',
+      userId: form.userId || undefined,
     };
     emit('submit', updateData);
   } else {
@@ -634,6 +725,7 @@ const handleSubmit = () => {
       profession: form.profession || undefined,
       notes: form.notes || undefined,
       churchId: selectedChurchStore.selectedChurch?.id || authStore.user?.churchId || '',
+      userId: form.userId || undefined,
     };
     emit('submit', createData);
   }
@@ -659,9 +751,97 @@ onMounted(() => {
     form.notes = props.member.notes || '';
     form.status = props.member.status;
     form.isActive = props.member.isActive;
+    form.userId = props.member.userId || '';
   } else {
     // Set default member since date to today for new members
     form.memberSince = new Date().toISOString().split('T')[0];
   }
 });
+
+const fetchAvailableUsers = async () => {
+  loadingUsers.value = true;
+  try {
+    const churchId = selectedChurchStore.selectedChurch?.id || authStore.user?.churchId;
+    const response = await userService.getUsers(1, 100, false, churchId);
+    // Filter out users that are already linked to other members
+    // In a real implementation, you might want to add an API endpoint for this
+    availableUsers.value = response.users.filter(user => {
+      // If editing a member with a userId, include that user in the list
+      if (props.member?.userId === user.id) return true;
+      // Otherwise, only show users with MEMBER role or users without a member link
+      // This is a simplified approach - ideally the backend would handle this
+      return user.role === 'MEMBER' || !user.id; // Placeholder logic
+    });
+  } catch (error) {
+    console.error('Failed to fetch users:', error);
+    availableUsers.value = [];
+  } finally {
+    loadingUsers.value = false;
+  }
+};
+
+// Fetch users when component mounts or church changes
+watch(
+  () => selectedChurchStore.selectedChurch?.id,
+  () => {
+    fetchAvailableUsers();
+  },
+  { immediate: true }
+);
+
+const createUserForMember = async () => {
+  if (!props.member || !form.email) return;
+
+  // Confirm with user
+  if (!confirm(t('members.confirm_create_user'))) {
+    return;
+  }
+
+  creatingUser.value = true;
+  try {
+    // Generate a temporary password
+    const tempPassword = generateTempPassword();
+
+    // Create user with member's data
+    const userData = {
+      firstName: form.firstName,
+      lastName: form.lastName,
+      email: form.email,
+      password: tempPassword,
+      role: 'MEMBER' as const,
+      churchId: selectedChurchStore.selectedChurch?.id || authStore.user?.churchId || '',
+      isActive: true,
+    };
+
+    const newUser = await userService.createUser(userData);
+
+    // Update member with userId
+    form.userId = newUser.id;
+
+    // Submit the form to save the member with the new userId
+    handleSubmit();
+
+    // Show success message with temporary password
+    handleSuccess(
+      t('members.user_created_success', { password: tempPassword })
+    );
+
+    // Refresh available users
+    await fetchAvailableUsers();
+  } catch (error) {
+    handleError(error, t('members.user_creation_error'));
+  } finally {
+    creatingUser.value = false;
+  }
+};
+
+const generateTempPassword = () => {
+  // Generate a simple temporary password
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let password = '';
+  for (let i = 0; i < 8; i++) {
+    password += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return password;
+};
 </script>

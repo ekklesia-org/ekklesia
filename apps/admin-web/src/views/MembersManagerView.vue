@@ -71,12 +71,35 @@
 
         <!-- Status column -->
         <template #cell-status="{ row }">
-          <span
-            class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-            :class="row.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
-          >
-            {{ row.isActive ? $t('members.active') : $t('members.inactive') }}
-          </span>
+          <div class="flex items-center space-x-2">
+            <span
+              class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+              :class="row.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+            >
+              {{ row.isActive ? $t('members.active') : $t('members.inactive') }}
+            </span>
+            <span
+              v-if="row.userId"
+              class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800"
+              :title="$t('members.has_user_account')"
+            >
+              <svg
+                class="w-3 h-3 mr-1"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                />
+              </svg>
+              {{ $t('members.user') }}
+            </span>
+          </div>
         </template>
 
         <!-- Error action -->

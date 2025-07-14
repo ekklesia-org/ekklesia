@@ -78,12 +78,16 @@
 
         <!-- Status column -->
         <template #cell-status="{ row }">
-          <span
-            class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
-            :class="row.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
-          >
-            {{ row.isActive ? $t('users.active') : $t('users.inactive') }}
-          </span>
+          <div class="flex items-center space-x-2">
+            <span
+              class="inline-flex px-2 py-1 text-xs font-semibold rounded-full"
+              :class="row.isActive ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+            >
+              {{ row.isActive ? $t('users.active') : $t('users.inactive') }}
+            </span>
+            <!-- Note: In a real implementation, you would need to check if this user has a linked member -->
+            <!-- This would require an API update to include member information with user data -->
+          </div>
         </template>
 
         <!-- Error action -->
