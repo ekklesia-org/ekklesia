@@ -465,11 +465,22 @@
                   type="button"
                   variant="danger"
                   size="sm"
-                  @click="unlinkUser"
                   :disabled="unlinkingUser"
+                  @click="unlinkUser"
                 >
-                  <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                  <svg
+                    class="w-4 h-4 mr-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
+                    />
                   </svg>
                   {{ unlinkingUser ? $t('members.unlinking') : $t('members.unlink_user') }}
                 </AppButton>
@@ -859,22 +870,22 @@ const generateTempPassword = () => {
 
 const unlinkUser = async () => {
   if (!props.member || !form.userId) return;
-  
+
   // Confirm with user
   if (!confirm(t('members.confirm_unlink_user'))) {
     return;
   }
-  
+
   unlinkingUser.value = true;
   try {
     await memberService.unlinkUser(props.member.id);
-    
+
     // Update form
     form.userId = '';
-    
+
     // Show success message
     handleSuccess(t('members.user_unlinked_success'));
-    
+
     // Refresh available users
     await fetchAvailableUsers();
   } catch (error) {

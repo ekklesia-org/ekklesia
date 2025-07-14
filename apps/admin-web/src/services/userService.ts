@@ -70,5 +70,18 @@ export class UserService {
   async hardDeleteUser(id: string): Promise<void> {
     await axios.delete(`${this.baseUrl}/${id}/hard`);
   }
+
+  /**
+   * Get users available to link to a member
+   */
+  async getAvailableForMember(churchId?: string, excludeMemberId?: string): Promise<User[]> {
+    const response = await axios.get<User[]>(`${this.baseUrl}/available/for-member`, {
+      params: { churchId, excludeMemberId }
+    });
+    return response.data;
+  }
 }
+
+// Export a default instance
+export const userService = new UserService();
 

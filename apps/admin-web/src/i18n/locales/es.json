@@ -357,7 +357,7 @@
     "status": "Estado",
     "update_error": "No se pudo actualizar al miembro. \nPor favor intente de nuevo.",
     "update_success": "¡Miembro actualizado exitoso!",
-    "user_account": ""
+    "user_account": "Cuenta de usuario"
   },
   "not_found": {
     "actions": {

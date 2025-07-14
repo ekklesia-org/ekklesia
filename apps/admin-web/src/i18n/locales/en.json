@@ -356,7 +356,8 @@
     "show_inactive": "Show Inactive",
     "status": "Status",
     "update_error": "Failed to update member. Please try again.",
-    "update_success": "Member updated successfully!"
+    "update_success": "Member updated successfully!",
+    "user_account": "User account"
   },
   "not_found": {
     "actions": {
