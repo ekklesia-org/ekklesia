@@ -19,6 +19,7 @@
       "@ekklesia/api/*": ["libs/api/src/*"],
       "@ekklesia/api/church": ["libs/api/church/src/index.ts"],
       "@ekklesia/api/members": ["libs/api/members/src/index.ts"],
+      "@ekklesia/api/societies": ["libs/api/societies/src/index.ts"],
       "@ekklesia/api/users": ["libs/api/users/src/index.ts"],
       "@ekklesia/database": ["libs/database/src/index.ts"],
       "@ekklesia/database/*": ["libs/database/src/*"],

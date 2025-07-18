@@ -6,6 +6,7 @@ import { AuthModule } from '@ekklesia/api/lib/auth.module';
 import { DatabaseModule } from '@ekklesia/database/lib/database.module';
 import { ChurchModule } from '@ekklesia/api/church';
 import { MembersModule } from '@ekklesia/api/members';
+import { SocietiesModule } from '@ekklesia/api/societies';
 import { UsersModule } from '@ekklesia/api/users';
 
 @Module({
@@ -18,6 +19,7 @@ import { UsersModule } from '@ekklesia/api/users';
     AuthModule,
     ChurchModule,
     MembersModule,
+    SocietiesModule,
     UsersModule
   ],
   controllers: [AppController],

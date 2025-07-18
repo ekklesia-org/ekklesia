@@ -1,4 +1,4 @@
-import { pgTable, text, boolean, timestamp, decimal, pgEnum, jsonb, index } from 'drizzle-orm/pg-core';
+import { pgTable, text, boolean, timestamp, decimal, pgEnum, jsonb, index, date, integer } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 // Enums
@@ -8,6 +8,8 @@ export const maritalStatusEnum = pgEnum('MaritalStatus', ['SINGLE', 'MARRIED', '
 export const transactionTypeEnum = pgEnum('TransactionType', ['INCOME', 'EXPENSE']);
 export const transactionCategoryEnum = pgEnum('TransactionCategory', ['TITHE', 'OFFERING', 'DONATION', 'EVENT_INCOME', 'UTILITIES', 'MAINTENANCE', 'SUPPLIES', 'MINISTRY', 'SALARY', 'OTHER']);
 export const transactionStatusEnum = pgEnum('TransactionStatus', ['PENDING', 'CONFIRMED', 'CANCELLED']);
+export const societyTypeEnum = pgEnum('SocietyType', ['SAF', 'UPH', 'UPA', 'UMP', 'UCP']);
+export const societyPositionEnum = pgEnum('SocietyPosition', ['PRESIDENT', 'VICE_PRESIDENT', 'SECRETARY', 'TREASURER', 'MEMBER']);
 
 // Churches table
 export const churches = pgTable('churches', {
@@ -142,6 +144,61 @@ export const auditLogs = pgTable('audit_logs', {
   index('audit_logs_createdAt_idx').on(table.createdAt),
 ]);
 
+// Societies table
+export const societies = pgTable('societies', {
+  id: text('id').primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
+  churchId: text('churchId').notNull().references(() => churches.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  type: societyTypeEnum('type').notNull(),
+  description: text('description'),
+  foundedDate: date('foundedDate'),
+  meetingDay: text('meetingDay'), // e.g., 'MONDAY', 'TUESDAY', etc.
+  meetingTime: text('meetingTime'), // e.g., '19:00'
+  meetingLocation: text('meetingLocation'),
+  isActive: boolean('isActive').default(true).notNull(),
+  createdAt: timestamp('createdAt', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).defaultNow().notNull(),
+}, (table) => [
+  index('societies_churchId_idx').on(table.churchId),
+  index('societies_type_idx').on(table.type),
+  index('societies_isActive_idx').on(table.isActive),
+]);
+
+// Society Members table (many-to-many relationship)
+export const societyMembers = pgTable('society_members', {
+  id: text('id').primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
+  societyId: text('societyId').notNull().references(() => societies.id, { onDelete: 'cascade' }),
+  memberId: text('memberId').notNull().references(() => members.id, { onDelete: 'cascade' }),
+  position: societyPositionEnum('position').default('MEMBER').notNull(),
+  joinedDate: date('joinedDate').defaultNow().notNull(),
+  leftDate: date('leftDate'),
+  isActive: boolean('isActive').default(true).notNull(),
+  notes: text('notes'),
+  createdAt: timestamp('createdAt', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).defaultNow().notNull(),
+}, (table) => [
+  index('society_members_societyId_idx').on(table.societyId),
+  index('society_members_memberId_idx').on(table.memberId),
+  index('society_members_isActive_idx').on(table.isActive),
+]);
+
+// Society Events table
+export const societyEvents = pgTable('society_events', {
+  id: text('id').primaryKey().notNull().$defaultFn(() => crypto.randomUUID()),
+  societyId: text('societyId').notNull().references(() => societies.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  description: text('description'),
+  eventDate: timestamp('eventDate', { mode: 'date' }).notNull(),
+  location: text('location'),
+  attendanceCount: integer('attendanceCount'),
+  notes: text('notes'),
+  createdAt: timestamp('createdAt', { mode: 'date' }).defaultNow().notNull(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).defaultNow().notNull(),
+}, (table) => [
+  index('society_events_societyId_idx').on(table.societyId),
+  index('society_events_eventDate_idx').on(table.eventDate),
+]);
+
 // Relations
 export const churchesRelations = relations(churches, ({ one, many }) => ({
   settings: one(churchSettings, {
@@ -152,6 +209,7 @@ export const churchesRelations = relations(churches, ({ one, many }) => ({
   members: many(members),
   transactions: many(transactions),
   auditLogs: many(auditLogs),
+  societies: many(societies),
 }));
 
 export const churchSettingsRelations = relations(churchSettings, ({ one }) => ({
@@ -188,6 +246,7 @@ export const membersRelations = relations(members, ({ one, many }) => ({
     relationName: 'spouse',
   }),
   transactions: many(transactions),
+  societyMemberships: many(societyMembers),
 }));
 
 export const transactionsRelations = relations(transactions, ({ one }) => ({
@@ -209,6 +268,34 @@ export const auditLogsRelations = relations(auditLogs, ({ one }) => ({
   user: one(users, {
     fields: [auditLogs.userId],
     references: [users.id],
+  }),
+}));
+
+// Society Relations
+export const societiesRelations = relations(societies, ({ one, many }) => ({
+  church: one(churches, {
+    fields: [societies.churchId],
+    references: [churches.id],
+  }),
+  societyMembers: many(societyMembers),
+  events: many(societyEvents),
+}));
+
+export const societyMembersRelations = relations(societyMembers, ({ one }) => ({
+  society: one(societies, {
+    fields: [societyMembers.societyId],
+    references: [societies.id],
+  }),
+  member: one(members, {
+    fields: [societyMembers.memberId],
+    references: [members.id],
+  }),
+}));
+
+export const societyEventsRelations = relations(societyEvents, ({ one }) => ({
+  society: one(societies, {
+    fields: [societyEvents.societyId],
+    references: [societies.id],
   }),
 }));
 
