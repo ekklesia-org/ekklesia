@@ -64,6 +64,13 @@ export interface RequestParams {
   body?: Record<string, unknown>; // Use um tipo genérico mais detalhado
 }
 
+// API Error type
+export interface ApiError {
+  message: string;
+  statusCode?: number;
+  error?: string;
+}
+
 // Church Entity (for super admin management)
 export interface Church {
   id: string;
@@ -335,4 +342,86 @@ export interface IUpdateMemberDto {
   notes?: string;
   photoUrl?: string;
   userId?: string;
+}
+
+// Society Types
+export enum SocietyType {
+  SAF = 'SAF',
+  UPH = 'UPH',
+  UPA = 'UPA',
+  UMP = 'UMP',
+  UCP = 'UCP'
+}
+
+export enum SocietyPosition {
+  PRESIDENT = 'PRESIDENT',
+  VICE_PRESIDENT = 'VICE_PRESIDENT',
+  SECRETARY = 'SECRETARY',
+  TREASURER = 'TREASURER',
+  MEMBER = 'MEMBER'
+}
+
+export interface Society {
+  id: string;
+  churchId: string;
+  name: string;
+  type: SocietyType;
+  description?: string;
+  foundedDate?: Date;
+  meetingDay?: string;
+  meetingTime?: string;
+  meetingLocation?: string;
+  isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface SocietyMember {
+  id: string;
+  societyId: string;
+  memberId: string;
+  position: SocietyPosition;
+  joinedDate: Date;
+  leftDate?: Date;
+  isActive: boolean;
+  notes?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// Society DTOs
+export interface ICreateSocietyDto {
+  churchId: string;
+  name: string;
+  type: SocietyType;
+  description?: string;
+  foundedDate?: string;
+  meetingDay?: string;
+  meetingTime?: string;
+  meetingLocation?: string;
+}
+
+export interface IUpdateSocietyDto {
+  name?: string;
+  type?: SocietyType;
+  description?: string;
+  foundedDate?: string;
+  meetingDay?: string;
+  meetingTime?: string;
+  meetingLocation?: string;
+  isActive?: boolean;
+}
+
+export interface IAddSocietyMemberDto {
+  memberId: string;
+  position?: SocietyPosition;
+  joinedDate?: string;
+  notes?: string;
+}
+
+export interface IUpdateSocietyMemberDto {
+  position?: SocietyPosition;
+  leftDate?: string;
+  isActive?: boolean;
+  notes?: string;
 }

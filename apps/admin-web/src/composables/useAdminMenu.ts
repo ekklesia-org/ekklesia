@@ -13,6 +13,7 @@ import {
   UserGroupIcon,
   CogIcon,
   DocumentChartBarIcon,
+  UserCircleIcon,
 } from '@heroicons/vue/24/outline';
 
 export const useAdminMenu = (user: User | null) => {
@@ -26,27 +27,27 @@ export const useAdminMenu = (user: User | null) => {
   const isSecretary = computed(() => user?.role === UserRole.SECRETARY);
 
   // Permission checks
-  const canManageMembers = computed(() => 
+  const canManageMembers = computed(() =>
     isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isSecretary.value
   );
 
-  const canManageEvents = computed(() => 
+  const canManageEvents = computed(() =>
     isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isSecretary.value
   );
 
-  const canManageFinances = computed(() => 
+  const canManageFinances = computed(() =>
     isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isTreasurer.value
   );
 
-  const canManageAnnouncements = computed(() => 
+  const canManageAnnouncements = computed(() =>
     isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isSecretary.value
   );
 
-  const canManageUsers = computed(() => 
+  const canManageUsers = computed(() =>
     isSuperAdmin.value || isChurchAdmin.value
   );
 
-  const canViewReports = computed(() => 
+  const canViewReports = computed(() =>
     isSuperAdmin.value || isChurchAdmin.value || isPastor.value || isTreasurer.value
   );
 
@@ -89,6 +90,16 @@ export const useAdminMenu = (user: User | null) => {
         label: t('sidebar.members'),
         to: '/members',
         icon: UsersIcon,
+      });
+    }
+
+    // Church Admin and up - Societies Management
+    if (canManageMembers.value) {
+      items.push({
+        id: 'societies',
+        label: t('sidebar.societies'),
+        to: '/societies',
+        icon: UserCircleIcon,
       });
     }
 

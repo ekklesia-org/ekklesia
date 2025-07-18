@@ -234,6 +234,7 @@
     "delete": "Deletar",
     "edit": "Editar",
     "email": "E-mail",
+    "error_occurred": "Ocorreu um erro",
     "inactive": "Inativo",
     "loading": "Carregando...",
     "name": "Nome",
@@ -381,6 +382,44 @@
     },
     "title": "Página Não Encontrada"
   },
+  "societies": {
+    "activate": "Ativar",
+    "activated_successfully": "Sociedade ativada com sucesso!",
+    "activate_error": "Falha ao ativar sociedade. Tente novamente.",
+    "columns": {
+      "name": "Nome",
+      "type": "Tipo"
+    },
+    "create_error": "Falha ao criar sociedade. Tente novamente.",
+    "create_society": "Criar Sociedade",
+    "create_success": "Sociedade criada com sucesso!",
+    "deactivate": "Desativar",
+    "deactivated_successfully": "Sociedade desativada com sucesso!",
+    "deactivate_error": "Falha ao desativar sociedade. Tente novamente.",
+    "delete_error": "Falha ao deletar sociedade. Tente novamente.",
+    "deleted_successfully": "Sociedade deletada com sucesso!",
+    "description": "Descrição",
+    "edit_society": "Editar Sociedade",
+    "manager": {
+      "all_societies": "Todas as Sociedades",
+      "create_first_society": "Criar Primeira Sociedade",
+      "create_society": "Criar Sociedade",
+      "created_successfully": "Sociedade criada com sucesso!",
+      "no_societies": "Nenhuma sociedade encontrada",
+      "title": "Gerenciamento de Sociedades",
+      "updated_successfully": "Sociedade atualizada com sucesso!"
+    },
+    "select_type": "Selecione um tipo...",
+    "types": {
+      "SAF": "Sociedade Auxiliadora Feminina (SAF)",
+      "UPH": "União Presbiteriana de Homens (UPH)",
+      "UPA": "União Presbiteriana de Adolescentes (UPA)",
+      "UMP": "União de Mocidade Presbiteriana (UMP)",
+      "UCP": "União de Crianças Presbiterianas (UCP)"
+    },
+    "update_error": "Falha ao atualizar sociedade. Tente novamente.",
+    "update_success": "Sociedade atualizada com sucesso!"
+  },
   "setup": {
     "admin_description": "Configure sua conta de administrador e as informações da igreja",
     "church_name": "Nome da Igreja",
@@ -415,6 +454,7 @@
     "finances": "Finanças",
     "members": "Membros",
     "reports": "Relatórios",
+    "societies": "Sociedades",
     "statistics": "Estatísticas Gerais",
     "users": "Usuários"
   },

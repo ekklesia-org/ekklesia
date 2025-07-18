@@ -7,6 +7,7 @@ import ErrorView from '../views/ErrorView.vue';
 import ChurchManagerView from '../views/ChurchManagerView.vue';
 import UserManagerView from '../views/UserManagerView.vue';
 import MembersManagerView from '../views/MembersManagerView.vue';
+import SocietiesManagerView from '../views/SocietiesManagerView.vue';
 import ComingSoonView from '../views/ComingSoonView.vue';
 import NotFoundView from '../views/NotFoundView.vue';
 
@@ -57,6 +58,12 @@ const router = createRouter({
       path: '/members',
       name: 'members',
       component: MembersManagerView,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/societies',
+      name: 'societies',
+      component: SocietiesManagerView,
       meta: { requiresAuth: true }
     },
     {
@@ -155,7 +162,7 @@ router.beforeEach(async (to, from, next) => {
   }
 
   // Only check system status for unauthenticated users or specific routes
-  
+
   // Check if system needs setup (except for setup route itself)
   if (to.path !== '/setup') {
     try {

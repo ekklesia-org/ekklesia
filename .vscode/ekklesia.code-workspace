@@ -23,7 +23,7 @@
 		"nxConsole.generateAiAgentRules": true,
 		"i18n-ally.keystyle": "nested",
 		"i18n-ally.displayLanguage": "en",
-		"i18n-ally.sourceLanguage": "en",
+		"i18n-ally.sourceLanguage": "pt-BR",
 		"i18n-ally.enabledFrameworks": [
 			"vue",
 			"vue-sfc"
