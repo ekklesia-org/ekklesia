@@ -53,6 +53,7 @@ import {
   ArrowTrendingDownIcon,
   MinusIcon
 } from '@heroicons/vue/24/solid';
+import { useI18n } from 'vue-i18n';
 
 interface TrendData {
   value: number;
@@ -69,6 +70,7 @@ interface Props {
   trend?: TrendData;
 }
 
+const { locale } = useI18n();
 const props = withDefaults(defineProps<Props>(), {
   color: 'blue',
   formatAs: 'number',
@@ -95,9 +97,9 @@ const formattedValue = computed(() => {
 
   switch (props.formatAs) {
     case 'currency':
-      return new Intl.NumberFormat('en-US', {
+      return new Intl.NumberFormat(locale.value, {
         style: 'currency',
-        currency: 'USD',
+        currency: 'BRL',
       }).format(props.value);
     case 'percentage':
       return `${props.value}%`;
