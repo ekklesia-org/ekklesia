@@ -234,6 +234,7 @@
     "delete": "Delete",
     "edit": "Edit",
     "email": "E-mail",
+    "error_occurred": "An error occurred",
     "inactive": "Inactive",
     "loading": "Loading...",
     "name": "Name",
@@ -415,8 +416,47 @@
     "finances": "Finances",
     "members": "Members",
     "reports": "Reports",
+    "societies": "Societies",
     "statistics": "Global Statistics",
     "users": "Users"
+  },
+  "societies": {
+    "activate": "Enable",
+    "activate_error": "Failure to activate society. \nTry again.",
+    "activated_successfully": "Society activated successfully!",
+    "columns": {
+      "name": "Name",
+      "type": "Type"
+    },
+    "create_error": "Failure when creating society. \nTry again.",
+    "create_society": "Create Society",
+    "create_success": "Society created successfully!",
+    "deactivate": "Disable",
+    "deactivate_error": "Failure to disable society. \nTry again.",
+    "deactivated_successfully": "Society successfully disabled!",
+    "delete_error": "Failed to delete society. \nTry again.",
+    "deleted_successfully": "Successful deleted society!",
+    "description": "Description",
+    "edit_society": "Edit society",
+    "manager": {
+      "all_societies": "All societies",
+      "create_first_society": "Create First Society",
+      "create_society": "Create Society",
+      "created_successfully": "Society created successfully!",
+      "no_societies": "No society found",
+      "title": "SOCIETY MANAGEMENT",
+      "updated_successfully": "Society updated successfully!"
+    },
+    "select_type": "Select a type ...",
+    "types": {
+      "SAF": "Female Assistant Society (SAF)",
+      "UCP": "Union of Presbyterian Children (UCP)",
+      "UMP": "Presbyterian Youth Union (UMP)",
+      "UPA": "Presbyterian Union of Adolescents (UPA)",
+      "UPH": "Presbyterian Union of Men (UPH)"
+    },
+    "update_error": "Failure to update society. \nTry again.",
+    "update_success": "Society updated successfully!"
   },
   "users": {
     "activate": "Activate",

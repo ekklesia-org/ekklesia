@@ -234,6 +234,7 @@
     "delete": "Eliminar",
     "edit": "Editar",
     "email": "Correo electrónico",
+    "error_occurred": "Ocurrió un error",
     "inactive": "Inactivo",
     "loading": "Cargando...",
     "name": "Nombre",
@@ -415,8 +416,47 @@
     "finances": "Finanzas",
     "members": "Miembros",
     "reports": "Reportes",
+    "societies": "Sociedad",
     "statistics": "Estadísticas Globales",
     "users": "Usuarios"
+  },
+  "societies": {
+    "activate": "Permitir",
+    "activate_error": "No activar la sociedad. Intentar otra vez.",
+    "activated_successfully": "¡La sociedad se activó con éxito!",
+    "columns": {
+      "name": "Nombre",
+      "type": "Tipo"
+    },
+    "create_error": "Fracaso al crear sociedad. Intentar otra vez.",
+    "create_society": "Crear sociedad",
+    "create_success": "¡Sociedad creada con éxito!",
+    "deactivate": "Desactivar",
+    "deactivate_error": "No deshabilitar la sociedad. Intentar otra vez.",
+    "deactivated_successfully": "¡La sociedad discapacitada con éxito!",
+    "delete_error": "No se pudo eliminar la sociedad. Intentar otra vez.",
+    "deleted_successfully": "¡Sociedad eliminada exitosa!",
+    "description": "Descripción",
+    "edit_society": "Editar sociedad",
+    "manager": {
+      "all_societies": "Todas las sociedades",
+      "create_first_society": "Crea la primera sociedad",
+      "create_society": "Crear sociedad",
+      "created_successfully": "¡Sociedad creada con éxito!",
+      "no_societies": "No se encuentra la sociedad",
+      "title": "Gestión de la sociedad",
+      "updated_successfully": "¡Sociedad actualizada con éxito!"
+    },
+    "select_type": "Seleccione un tipo ...",
+    "types": {
+      "SAF": "Sociedad de asistentes femeninas (SAF)",
+      "UCP": "Unión de niños presbiterianos (UCP)",
+      "UMP": "Unión Juvenil Presbiteriana (UMP)",
+      "UPA": "Unión Presbiteriana de Adolescentes (UPA)",
+      "UPH": "Unión Presbiteriana de Hombres (Uph)"
+    },
+    "update_error": "No actualizar la sociedad. Intentar otra vez.",
+    "update_success": "¡Sociedad actualizada con éxito!"
   },
   "users": {
     "activate": "Activar",
