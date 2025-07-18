@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
-import { DrizzleService } from '@ekklesia/database';
+import { DrizzleService, withTimestamps, withUpdateTimestamp } from '@ekklesia/database';
 import { users, churches, members } from '@ekklesia/database';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
@@ -53,7 +53,7 @@ export class UsersServiceDrizzle extends UsersService {
 
       const [newUser] = await this.drizzle.db
         .insert(users)
-        .values({
+        .values(withTimestamps({
           email: createUserDto.email,
           firstName: createUserDto.firstName,
           lastName: createUserDto.lastName,
@@ -63,7 +63,7 @@ export class UsersServiceDrizzle extends UsersService {
           churchId,
           password: hashedPassword,
           isActive: true,
-        })
+        }))
         .returning();
 
       // Fetch user with relations
