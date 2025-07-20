@@ -390,28 +390,8 @@ export interface SocietyMember {
   updatedAt: Date;
 }
 
-// Society DTOs
-export interface ICreateSocietyDto {
-  churchId: string;
-  name: string;
-  type: SocietyType;
-  description?: string;
-  foundedDate?: string;
-  meetingDay?: string;
-  meetingTime?: string;
-  meetingLocation?: string;
-}
-
-export interface IUpdateSocietyDto {
-  name?: string;
-  type?: SocietyType;
-  description?: string;
-  foundedDate?: string;
-  meetingDay?: string;
-  meetingTime?: string;
-  meetingLocation?: string;
-  isActive?: boolean;
-}
+// Society DTOs are now exported from @ekklesia/api-societies
+// Use CreateSocietyDto and UpdateSocietyDto instead
 
 export interface IAddSocietyMemberDto {
   memberId: string;

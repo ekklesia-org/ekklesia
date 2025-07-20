@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
-import type { Society, ApiError, ICreateSocietyDto, IUpdateSocietyDto } from '@ekklesia/shared';
+import type { Society, ApiError } from '@ekklesia/shared';
+import type { CreateSocietyDto, UpdateSocietyDto } from '@ekklesia/api/societies';
 import { societiesApi } from '../services/societiesApi';
 import { useSelectedChurch } from './selectedChurch';
 import { useAuth } from './auth';
@@ -60,7 +61,7 @@ export const useSocietiesStore = defineStore('societies', () => {
     }
   }
 
-  async function createSociety(data: Omit<ICreateSocietyDto, 'churchId'>) {
+  async function createSociety(data: Omit<CreateSocietyDto, 'churchId'>) {
     // For super admins, use the selected church. For regular admins, the API will use their church context
     const churchId = auth.user?.role === 'SUPER_ADMIN' ? selectedChurchStore.selectedChurchId ?? undefined : undefined;
 
@@ -72,7 +73,7 @@ export const useSocietiesStore = defineStore('societies', () => {
     error.value = null;
 
     try {
-      const createData: ICreateSocietyDto = {
+      const createData: CreateSocietyDto = {
         ...data,
         churchId: churchId || '', // If not super admin, let the API determine the church
       };
@@ -88,7 +89,7 @@ export const useSocietiesStore = defineStore('societies', () => {
     }
   }
 
-  async function updateSociety(id: string, data: Partial<IUpdateSocietyDto>) {
+  async function updateSociety(id: string, data: Partial<UpdateSocietyDto>) {
     isSubmitting.value = true;
     error.value = null;
 

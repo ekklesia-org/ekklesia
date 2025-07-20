@@ -128,7 +128,8 @@
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton } from '@ekklesia/ui';
-import type { Society, SocietyType, IUpdateSocietyDto } from '@ekklesia/shared';
+import type { Society, SocietyType } from '@ekklesia/shared';
+import type { UpdateSocietyDto } from '@ekklesia/api/societies';
 
 const { t } = useI18n();
 
@@ -182,7 +183,7 @@ const handleSubmit = () => {
 
   if (props.society) {
     // Editing existing society
-    const updateData: IUpdateSocietyDto = {
+    const updateData: UpdateSocietyDto = {
       name: form.name,
       type: form.type as SocietyType,
       description: form.description || undefined,

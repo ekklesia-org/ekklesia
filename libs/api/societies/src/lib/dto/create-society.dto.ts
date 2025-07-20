@@ -1,12 +1,5 @@
 import { IsString, IsNotEmpty, IsOptional, IsEnum, IsDateString } from 'class-validator';
-
-export enum SocietyType {
-  SAF = 'SAF',
-  UPH = 'UPH',
-  UPA = 'UPA',
-  UMP = 'UMP',
-  UCP = 'UCP'
-}
+import { SocietyType } from '@ekklesia/shared';
 
 export class CreateSocietyDto {
   @IsString()

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException, BadRequestException } from '@nestjs/common';
 import { DrizzleService } from '@ekklesia/database';
-import { CreateSocietyDto, SocietyType } from './dto/create-society.dto';
+import { CreateSocietyDto } from './dto/create-society.dto';
+import { SocietyType } from '@ekklesia/shared';
 import { UpdateSocietyDto } from './dto/update-society.dto';
 import { AddSocietyMemberDto } from './dto/add-society-member.dto';
 import { UpdateSocietyMemberDto } from './dto/update-society-member.dto';
