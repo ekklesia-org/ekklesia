@@ -512,6 +512,7 @@
     "update_success": "User updated successfully!"
   },
   "validation": {
+    "cpf_invalid": "Invalid CPF",
     "email_invalid": "Please enter a valid email address",
     "min_length": "{field} must be at least {min} characters",
     "required": "{field} is required"

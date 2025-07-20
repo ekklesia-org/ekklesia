@@ -5,8 +5,9 @@ import { UpdateSocietyDto } from './dto/update-society.dto';
 import { AddSocietyMemberDto } from './dto/add-society-member.dto';
 import { UpdateSocietyMemberDto } from './dto/update-society-member.dto';
 import { SocietiesService } from './societies.service';
+import { SocietyListResponse } from '@ekklesia/shared';
 import { societies, societyMembers, members } from '@ekklesia/database';
-import { eq, and } from 'drizzle-orm';
+import { eq, and, count } from 'drizzle-orm';
 
 @Injectable()
 export class SocietiesServiceDrizzle extends SocietiesService {
@@ -32,12 +33,37 @@ export class SocietiesServiceDrizzle extends SocietiesService {
     }
   }
 
-  async findAll(churchId: string, includeInactive = false): Promise<any[]> {
+  async findAll(churchId: string, includeInactive = false, page = 1, limit = 10): Promise<SocietyListResponse> {
     const conditions = includeInactive ? [] : [eq(societies.isActive, true)];
-    return this.drizzle.db
+    const whereClause = and(eq(societies.churchId, churchId), ...conditions);
+
+    // Calculate offset
+    const offset = (page - 1) * limit;
+
+    // Get paginated data
+    const data = await this.drizzle.db
       .select()
       .from(societies)
-      .where(and(eq(societies.churchId, churchId), ...conditions));
+      .where(whereClause)
+      .limit(limit)
+      .offset(offset);
+
+    // Get total count
+    const totalResult = await this.drizzle.db
+      .select({ count: count() })
+      .from(societies)
+      .where(whereClause);
+
+    const total = Number(totalResult[0]?.count || 0);
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: data as any[], // Type assertion to bypass compile-time type checking
+      total,
+      page,
+      limit,
+      totalPages
+    };
   }
 
   async findOne(id: string): Promise<any> {

@@ -426,3 +426,11 @@ export interface IUpdateSocietyMemberDto {
   isActive?: boolean;
   notes?: string;
 }
+
+export interface SocietyListResponse {
+  data: Society[];
+  total: number;
+  page: number;
+  limit: number;
+  totalPages: number;
+}

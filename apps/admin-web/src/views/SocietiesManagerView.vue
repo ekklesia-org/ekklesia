@@ -159,16 +159,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton, AppTable } from '@ekklesia/ui';
 import type { Society } from '@ekklesia/shared';
 import AdminLayout from '../components/AdminLayout.vue';
 import SocietyForm from '../components/SocietyForm.vue';
 import { useSocietiesStore } from '../stores/societies';
+import { useSelectedChurch } from '../stores/selectedChurch';
+import { useAuth } from '../stores/auth';
 import { useErrorHandler } from '../utils/errorHandler';
 
 const societiesStore = useSocietiesStore();
+const selectedChurchStore = useSelectedChurch();
+const auth = useAuth();
 const { t } = useI18n();
 const { handleError, handleSuccess } = useErrorHandler();
 
@@ -182,8 +186,8 @@ const currentPage = computed(() => societiesStore.currentPage);
 const totalPages = computed(() => societiesStore.totalPages);
 const isSubmitting = computed(() => societiesStore.isSubmitting);
 
-const fetchSocieties = () => {
-  societiesStore.fetchSocieties();
+const fetchSocieties = (page = 1) => {
+  societiesStore.fetchSocieties(page);
 };
 
 const showCreateForm = () => {
@@ -206,7 +210,7 @@ const handleFormSubmit = async (data: any) => {
       handleSuccess(t('societies.manager.created_successfully'));
     }
     showForm.value = false;
-    fetchSocieties();
+    fetchSocieties(currentPage.value);
   } catch (error) {
     handleError(error, t('common.error_occurred'));
   }
@@ -253,7 +257,22 @@ const tableColumns = [
   { label: t('common.status'), key: 'status' },
 ];
 
-fetchSocieties();
+// Watch for changes in selected church
+watch(
+  () => selectedChurchStore.selectedChurchId,
+  (newChurchId) => {
+    if (auth.user?.role === 'SUPER_ADMIN') {
+      // Reset to first page when church changes
+      // Fetch societies for the new church
+      fetchSocieties(1);
+    }
+  }
+);
+
+onMounted(() => {
+  // Always fetch societies on mount
+  fetchSocieties();
+});
 </script>
 <style scoped>
 </style>

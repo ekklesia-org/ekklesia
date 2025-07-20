@@ -13,6 +13,7 @@ import { CreateSocietyDto } from './dto/create-society.dto';
 import { UpdateSocietyDto } from './dto/update-society.dto';
 import { AddSocietyMemberDto } from './dto/add-society-member.dto';
 import { UpdateSocietyMemberDto } from './dto/update-society-member.dto';
+import { SocietyListResponse } from '@ekklesia/shared';
 
 @Controller('societies')
 export class SocietiesController {
@@ -24,11 +25,21 @@ export class SocietiesController {
   }
 
   @Get()
-  findAll(
+  async findAll(
     @Query('churchId') churchId: string,
-    @Query('includeInactive') includeInactive?: string
-  ) {
-    return this.societiesService.findAll(churchId, includeInactive === 'true');
+    @Query('includeInactive') includeInactive?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string
+  ): Promise<SocietyListResponse> {
+    const pageNumber = parseInt(page || '1', 10);
+    const limitNumber = parseInt(limit || '10', 10);
+
+    return this.societiesService.findAll(
+      churchId,
+      includeInactive === 'true',
+      pageNumber,
+      limitNumber
+    );
   }
 
   @Get('by-type/:type')

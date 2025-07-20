@@ -1,8 +1,5 @@
+import { ICreateSocietyDto, IUpdateSocietyDto, SocietyListResponse } from '@ekklesia/shared';
 import axios from 'axios';
-import type {
-  ICreateSocietyDto,
-  IUpdateSocietyDto,
-} from '@ekklesia/shared';
 
 const apiClient = axios.create({
   baseURL: '/api',
@@ -11,23 +8,32 @@ const apiClient = axios.create({
   },
 });
 
+
 export const societiesApi = {
-  async getSocieties(churchId: string, params: Record<string, string | number> = {}) {
-    const response = await apiClient.get(`/societies?churchId=${churchId}`, {
-      params,
+  async getSocieties(churchId: string, params: Record<string, string | number> = {}): Promise<SocietyListResponse> {
+    const response = await apiClient.get(`/societies`, {
+      params: {
+        churchId,
+        ...params
+      }
     });
+
+    // Handle response format - may need adaptation based on actual API response
     return response.data;
   },
 
   async createSociety(data: ICreateSocietyDto) {
-    await apiClient.post('/societies', data);
+    const response = await apiClient.post('/societies', data);
+    return response.data;
   },
 
   async updateSociety(id: string, data: IUpdateSocietyDto) {
-    await apiClient.patch(`/societies/${id}`, data);
+    const response = await apiClient.patch(`/societies/${id}`, data);
+    return response.data;
   },
 
   async deleteSociety(id: string) {
-    await apiClient.delete(`/societies/${id}`);
+    const response = await apiClient.delete(`/societies/${id}`);
+    return response.data;
   },
 };

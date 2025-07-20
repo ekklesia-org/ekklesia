@@ -234,22 +234,27 @@ const churchCount = computed(() => churchesStore.activeChurches.length);
 const totalChurchUsers = computed(() => churchesStore.totalUsers);
 
 onMounted(() => {
-  // Load dashboard data (mock data for now)
   loadDashboardData();
 });
 
 const loadDashboardData = async () => {
-  // Mock data - replace with actual API calls
-  memberCount.value = 125;
-  eventCount.value = 8;
-  donationAmount.value = 15420;
-  announcementCount.value = 3;
+  try {
+    // TODO: Implement actual API calls for dashboard data
+    // For now, initialize with zero values until APIs are implemented
+    memberCount.value = 0;
+    eventCount.value = 0;
+    donationAmount.value = 0;
+    announcementCount.value = 0;
 
-  // Super Admin specific data
-  if (isSuperAdmin.value) {
-    totalEvents.value = 45;
-    systemHealth.value = 'Good';
-    await churchesStore.fetchChurches();
+    // Super Admin specific data
+    if (isSuperAdmin.value) {
+      totalEvents.value = 0;
+      systemHealth.value = 'Good';
+      await churchesStore.fetchChurches();
+    }
+  } catch (error) {
+    console.error('Failed to load dashboard data:', error);
+    // Error handling will be implemented when actual APIs are added
   }
 };
 

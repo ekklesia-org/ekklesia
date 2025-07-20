@@ -3,9 +3,11 @@ import { ref, computed } from 'vue';
 import type { Society, ApiError, ICreateSocietyDto, IUpdateSocietyDto } from '@ekklesia/shared';
 import { societiesApi } from '../services/societiesApi';
 import { useSelectedChurch } from './selectedChurch';
+import { useAuth } from './auth';
 
 export const useSocietiesStore = defineStore('societies', () => {
   const selectedChurchStore = useSelectedChurch();
+  const auth = useAuth();
 
   // State
   const societies = ref<Society[]>([]);
@@ -21,9 +23,22 @@ export const useSocietiesStore = defineStore('societies', () => {
 
   // Actions
   async function fetchSocieties(page = 1) {
-    const churchId = selectedChurchStore.selectedChurchId;
-    if (!churchId) {
-      error.value = 'No church selected';
+    // For super admins, use the selected church. For regular admins, the API will use their church context
+    const churchId = auth.user?.role === 'SUPER_ADMIN' ? selectedChurchStore.selectedChurchId ?? undefined : undefined;
+
+    console.log('Fetching societies with:', {
+      userRole: auth.user?.role,
+      churchId,
+      selectedChurchId: selectedChurchStore.selectedChurchId,
+      page,
+      limit
+    });
+
+    // If super admin and no church selected, show empty state
+    if (auth.user?.role === 'SUPER_ADMIN' && !churchId) {
+      societies.value = [];
+      error.value = null;
+      isLoading.value = false;
       return;
     }
 
@@ -31,7 +46,8 @@ export const useSocietiesStore = defineStore('societies', () => {
     error.value = null;
 
     try {
-      const response = await societiesApi.getSocieties(churchId, { page, limit });
+      const response = await societiesApi.getSocieties(churchId || '', { page, limit });
+      console.log('Societies API response:', response);
       societies.value = response.data;
       currentPage.value = response.page;
       totalPages.value = response.totalPages;
@@ -45,8 +61,10 @@ export const useSocietiesStore = defineStore('societies', () => {
   }
 
   async function createSociety(data: Omit<ICreateSocietyDto, 'churchId'>) {
-    const churchId = selectedChurchStore.selectedChurchId;
-    if (!churchId) {
+    // For super admins, use the selected church. For regular admins, the API will use their church context
+    const churchId = auth.user?.role === 'SUPER_ADMIN' ? selectedChurchStore.selectedChurchId ?? undefined : undefined;
+
+    if (auth.user?.role === 'SUPER_ADMIN' && !churchId) {
       throw new Error('No church selected');
     }
 
@@ -56,7 +74,7 @@ export const useSocietiesStore = defineStore('societies', () => {
     try {
       const createData: ICreateSocietyDto = {
         ...data,
-        churchId,
+        churchId: churchId || '', // If not super admin, let the API determine the church
       };
       await societiesApi.createSociety(createData);
       await fetchSocieties(currentPage.value);

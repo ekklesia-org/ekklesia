@@ -128,7 +128,7 @@
 import { ref, reactive, onMounted, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { AppButton } from '@ekklesia/ui';
-import type { Society, ICreateSocietyDto, IUpdateSocietyDto, SocietyType } from '@ekklesia/shared';
+import type { Society, SocietyType, IUpdateSocietyDto } from '@ekklesia/shared';
 
 const { t } = useI18n();
 
