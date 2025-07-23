@@ -22,6 +22,7 @@ import { societiesRouter } from './routes/societies';
 import { usersRouter } from './routes/users';
 import { healthRouter } from './routes/health';
 import { financialRouter } from './routes/financial';
+import { setupRouter } from './routes/setup';
 
 // Create main app with OpenAPI support
 const app = new OpenAPIHono();
@@ -38,6 +39,7 @@ app.use('*', logger());
 app.use('*', prettyJSON());
 
 // API routes
+app.route('/api/setup', setupRouter);
 app.route('/api/auth', authRouter);
 app.route('/api/church', churchRouter);
 app.route('/api/members', membersRouter);
