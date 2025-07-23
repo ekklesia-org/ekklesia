@@ -4,7 +4,7 @@ import { users, churches, members } from '@ekklesia/database';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
 import { eq, and, count, desc, or, isNull } from 'drizzle-orm';
-import { CurrentUserData } from '../../../src/lib/decorators/current-user.decorator';
+import { CurrentUserData } from '../auth/decorators/current-user.decorator';
 import * as bcrypt from 'bcryptjs';
 import { UsersService } from './users.service';
 

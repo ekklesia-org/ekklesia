@@ -1,6 +1,6 @@
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto, UpdateUserPasswordDto } from './dto/update-user.dto';
-import { CurrentUserData } from '../../../src/lib/decorators/current-user.decorator';
+import { CurrentUserData } from '../auth/decorators/current-user.decorator';
 
 export abstract class UsersService {
   abstract create(createUserDto: CreateUserDto, currentUser?: CurrentUserData): Promise<any>;
