@@ -170,6 +170,48 @@ async function testApiDocumentation() {
   return result.success;
 }
 
+async function testSetupEndpoints() {
+  logHeader('Testing Setup System Status');
+
+  // Test 1: Get setup status
+  let result = await apiCall('GET', '/setup/status');
+  const statusSuccess = result.success && result.status === 200;
+  recordTest('Get Setup Status', statusSuccess, result.error, {
+    status: result.status,
+    responseData: result.data
+  });
+
+  if (statusSuccess && result.data) {
+    logInfo(`System initialized: ${result.data.isInitialized}`);
+    logInfo(`Needs setup: ${result.data.needsSetup}`);
+    
+    // Validate response structure
+    const hasRequiredFields = 
+      typeof result.data.isInitialized === 'boolean' &&
+      typeof result.data.needsSetup === 'boolean';
+    recordTest('Setup Status Response Structure', hasRequiredFields);
+  }
+
+  // Test 2: Test error handling for initialize endpoint when system is already initialized
+  if (statusSuccess && result.data && result.data.isInitialized) {
+    const initData = {
+      email: 'test@example.com',
+      password: 'password123',
+      firstName: 'Test',
+      lastName: 'Admin',
+      churchName: 'Test Church'
+    };
+    
+    result = await apiCall('POST', '/setup/initialize', initData, [400, 409]);
+    recordTest('Initialize Already Initialized System', result.status === 400, result.error, {
+      status: result.status,
+      expectedError: 'System already initialized'
+    });
+  }
+
+  return { success: true };
+}
+
 async function testChurchEndpoints() {
   logHeader('Testing Church CRUD Operations');
 
@@ -455,6 +497,7 @@ async function printSummary() {
 
   log('\n📊 COVERAGE AREAS TESTED:', COLORS.BOLD + COLORS.BLUE);
   log('✅ API endpoint accessibility');
+  log('✅ Setup system status and initialization');
   log('✅ CRUD operations for all entities');
   log('✅ Pagination parameter handling');
   log('✅ Error state handling');
@@ -486,6 +529,9 @@ async function runIntegrationTests() {
 
     // Test documentation
     await testApiDocumentation();
+
+    // Test setup endpoints
+    await testSetupEndpoints();
 
     // Test all endpoints
     await testChurchEndpoints();
