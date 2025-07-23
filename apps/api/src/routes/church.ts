@@ -8,9 +8,12 @@ import {
   UpdateChurchSchema,
   ChurchListQuerySchema,
   ChurchListResponseSchema,
+  ChurchSettingsSchema,
 } from '../schemas/church';
+import { ChurchesService } from '../services/churches.service';
 
 const churchesRouter = new OpenAPIHono();
+const churchesService = new ChurchesService();
 
 // Error response schema
 const ErrorSchema = z.object({
@@ -475,6 +478,163 @@ const deleteChurchRoute = createRoute({
       description: 'Internal server error',
     },
   },
+});
+
+// Get church settings route
+const getChurchSettingsRoute = createRoute({
+  method: 'get',
+  path: '/{id}/settings',
+  tags: ['Church Settings'],
+  summary: 'Get church settings',
+  description: 'Retrieve the settings for a specific church',
+  security: [{
+    Bearer: []
+  }],
+  request: {
+    params: z.object({
+      id: z.string().uuid(),
+    }),
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: ChurchSettingsSchema,
+        },
+      },
+      description: 'Church settings',
+    },
+    401: {
+      content: {
+        'application/json': {
+          schema: ErrorSchema,
+        },
+      },
+      description: 'Unauthorized',
+    },
+    404: {
+      content: {
+        'application/json': {
+          schema: ErrorSchema,
+        },
+      },
+      description: 'Settings not found',
+    },
+    500: {
+      content: {
+        'application/json': {
+          schema: ErrorSchema,
+        },
+      },
+      description: 'Internal server error',
+    },
+  },
+});
+
+// Get church settings
+churchesRouter.openapi(getChurchSettingsRoute, async (c) => {
+  try {
+    // Apply auth middleware manually
+    await auth(c, async () => {});
+
+    const { id } = c.req.valid('param');
+
+    const settings = await churchesService.getSettings(id);
+
+    return c.json(settings);
+  } catch (error) {
+    if (error instanceof HTTPException) {
+      throw error;
+    }
+    throw new HTTPException(500, { message: 'Internal server error' });
+  }
+});
+
+// Update church settings route
+const updateChurchSettingsRoute = createRoute({
+  method: 'put',
+  path: '/{id}/settings',
+  tags: ['Church Settings'],
+  summary: 'Update church settings',
+  description: 'Update the settings for a specific church',
+  security: [{
+    Bearer: []
+  }],
+  request: {
+    params: z.object({
+      id: z.string().uuid(),
+    }),
+    body: {
+      content: {
+        'application/json': {
+          schema: ChurchSettingsSchema,
+        },
+      },
+      description: 'Updated church settings',
+    },
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: ChurchSettingsSchema,
+        },
+      },
+      description: 'Church settings updated',
+    },
+    400: {
+      content: {
+        'application/json': {
+          schema: ErrorSchema,
+        },
+      },
+      description: 'Invalid input',
+    },
+    401: {
+      content: {
+        'application/json': {
+          schema: ErrorSchema,
+        },
+      },
+      description: 'Unauthorized',
+    },
+    404: {
+      content: {
+        'application/json': {
+          schema: ErrorSchema,
+        },
+      },
+      description: 'Church not found',
+    },
+    500: {
+      content: {
+        'application/json': {
+          schema: ErrorSchema,
+        },
+      },
+      description: 'Internal server error',
+    },
+  },
+});
+
+// Update church settings
+churchesRouter.openapi(updateChurchSettingsRoute, async (c) => {
+  try {
+    // Apply auth middleware manually
+    await auth(c, async () => {});
+
+    const { id } = c.req.valid('param');
+    const input = c.req.valid('json');
+
+    const updatedSettings = await churchesService.updateSettings(id, input);
+
+    return c.json(updatedSettings);
+  } catch (error) {
+    if (error instanceof HTTPException) {
+      throw error;
+    }
+    throw new HTTPException(500, { message: 'Internal server error' });
+  }
 });
 
 // Delete church (super admin only)
