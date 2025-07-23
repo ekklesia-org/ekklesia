@@ -6,13 +6,12 @@ Ekklesia is a comprehensive church management system organized as an Nx monorepo
 
 ### Apps
 
-- **API**: NestJS backend providing GraphQL and RESTful APIs.
+- **API**: NestJS backend providing GraphQL and RESTful APIs with integrated feature modules (authentication, financial, members, church, societies).
 - **Admin Web**: Vue.js based administrative web interface.
 - **Client App**: Vue.js client-facing application for general users.
 
 ### Libraries
 
-- **api**: Houses feature modules such as authentication, financial, members, and church management.
 - **database**: Database layer with Drizzle service.
 - **shared**: Common types and interfaces used across apps.
 - **shared-utils**: General utility functions.

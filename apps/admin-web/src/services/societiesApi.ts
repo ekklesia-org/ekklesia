@@ -1,5 +1,4 @@
-import { CreateSocietyDto, UpdateSocietyDto } from '@ekklesia/api/societies';
-import { SocietyListResponse } from '@ekklesia/shared';
+import { ICreateSocietyDto, IUpdateSocietyDto, SocietyListResponse } from '@ekklesia/shared';
 import axios from 'axios';
 
 const apiClient = axios.create({
@@ -23,12 +22,12 @@ export const societiesApi = {
     return response.data;
   },
 
-  async createSociety(data: CreateSocietyDto) {
+  async createSociety(data: ICreateSocietyDto) {
     const response = await apiClient.post('/societies', data);
     return response.data;
   },
 
-  async updateSociety(id: string, data: UpdateSocietyDto) {
+  async updateSociety(id: string, data: IUpdateSocietyDto) {
     const response = await apiClient.patch(`/societies/${id}`, data);
     return response.data;
   },

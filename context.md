@@ -11,9 +11,10 @@ Ekklesia is a comprehensive church management system developed using a modern, f
 - **Client App**: Vue.js client-facing application
 - **Shared Libraries**:
   - **Database**: PostgreSQL with Drizzle ORM
-  - **API Libraries**: Financial, members, and church management
   - **Shared**: Common types/interfaces
   - **Shared Utils**: Utility functions
+  - **UI**: Shared UI components
+  - **Translations**: Multilingual support
 
 ## Technology Stack
 
