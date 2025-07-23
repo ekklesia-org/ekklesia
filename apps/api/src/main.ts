@@ -16,7 +16,7 @@ import { OpenAPIHono } from '@hono/zod-openapi';
 
 // Import routers
 import { authRouter } from './routes/auth';
-import { churchRouter } from './routes/church';
+import { churchesRouter } from './routes/church';
 import { membersRouter } from './routes/members';
 import { societiesRouter } from './routes/societies';
 import { usersRouter } from './routes/users';
@@ -41,7 +41,7 @@ app.use('*', prettyJSON());
 // API routes
 app.route('/api/setup', setupRouter);
 app.route('/api/auth', authRouter);
-app.route('/api/church', churchRouter);
+app.route('/api/churches', churchesRouter);
 app.route('/api/members', membersRouter);
 app.route('/api/societies', societiesRouter);
 app.route('/api/users', usersRouter);

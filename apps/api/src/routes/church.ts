@@ -10,7 +10,7 @@ import {
   ChurchListResponseSchema,
 } from '../schemas/church';
 
-const churchRouter = new OpenAPIHono();
+const churchesRouter = new OpenAPIHono();
 
 // Error response schema
 const ErrorSchema = z.object({
@@ -66,7 +66,7 @@ const getCurrentChurchRoute = createRoute({
 });
 
 // Get current user's church
-churchRouter.openapi(getCurrentChurchRoute, async (c) => {
+churchesRouter.openapi(getCurrentChurchRoute, async (c) => {
   try {
     // Apply auth middleware manually
     await auth(c, async () => {});
@@ -139,7 +139,7 @@ const listChurchesRoute = createRoute({
 });
 
 // List churches (admin only)
-churchRouter.openapi(listChurchesRoute, async (c) => {
+churchesRouter.openapi(listChurchesRoute, async (c) => {
   try {
     // Apply auth middleware manually
     await auth(c, async () => {});
@@ -217,7 +217,7 @@ const getChurchByIdRoute = createRoute({
 });
 
 // Get church by ID
-churchRouter.openapi(getChurchByIdRoute, async (c) => {
+churchesRouter.openapi(getChurchByIdRoute, async (c) => {
   try {
     // Apply auth middleware manually
     await auth(c, async () => {});
@@ -307,7 +307,7 @@ const createChurchRoute = createRoute({
 });
 
 // Create church (super admin only)
-churchRouter.openapi(createChurchRoute, async (c) => {
+churchesRouter.openapi(createChurchRoute, async (c) => {
   try {
     // Apply auth middleware manually
     await auth(c, async () => {});
@@ -403,7 +403,7 @@ const updateChurchRoute = createRoute({
 });
 
 // Update church
-churchRouter.openapi(updateChurchRoute, async (c) => {
+churchesRouter.openapi(updateChurchRoute, async (c) => {
   try {
     // Apply auth middleware manually
     await auth(c, async () => {});
@@ -478,7 +478,7 @@ const deleteChurchRoute = createRoute({
 });
 
 // Delete church (super admin only)
-churchRouter.openapi(deleteChurchRoute, async (c) => {
+churchesRouter.openapi(deleteChurchRoute, async (c) => {
   try {
     // Apply auth middleware manually
     await auth(c, async () => {});
@@ -497,4 +497,4 @@ churchRouter.openapi(deleteChurchRoute, async (c) => {
   }
 });
 
-export { churchRouter };
+export { churchesRouter };
