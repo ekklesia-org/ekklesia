@@ -20,7 +20,13 @@ export interface AuthContext extends Context {
 
 // JWT utilities
 export class JWTService {
-  private static secret = process.env.JWT_SECRET || 'ekklesia-super-secret-key-change-in-production';
+  private static get secret(): string {
+    const s = process.env.JWT_SECRET;
+    if (!s) {
+      throw new Error('JWT_SECRET environment variable is required');
+    }
+    return s;
+  }
 
   static async signToken(payload: JWTPayload): Promise<string> {
     return await sign(payload as HonoJWTPayload, this.secret);
@@ -28,7 +34,7 @@ export class JWTService {
 
   static async verifyToken(token: string): Promise<JWTPayload> {
     try {
-      const payload = await verify(token, this.secret) as unknown as JWTPayload;
+      const payload = (await verify(token, this.secret)) as unknown as JWTPayload;
       return payload;
     } catch (error) {
       throw new HTTPException(401, { message: 'Invalid token' });

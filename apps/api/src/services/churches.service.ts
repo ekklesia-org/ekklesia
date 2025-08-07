@@ -1,8 +1,20 @@
 import { DrizzleService, withTimestamps, withUpdateTimestamp } from '@ekklesia/database';
-import { churches, churchSettings } from '@ekklesia/database';
-import { eq, and, count, desc, like, or } from 'drizzle-orm';
-import { HTTPException } from 'hono/http-exception';
+import { churches, churchSettings, users } from '@ekklesia/database';
+import { eq, and, count, desc, like, or, ne } from 'drizzle-orm';
 import { ChurchSettingsSchema } from '../schemas/church';
+import { ChurchValidator } from '../utils/church.validation';
+import {
+  ChurchNotFoundError,
+  ChurchAlreadyExistsError,
+  ChurchSettingsNotFoundError,
+  ChurchCannotBeDeletedError,
+  ChurchValidationError,
+  LastActiveChurchError,
+  ChurchTransferError,
+  ChurchDatabaseError,
+  ChurchBusinessRuleError,
+  ChurchSettingsValidationError
+} from '../errors/church.errors';
 
 export interface CreateChurchDto {
   name: string;
@@ -60,6 +72,96 @@ export class ChurchesService {
   }
 
   /**
+   * Transfer all super admin users from one church to another
+   */
+  async transferSuperAdmins(fromChurchId: string, toChurchId: string): Promise<void> {
+    try {
+      // Validate transfer rules
+      await this.validateTransferRules(fromChurchId, toChurchId);
+
+      await this.drizzleService.db
+        .update(users)
+        .set({ churchId: toChurchId, updatedAt: new Date() })
+        .where(and(eq(users.role, 'SUPER_ADMIN'), eq(users.churchId, fromChurchId)));
+    } catch (error) {
+      if (error instanceof ChurchTransferError) {
+        throw error;
+      }
+      throw new ChurchDatabaseError('transfer super admins', error);
+    }
+  }
+
+  /**
+   * Transfer all users from one church to another
+   */
+  async transferAllUsers(fromChurchId: string, toChurchId: string): Promise<void> {
+    try {
+      // Validate transfer rules
+      await this.validateTransferRules(fromChurchId, toChurchId);
+
+      await this.drizzleService.db
+        .update(users)
+        .set({ churchId: toChurchId, updatedAt: new Date() })
+        .where(eq(users.churchId, fromChurchId));
+    } catch (error) {
+      if (error instanceof ChurchTransferError) {
+        throw error;
+      }
+      throw new ChurchDatabaseError('transfer all users', error);
+    }
+  }
+
+  /**
+   * Get list of active churches excluding the current one
+   */
+  async getAvailableForTransfer(currentChurchId: string): Promise<any[]> {
+    try {
+      const results = await this.drizzleService.db
+        .select()
+        .from(churches)
+        .where(and(eq(churches.isActive, true), ne(churches.id, currentChurchId)));
+
+      return results;
+    } catch (error) {
+      throw new ChurchDatabaseError('get available churches', error);
+    }
+  }
+
+  /**
+   * Validate if church can be deleted (no super admins, not last active church)
+   */
+  async canDelete(churchId: string): Promise<boolean> {
+    try {
+      // Check super admins
+      const superAdmins = await this.drizzleService.db
+        .select({ count: count() })
+        .from(users)
+        .where(and(eq(users.role, 'SUPER_ADMIN'), eq(users.churchId, churchId)));
+
+      if (Number(superAdmins[0]?.count || 0) > 0) {
+        throw new ChurchCannotBeDeletedError('super admins exist');
+      }
+
+      // Check if it's the last active church
+      const activeChurches = await this.drizzleService.db
+        .select({ count: count() })
+        .from(churches)
+        .where(eq(churches.isActive, true));
+
+      if (Number(activeChurches[0]?.count || 0) <= 1) {
+        throw new LastActiveChurchError();
+      }
+
+      return true;
+    } catch (error) {
+      if (error instanceof ChurchValidationError || error instanceof LastActiveChurchError) {
+        throw error;
+      }
+      throw new ChurchDatabaseError('validate church deletion', error);
+    }
+  }
+
+  /**
    * Get church settings or create default if not exist
    */
   async getSettings(churchId: string): Promise<any> {
@@ -76,9 +178,7 @@ export class ChurchesService {
 
       return result[0];
     } catch (error) {
-      throw new HTTPException(400, {
-        message: `Failed to get church settings: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('get church settings', error);
     }
   }
 
@@ -87,6 +187,7 @@ export class ChurchesService {
    */
   async updateSettings(churchId: string, updatedSettings: ChurchSettingsDto): Promise<any> {
     try {
+      ChurchValidator.validateChurchSettings(updatedSettings);
       const settings = ChurchSettingsSchema.parse(updatedSettings);
       const [updated] = await this.drizzleService.db
         .update(churchSettings)
@@ -95,19 +196,15 @@ export class ChurchesService {
         .returning();
 
       if (!updated) {
-        throw new HTTPException(404, {
-          message: `Settings for church with ID "${churchId}" not found`
-        });
+        throw new ChurchSettingsNotFoundError(churchId);
       }
 
       return updated;
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchSettingsValidationError || error instanceof ChurchSettingsNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to update church settings: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('update church settings', error);
     }
   }
 
@@ -129,9 +226,7 @@ export class ChurchesService {
 
       return defaultSettings;
     } catch (error) {
-      throw new HTTPException(400, {
-        message: `Failed to create default church settings: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('create default church settings', error);
     }
   }
 
@@ -152,13 +247,13 @@ export class ChurchesService {
     const conditions = [eq(churches.slug, slug)];
     
     if (excludeId) {
-      conditions.push(eq(churches.id, excludeId));
+      conditions.push(ne(churches.id, excludeId));
     }
 
     const result = await this.drizzleService.db
       .select({ count: count() })
       .from(churches)
-      .where(excludeId ? and(eq(churches.slug, slug), eq(churches.id, excludeId)) : eq(churches.slug, slug));
+      .where(excludeId ? and(eq(churches.slug, slug), ne(churches.id, excludeId)) : eq(churches.slug, slug));
 
     return Number(result[0]?.count || 0) > 0;
   }
@@ -170,13 +265,13 @@ export class ChurchesService {
     const conditions = [eq(churches.email, email)];
     
     if (excludeId) {
-      conditions.push(eq(churches.id, excludeId));
+      conditions.push(ne(churches.id, excludeId));
     }
 
     const result = await this.drizzleService.db
       .select({ count: count() })
       .from(churches)
-      .where(excludeId ? and(eq(churches.email, email), eq(churches.id, excludeId)) : eq(churches.email, email));
+      .where(excludeId ? and(eq(churches.email, email), ne(churches.id, excludeId)) : eq(churches.email, email));
 
     return Number(result[0]?.count || 0) > 0;
   }
@@ -217,9 +312,10 @@ export class ChurchesService {
     }
 
     if (errors.length > 0) {
-      throw new HTTPException(400, {
-        message: errors.join(', ')
-      });
+      throw new ChurchAlreadyExistsError(
+        errors.includes('email') ? 'email' : 'slug',
+        data.email || data.slug || ''
+      );
     }
   }
 
@@ -228,6 +324,9 @@ export class ChurchesService {
    */
   async create(createChurchDto: CreateChurchDto): Promise<any> {
     try {
+      // Validate church data
+      ChurchValidator.validateCreateChurch(createChurchDto);
+
       // Validate constraints
       await this.validateChurchConstraints(createChurchDto);
 
@@ -267,12 +366,10 @@ export class ChurchesService {
       // Return church with settings
       return this.findOne(newChurch.id);
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchValidationError || error instanceof ChurchAlreadyExistsError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to create church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('create church', error);
     }
   }
 
@@ -348,9 +445,7 @@ export class ChurchesService {
         totalPages: Math.ceil(total / limit),
       };
     } catch (error) {
-      throw new HTTPException(400, {
-        message: `Failed to fetch churches: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('fetch churches list', error);
     }
   }
 
@@ -370,9 +465,7 @@ export class ChurchesService {
         .limit(1);
 
       if (!result.length) {
-        throw new HTTPException(404, {
-          message: `Church with ID "${id}" not found`
-        });
+        throw new ChurchNotFoundError(id);
       }
 
       const { church, settings } = result[0];
@@ -381,12 +474,10 @@ export class ChurchesService {
         settings: settings || null,
       };
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to fetch church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('fetch church by ID', error);
     }
   }
 
@@ -406,9 +497,7 @@ export class ChurchesService {
         .limit(1);
 
       if (!result.length) {
-        throw new HTTPException(404, {
-          message: `Church with slug "${slug}" not found`
-        });
+        throw new ChurchNotFoundError(slug, 'slug');
       }
 
       const { church, settings } = result[0];
@@ -417,12 +506,10 @@ export class ChurchesService {
         settings: settings || null,
       };
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to fetch church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('fetch church by slug', error);
     }
   }
 
@@ -431,6 +518,8 @@ export class ChurchesService {
    */
   async update(id: string, updateChurchDto: UpdateChurchDto): Promise<any> {
     try {
+      ChurchValidator.validateUpdateChurch(updateChurchDto);
+
       // Check if church exists
       await this.findOne(id);
 
@@ -454,20 +543,16 @@ export class ChurchesService {
         .returning();
 
       if (!updatedChurch) {
-        throw new HTTPException(404, {
-          message: `Church with ID "${id}" not found`
-        });
+        throw new ChurchNotFoundError(id);
       }
 
       // Return updated church with settings
       return this.findOne(id);
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchValidationError || error instanceof ChurchNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to update church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('update church', error);
     }
   }
 
@@ -485,19 +570,15 @@ export class ChurchesService {
         .returning();
 
       if (!updatedChurch) {
-        throw new HTTPException(404, {
-          message: `Church with ID "${id}" not found`
-        });
+        throw new ChurchNotFoundError(id);
       }
 
       return updatedChurch;
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to remove church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('remove (soft delete) church', error);
     }
   }
 
@@ -515,19 +596,15 @@ export class ChurchesService {
         .returning();
 
       if (!updatedChurch) {
-        throw new HTTPException(404, {
-          message: `Church with ID "${id}" not found`
-        });
+        throw new ChurchNotFoundError(id);
       }
 
       return updatedChurch;
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to soft delete church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('soft delete church', error);
     }
   }
 
@@ -541,17 +618,13 @@ export class ChurchesService {
         .where(eq(churches.id, id));
 
       if (!result.rowCount || result.rowCount === 0) {
-        throw new HTTPException(404, {
-          message: `Church with ID "${id}" not found`
-        });
+        throw new ChurchNotFoundError(id);
       }
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to delete church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('delete church', error);
     }
   }
 
@@ -569,19 +642,15 @@ export class ChurchesService {
         .returning();
 
       if (!updatedChurch) {
-        throw new HTTPException(404, {
-          message: `Church with ID "${id}" not found`
-        });
+        throw new ChurchNotFoundError(id);
       }
 
       return updatedChurch;
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to activate church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('activate church', error);
     }
   }
 
@@ -590,6 +659,8 @@ export class ChurchesService {
    */
   async deactivate(id: string): Promise<any> {
     try {
+      ChurchValidator.validateBusinessRules.canDeactivateChurch(await this.isLastActiveChurch(id));
+
       const [updatedChurch] = await this.drizzleService.db
         .update(churches)
         .set(withUpdateTimestamp({
@@ -599,19 +670,74 @@ export class ChurchesService {
         .returning();
 
       if (!updatedChurch) {
-        throw new HTTPException(404, {
-          message: `Church with ID "${id}" not found`
-        });
+        throw new ChurchNotFoundError(id);
       }
 
       return updatedChurch;
     } catch (error) {
-      if (error instanceof HTTPException) {
+      if (error instanceof ChurchBusinessRuleError || error instanceof ChurchNotFoundError) {
         throw error;
       }
-      throw new HTTPException(400, {
-        message: `Failed to deactivate church: ${error instanceof Error ? error.message : 'Unknown error'}`
-      });
+      throw new ChurchDatabaseError('deactivate church', error);
+    }
+  }
+
+  /**
+   * Helper method to validate transfer rules
+   */
+  private async validateTransferRules(fromChurchId: string, toChurchId: string): Promise<void> {
+    try {
+      // Check if source church exists
+      const fromChurch = await this.drizzleService.db
+        .select()
+        .from(churches)
+        .where(eq(churches.id, fromChurchId))
+        .limit(1);
+
+      // Check if target church exists and is active
+      const toChurch = await this.drizzleService.db
+        .select()
+        .from(churches)
+        .where(eq(churches.id, toChurchId))
+        .limit(1);
+
+      ChurchValidator.validateBusinessRules.canTransferUsers(
+        fromChurch.length > 0,
+        toChurch.length > 0,
+        toChurch.length > 0 && toChurch[0].isActive
+      );
+    } catch (error) {
+      if (error instanceof ChurchBusinessRuleError) {
+        throw new ChurchTransferError(error.message, error.details);
+      }
+      throw new ChurchDatabaseError('validate transfer rules', error);
+    }
+  }
+
+  /**
+   * Helper method to check if this is the last active church
+   */
+  private async isLastActiveChurch(churchId: string): Promise<boolean> {
+    try {
+      const activeChurches = await this.drizzleService.db
+        .select({ count: count() })
+        .from(churches)
+        .where(eq(churches.isActive, true));
+
+      const currentChurch = await this.drizzleService.db
+        .select()
+        .from(churches)
+        .where(eq(churches.id, churchId))
+        .limit(1);
+
+      // If current church is not active, it's not the last active church
+      if (!currentChurch.length || !currentChurch[0].isActive) {
+        return false;
+      }
+
+      return Number(activeChurches[0]?.count || 0) <= 1;
+    } catch (error) {
+      throw new ChurchDatabaseError('check if last active church', error);
     }
   }
 }

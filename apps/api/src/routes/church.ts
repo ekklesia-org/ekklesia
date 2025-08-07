@@ -11,6 +11,7 @@ import {
   ChurchSettingsSchema,
 } from '../schemas/church';
 import { ChurchesService } from '../services/churches.service';
+import { ChurchError } from '../errors/church.errors';
 
 const churchesRouter = new OpenAPIHono();
 const churchesService = new ChurchesService();
@@ -21,6 +22,28 @@ const ErrorSchema = z.object({
   code: z.string().optional(),
   details: z.any().optional()
 });
+
+// Helper function to handle custom church errors
+function handleChurchError(error: unknown): never {
+  if (error instanceof ChurchError) {
+    throw new HTTPException(error.status, {
+      message: error.message,
+      code: error.code,
+      details: error.details
+    });
+  }
+  
+  if (error instanceof HTTPException) {
+    throw error;
+  }
+  
+  // Fallback for unexpected errors
+  console.error('Unexpected error in church route:', error);
+  throw new HTTPException(500, { 
+    message: 'Internal server error',
+    code: 'INTERNAL_ERROR'
+  });
+}
 
 // Get current user's church route
 const getCurrentChurchRoute = createRoute({
@@ -76,19 +99,14 @@ churchesRouter.openapi(getCurrentChurchRoute, async (c) => {
 
     const user = getAuthUser(c);
 
-    // TODO: Implement actual church service
-    return c.json({
-      id: user.churchId || 'default-church-id',
-      name: 'Default Church',
-      isActive: true,
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-    });
-  } catch (error) {
-    if (error instanceof HTTPException) {
-      throw error;
+    if (!user.churchId) {
+      throw new HTTPException(404, { message: 'User has no associated church' });
     }
-    throw new HTTPException(500, { message: 'Internal server error' });
+
+    const church = await churchesService.findOne(user.churchId);
+    return c.json(church);
+  } catch (error) {
+    handleChurchError(error);
   }
 });
 
@@ -150,21 +168,22 @@ churchesRouter.openapi(listChurchesRoute, async (c) => {
     const user = getAuthUser(c);
     const query = c.req.valid('query');
 
-    // TODO: Check admin permissions
-    // TODO: Implement actual church service
+    // Check admin permissions (CHURCH_ADMIN or SUPER_ADMIN can list churches)
+    if (user.role !== 'CHURCH_ADMIN' && user.role !== 'SUPER_ADMIN') {
+      throw new HTTPException(403, { message: 'Admin access required' });
+    }
 
-    return c.json({
-      data: [],
-      total: 0,
+    // Get churches list from service
+    const result = await churchesService.findAll({
       page: query.page,
       limit: query.limit,
-      totalPages: 0,
+      includeInactive: query.includeInactive,
+      search: query.search,
     });
+
+    return c.json(result);
   } catch (error) {
-    if (error instanceof HTTPException) {
-      throw error;
-    }
-    throw new HTTPException(500, { message: 'Internal server error' });
+    handleChurchError(error);
   }
 });
 
@@ -225,15 +244,18 @@ churchesRouter.openapi(getChurchByIdRoute, async (c) => {
     // Apply auth middleware manually
     await auth(c, async () => {});
 
+    const user = getAuthUser(c);
     const { id } = c.req.valid('param');
 
-    // TODO: Implement actual church service
-    throw new HTTPException(404, { message: 'Church not found' });
-  } catch (error) {
-    if (error instanceof HTTPException) {
-      throw error;
+    // Permission check: Super admins can access any church, others only their own
+    if (user.role !== 'SUPER_ADMIN' && user.churchId !== id) {
+      throw new HTTPException(403, { message: 'Access denied to this church' });
     }
-    throw new HTTPException(500, { message: 'Internal server error' });
+
+    const church = await churchesService.findOne(id);
+    return c.json(church);
+  } catch (error) {
+    handleChurchError(error);
   }
 });
 
@@ -318,15 +340,15 @@ churchesRouter.openapi(createChurchRoute, async (c) => {
     const user = getAuthUser(c);
     const input = c.req.valid('json');
 
-    // TODO: Check super admin permissions
-    // TODO: Implement actual church service
-
-    throw new HTTPException(501, { message: 'Not implemented' });
-  } catch (error) {
-    if (error instanceof HTTPException) {
-      throw error;
+    // Check super admin permissions
+    if (user.role !== 'SUPER_ADMIN') {
+      throw new HTTPException(403, { message: 'Super admin access required' });
     }
-    throw new HTTPException(500, { message: 'Internal server error' });
+
+    const church = await churchesService.create(input);
+    return c.json(church, 201);
+  } catch (error) {
+    handleChurchError(error);
   }
 });
 
@@ -411,18 +433,23 @@ churchesRouter.openapi(updateChurchRoute, async (c) => {
     // Apply auth middleware manually
     await auth(c, async () => {});
 
+    const user = getAuthUser(c);
     const { id } = c.req.valid('param');
     const input = c.req.valid('json');
 
-    // TODO: Check permissions
-    // TODO: Implement actual church service
-
-    throw new HTTPException(501, { message: 'Not implemented' });
-  } catch (error) {
-    if (error instanceof HTTPException) {
-      throw error;
+    // Permission check: Super admins can update any church, admins can only update their own
+    if (user.role === 'SUPER_ADMIN') {
+      // Super admins can update any church
+    } else if (user.role === 'CHURCH_ADMIN' && user.churchId === id) {
+      // Admins can only update their own church
+    } else {
+      throw new HTTPException(403, { message: 'Access denied to update this church' });
     }
-    throw new HTTPException(500, { message: 'Internal server error' });
+
+    const updatedChurch = await churchesService.update(id, input);
+    return c.json(updatedChurch);
+  } catch (error) {
+    handleChurchError(error);
   }
 });
 
@@ -537,16 +564,18 @@ churchesRouter.openapi(getChurchSettingsRoute, async (c) => {
     // Apply auth middleware manually
     await auth(c, async () => {});
 
+    const user = getAuthUser(c);
     const { id } = c.req.valid('param');
 
-    const settings = await churchesService.getSettings(id);
+    // Permission check: Super admins can access any church settings, others only their own
+    if (user.role !== 'SUPER_ADMIN' && user.churchId !== id) {
+      throw new HTTPException(403, { message: 'Access denied to this church settings' });
+    }
 
+    const settings = await churchesService.getSettings(id);
     return c.json(settings);
   } catch (error) {
-    if (error instanceof HTTPException) {
-      throw error;
-    }
-    throw new HTTPException(500, { message: 'Internal server error' });
+    handleChurchError(error);
   }
 });
 
@@ -623,17 +652,23 @@ churchesRouter.openapi(updateChurchSettingsRoute, async (c) => {
     // Apply auth middleware manually
     await auth(c, async () => {});
 
+    const user = getAuthUser(c);
     const { id } = c.req.valid('param');
     const input = c.req.valid('json');
 
-    const updatedSettings = await churchesService.updateSettings(id, input);
+    // Permission check: Super admins can update any church settings, admins can only update their own
+    if (user.role === 'SUPER_ADMIN') {
+      // Super admins can update any church settings
+    } else if (user.role === 'CHURCH_ADMIN' && user.churchId === id) {
+      // Admins can only update their own church settings
+    } else {
+      throw new HTTPException(403, { message: 'Access denied to update this church settings' });
+    }
 
+    const updatedSettings = await churchesService.updateSettings(id, input);
     return c.json(updatedSettings);
   } catch (error) {
-    if (error instanceof HTTPException) {
-      throw error;
-    }
-    throw new HTTPException(500, { message: 'Internal server error' });
+    handleChurchError(error);
   }
 });
 
@@ -643,17 +678,20 @@ churchesRouter.openapi(deleteChurchRoute, async (c) => {
     // Apply auth middleware manually
     await auth(c, async () => {});
 
+    const user = getAuthUser(c);
     const { id } = c.req.valid('param');
 
-    // TODO: Check super admin permissions
-    // TODO: Implement actual church service
-
-    throw new HTTPException(501, { message: 'Not implemented' });
-  } catch (error) {
-    if (error instanceof HTTPException) {
-      throw error;
+    // Check super admin permissions
+    if (user.role !== 'SUPER_ADMIN') {
+      throw new HTTPException(403, { message: 'Super admin access required' });
     }
-    throw new HTTPException(500, { message: 'Internal server error' });
+
+    // The canDelete method now throws appropriate errors, so we can call it directly
+    await churchesService.canDelete(id);
+    await churchesService.softDelete(id);
+    return c.body(null, 204);
+  } catch (error) {
+    handleChurchError(error);
   }
 });
 

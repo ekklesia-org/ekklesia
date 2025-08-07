@@ -13,6 +13,7 @@ import { logger } from 'hono/logger';
 import { prettyJSON } from 'hono/pretty-json';
 import { swaggerUI } from '@hono/swagger-ui';
 import { OpenAPIHono } from '@hono/zod-openapi';
+import { errorHandler } from './middlewares/error-handler';
 
 // Import routers
 import { authRouter } from './routes/auth';
@@ -28,6 +29,9 @@ import { setupRouter } from './routes/setup';
 const app = new OpenAPIHono();
 
 // Global middlewares
+// Global error handler (should be first)
+app.use('*', errorHandler);
+
 app.use('*', cors({
   origin: ['http://localhost:4200', 'http://localhost:4201'], // Frontend origins
   allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],

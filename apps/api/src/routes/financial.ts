@@ -152,10 +152,10 @@ financialRouter.openapi(createTransactionRoute, async (c) => {
     const currentUser = getAuthUser(c);
     const input = c.req.valid('json');
 
-    const transaction = await financialService.createTransaction({
-      ...input,
-      churchId: currentUser.churchId!
-    });
+    const transaction = await financialService.createTransaction(
+      { ...input },
+      currentUser
+    );
 
     return c.json(transaction, 201);
   } catch (error) {
@@ -206,10 +206,10 @@ financialRouter.openapi(listTransactionsRoute, async (c) => {
     const currentUser = getAuthUser(c);
     const query = c.req.valid('query');
 
-    const result = await financialService.listTransactions({
-      ...query,
-      churchId: query.churchId || currentUser.churchId!
-    });
+    const result = await financialService.listTransactions(
+      { ...query },
+      currentUser
+    );
 
     return c.json(result);
   } catch (error) {
@@ -275,10 +275,10 @@ financialRouter.openapi(createDonationRoute, async (c) => {
     const currentUser = getAuthUser(c);
     const input = c.req.valid('json');
 
-    const donation = await financialService.createDonation({
-      ...input,
-      churchId: currentUser.churchId!
-    });
+    const donation = await financialService.createDonation(
+      { ...input },
+      currentUser
+    );
 
     return c.json(donation, 201);
   } catch (error) {
@@ -329,10 +329,10 @@ financialRouter.openapi(listDonationsRoute, async (c) => {
     const currentUser = getAuthUser(c);
     const query = c.req.valid('query');
 
-    const result = await financialService.listDonations({
-      ...query,
-      churchId: query.churchId || currentUser.churchId!
-    });
+    const result = await financialService.listDonations(
+      { ...query },
+      currentUser
+    );
 
     return c.json(result);
   } catch (error) {
