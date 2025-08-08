@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Church, ChurchWithUsers, ChurchListResponse, ICreateChurchDto, IUpdateChurchDto } from '@ekklesia/shared';
+import { Church, ChurchWithUsers, ChurchListResponse, PaginatedResponse, ICreateChurchDto, IUpdateChurchDto } from '@ekklesia/shared';
 
 export class ChurchService {
   private readonly baseUrl = '/api/churches';
@@ -12,10 +12,17 @@ export class ChurchService {
     limit = 10,
     includeInactive = false
   ): Promise<ChurchListResponse> {
-    const response = await axios.get<ChurchListResponse>(this.baseUrl, {
+    const response = await axios.get<PaginatedResponse<ChurchWithUsers>>(this.baseUrl, {
       params: { page, limit, includeInactive }
     });
-    return response.data;
+    const { data, total, page: currentPage, limit: pageLimit, totalPages } = response.data;
+    return {
+      churches: data ?? [],
+      total,
+      page: currentPage,
+      limit: pageLimit,
+      totalPages,
+    };
   }
 
   /**

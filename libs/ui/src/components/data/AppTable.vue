@@ -25,75 +25,77 @@
     <!-- Table -->
     <div
       v-else-if="data && data.length > 0"
-      class="bg-white shadow-md rounded-lg overflow-hidden"
+      class="bg-white shadow-md rounded-lg"
     >
-      <table class="min-w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th
-              v-for="column in columns"
-              :key="column.key"
-              class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
-              :class="[
-                column.align === 'right' ? 'text-right' : 'text-left',
-                column.headerClass
-              ]"
-            >
-              {{ column.label }}
-            </th>
-            <th
-              v-if="$slots.actions"
-              class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              {{ actionsLabel || 'Actions' }}
-            </th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          <tr
-            v-for="(row, index) in data"
-            :key="getRowKey(row, index)"
-            class="hover:bg-gray-50"
-          >
-            <td
-              v-for="column in columns"
-              :key="column.key"
-              class="px-6 py-4 whitespace-nowrap"
-              :class="[
-                column.align === 'right' ? 'text-right' : 'text-left',
-                column.cellClass
-              ]"
-            >
-              <!-- Custom cell slot -->
-              <slot
-                v-if="$slots[`cell-${column.key}`]"
-                :name="`cell-${column.key}`"
-                :value="getValue(row, column.key)"
-                :row="row"
-                :column="column"
-                :index="index"
-              />
-              <!-- Default cell content -->
-              <span
-                v-else
-                :class="column.valueClass"
+      <div class="overflow-x-auto">
+        <table class="min-w-full divide-y divide-gray-200 table-auto">
+          <thead class="bg-gray-50">
+            <tr>
+              <th
+                v-for="column in columns"
+                :key="column.key"
+                class="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider"
+                :class="[
+                  column.align === 'right' ? 'text-right' : 'text-left',
+                  column.headerClass
+                ]"
               >
-                {{ formatValue(getValue(row, column.key), column) }}
-              </span>
-            </td>
-            <td
-              v-if="$slots.actions"
-              class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+                {{ column.label }}
+              </th>
+              <th
+                v-if="$slots.actions"
+                class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                {{ actionsLabel || 'Actions' }}
+              </th>
+            </tr>
+          </thead>
+          <tbody class="bg-white divide-y divide-gray-200">
+            <tr
+              v-for="(row, index) in data"
+              :key="getRowKey(row, index)"
+              class="hover:bg-gray-50"
             >
-              <slot
-                name="actions"
-                :row="row"
-                :index="index"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
+              <td
+                v-for="column in columns"
+                :key="column.key"
+                class="px-6 py-4 whitespace-nowrap"
+                :class="[
+                  column.align === 'right' ? 'text-right' : 'text-left',
+                  column.cellClass
+                ]"
+              >
+                <!-- Custom cell slot -->
+                <slot
+                  v-if="$slots[`cell-${column.key}`]"
+                  :name="`cell-${column.key}`"
+                  :value="getValue(row, column.key)"
+                  :row="row"
+                  :column="column"
+                  :index="index"
+                />
+                <!-- Default cell content -->
+                <span
+                  v-else
+                  :class="column.valueClass"
+                >
+                  {{ formatValue(getValue(row, column.key), column) }}
+                </span>
+              </td>
+              <td
+                v-if="$slots.actions"
+                class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
+              >
+                <slot
+                  name="actions"
+                  :row="row"
+                  :index="index"
+                />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <!-- Empty State -->

@@ -37,7 +37,7 @@ export const useChurchesStore = defineStore('churches', () => {
 
     try {
       const response = await churchService.getChurches(page, limit.value, includeInactive);
-      churches.value = response.churches;
+      churches.value = response.churches ?? [];
       currentPage.value = response.page;
       totalPages.value = response.totalPages;
       totalCount.value = response.total;
