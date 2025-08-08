@@ -86,7 +86,7 @@ export const members = pgTable('members', {
   maritalStatus: maritalStatusEnum('maritalStatus').default('SINGLE').notNull(),
   baptismDate: timestamp('baptismDate', { mode: 'date' }),
   memberSince: timestamp('memberSince', { mode: 'date' }).defaultNow().notNull(),
-  spouseId: text('spouseId').unique(),
+  spouseId: text('spouseId').references(() => members.id, { onDelete: 'set null' }),
   profession: text('profession'),
   notes: text('notes'),
   photoUrl: text('photoUrl'),

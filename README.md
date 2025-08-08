@@ -158,14 +158,10 @@ npm run dev:client
 ```
 ekklesia/
 ├── apps/
-│   ├── api/                 # NestJS backend API (main application)
-│   ├── api-e2e/             # API end-to-end tests
+│   ├── api/                 # NestJS backend API with feature modules (auth, financial, members, church, societies)
 │   ├── admin-web/           # Vue.js admin interface
-│   ├── admin-web-e2e/       # Admin web E2E tests
 │   ├── client-app/          # Vue.js client application
-│   └── client-app-e2e/      # Client app E2E tests
 ├── libs/
-│   ├── api/                 # Feature modules (auth, financial, members, church)
 │   ├── database/            # Database layer & Drizzle service
 │   ├── shared/              # Common types & interfaces
 │   └── shared-utils/        # Utility functions
